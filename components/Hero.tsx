@@ -104,7 +104,6 @@ const Hero = () => {
                     </div>
                   )}
                 </div>
-              </div>
               <div className="absolute -top-4 -right-4 w-8 h-8 bg-emerald-500 rounded-full animate-pulse"></div>
               <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-blue-500 rounded-full animate-pulse delay-300"></div>
             </div>
