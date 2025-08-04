@@ -1,21 +1,24 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react'
-import Image from 'next/image'
+import { useState, useEffect } from "react";
+import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import Image from "next/image";
 
 const Hero = () => {
-  const [mounted, setMounted] = useState(false)
-  const [imageError, setImageError] = useState(false)
+  const [mounted, setMounted] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  if (!mounted) return null
+  if (!mounted) return null;
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4">
+    <section
+      id="home"
+      className="min-h-screen flex items-center justify-center pt-20 px-4"
+    >
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
@@ -27,14 +30,14 @@ const Hero = () => {
                 </span>
               </div>
               <h1 className="text-5xl lg:text-7xl font-bold text-slate-800 leading-tight">
-                Hi, I'm{' '}
+                Hi, I'm{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-600">
                   Ahmed
                 </span>
               </h1>
               <p className="text-xl text-slate-600 max-w-lg">
-                FullStack Developer & Software Engineering Major passionate about building 
-                innovative solutions with AI/ML technologies.
+                FullStack Developer & Software Engineering Major passionate
+                about building innovative solutions with AI/ML technologies.
               </p>
             </div>
 
@@ -72,7 +75,8 @@ const Hero = () => {
 
             <div className="pt-8">
               <p className="text-slate-500 text-sm">
-                Graduating in <span className="font-semibold text-slate-700">2026</span> from 
+                Graduating in{" "}
+                <span className="font-semibold text-slate-700">2026</span> from
                 Islamic University of Technology
               </p>
             </div>
@@ -94,10 +98,11 @@ const Hero = () => {
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 rounded-full flex items-center justify-center">
-                      <span className="text-6xl font-bold text-slate-600">AS</span>
+                      <span className="text-6xl font-bold text-slate-600">
+                        AS
+                      </span>
                     </div>
                   )}
-                  </div>
                 </div>
               </div>
               <div className="absolute -top-4 -right-4 w-8 h-8 bg-emerald-500 rounded-full animate-pulse"></div>
@@ -107,7 +112,7 @@ const Hero = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;
