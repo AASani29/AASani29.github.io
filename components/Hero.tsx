@@ -32,7 +32,7 @@ const Hero = () => {
               <h1 className="text-5xl lg:text-7xl font-bold text-slate-800 leading-tight">
                 Hi, I'm{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-600">
-                  Ahmed
+                  Sani
                 </span>
               </h1>
               <p className="text-xl text-slate-600 max-w-lg">
@@ -58,15 +58,19 @@ const Hero = () => {
 
             <div className="flex gap-4">
               <a
-                href="#"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
+                href="https://github.com/AASani29"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium cursor-target"
               >
                 <Github size={18} />
                 GitHub
               </a>
               <a
-                href="#"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors duration-200 font-medium"
+                href="https://www.linkedin.com/in/ahmed-alfey-sani/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors duration-200 font-medium cursor-target"
               >
                 <Linkedin size={18} />
                 LinkedIn
@@ -89,7 +93,7 @@ const Hero = () => {
                 <div className="w-full h-full rounded-full bg-slate-100 flex items-center justify-center overflow-hidden">
                   {!imageError ? (
                     <Image
-                      src="/images/profile.jpg"
+                      src="/images/sani.jpg"
                       alt="Ahmed Alfey Sani"
                       width={320}
                       height={320}
@@ -104,6 +108,7 @@ const Hero = () => {
                     </div>
                   )}
                 </div>
+              </div>
               <div className="absolute -top-4 -right-4 w-8 h-8 bg-emerald-500 rounded-full animate-pulse"></div>
               <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-blue-500 rounded-full animate-pulse delay-300"></div>
             </div>

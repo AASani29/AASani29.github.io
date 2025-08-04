@@ -65,19 +65,19 @@ const Achievements = () => {
         <div className="mt-16 bg-gradient-to-r from-blue-600 to-emerald-600 rounded-2xl p-8 text-white">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold mb-2">5+</div>
+              <div className="text-4xl font-bold mb-2">10+</div>
               <div className="text-blue-100">Competition Participations</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">3</div>
-              <div className="text-blue-100">Hackathon Wins</div>
+              <div className="text-blue-100">Competition Wins</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">200+</div>
               <div className="text-blue-100">Teams Competed Against</div>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">2</div>
+              <div className="text-4xl font-bold mb-2">4+</div>
               <div className="text-blue-100">Professional Certificates</div>
             </div>
           </div>
