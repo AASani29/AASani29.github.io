@@ -14,10 +14,10 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   const [startTime] = useState(() => Date.now()); // Initialize once
 
   const fullText = "Ahmed Alfey Sani";
-  const typingSpeed = 250; // milliseconds per character (slower typing)
-  const pauseAfterTyping = 100; // pause after typing is complete (longer pause)
-  const fadeOutDuration = 400; // fade out duration (slower fade)
-  const minimumLoadTime = 6000; // minimum total loading time (7 seconds)
+  const typingSpeed = 100; // milliseconds per character (much faster typing)
+  const pauseAfterTyping = 50; // pause after typing is complete (shorter pause)
+  const fadeOutDuration = 200; // fade out duration (faster fade)
+  const minimumLoadTime = 2500; // minimum total loading time (2.5 seconds instead of 6)
 
   useEffect(() => {
     console.log("LoadingScreen mounted");
@@ -84,7 +84,7 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
 
   return (
     <div
-      className={`fixed inset-0 z-[10000] flex items-center justify-center bg-white transition-opacity duration-600 ${
+      className={`fixed inset-0 z-[10000] flex items-center justify-center bg-white transition-opacity duration-300 ${
         fadeOut ? "opacity-0" : "opacity-100"
       }`}
     >
@@ -107,7 +107,7 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
 
         {/* Subtitle that appears after typing */}
         <div
-          className={`transition-all duration-1000 ${
+          className={`transition-all duration-500 ${
             isTypingComplete
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-4"
@@ -127,14 +127,14 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
 
         {/* Decorative elements - hidden on small screens */}
         <div
-          className={`hidden sm:block absolute -top-8 -left-8 transition-all duration-1000 ${
+          className={`hidden sm:block absolute -top-8 -left-8 transition-all duration-500 ${
             isTypingComplete ? "opacity-100 rotate-0" : "opacity-0 rotate-45"
           }`}
         >
           <div className="w-12 h-12 md:w-16 md:h-16 border-4 border-blue-600/20 rounded-lg transform rotate-45"></div>
         </div>
         <div
-          className={`hidden sm:block absolute -bottom-8 -right-8 transition-all duration-1000 delay-300 ${
+          className={`hidden sm:block absolute -bottom-8 -right-8 transition-all duration-500 delay-150 ${
             isTypingComplete ? "opacity-100 rotate-0" : "opacity-0 -rotate-45"
           }`}
         >
