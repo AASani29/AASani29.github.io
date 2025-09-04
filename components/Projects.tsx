@@ -3,7 +3,24 @@ import ProjectImage from "./ProjectImage";
 
 const Projects = () => {
   const projects = [
-      
+    {
+      title: "Daekho",
+      year: "2024",
+      description:
+        "A React Native movie discovery app built with Expo that solves the problem of endlessly searching for what to watch next by providing truly personalized movie recommendations using smart genre-based filtering and intelligent exclusion systems.",
+      tech: [
+        "React Native",
+        "Expo",
+        "TypeScript",
+        "Firebase",
+        "TMDB API",
+        "Mobile Development",
+      ],
+      github: "https://github.com/AASani29/Daekho",
+      live: null,
+      image: "/images/Daekho.png",
+    },
+
     {
       title: "TaskLumina",
       year: "2024",
@@ -134,7 +151,6 @@ const Projects = () => {
                       alt={project.title}
                       title={project.title}
                     />
-                    
 
                     {/* Floating year badge */}
                     <div className="absolute top-4 right-4">
