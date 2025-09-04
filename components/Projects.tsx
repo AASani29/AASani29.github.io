@@ -20,6 +20,23 @@ const Projects = () => {
       live: null,
       image: "/images/Daekho.png",
     },
+    {
+      title: "EXPENSIO",
+      year: "2024",
+      description:
+        "A comprehensive mobile expense tracking application built with React Native and Expo featuring intelligent budget management, secure biometric authentication, and detailed spending analytics. Includes multi-currency support, dark/light themes, and advanced security with local SQLite storage for complete privacy.",
+      tech: [
+        "React Native",
+        "Expo",
+        "TypeScript",
+        "SQLite",
+        "Biometric Auth",
+        "Multi-Currency",
+      ],
+      github: "https://github.com/AASani29/expensio",
+      live: null,
+      image: "/images/expensio.png",
+    },
 
     {
       title: "TaskLumina",
