@@ -5,7 +5,7 @@ const Projects = () => {
   const projects = [
     {
       title: "Daekho",
-      year: "2024",
+      year: "2025",
       description:
         "A React Native movie discovery app built with Expo that solves the problem of endlessly searching for what to watch next by providing truly personalized movie recommendations using smart genre-based filtering and intelligent exclusion systems.",
       tech: [
@@ -22,7 +22,7 @@ const Projects = () => {
     },
     {
       title: "EXPENSIO",
-      year: "2024",
+      year: "2025",
       description:
         "A comprehensive mobile expense tracking application built with React Native and Expo featuring intelligent budget management, secure biometric authentication, and detailed spending analytics. Includes multi-currency support, dark/light themes, and advanced security with local SQLite storage for complete privacy.",
       tech: [

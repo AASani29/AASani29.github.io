@@ -210,7 +210,7 @@ Email: ${email}`;
         {/* Footer */}
         <div className="mt-16 pt-8 border-t border-slate-700 text-center">
           <p className="text-slate-400">
-            © 2024 Ahmed Alfey Sani. Built with Next.js and Tailwind CSS.
+            © 2025 Ahmed Alfey Sani.
           </p>
         </div>
       </div>
