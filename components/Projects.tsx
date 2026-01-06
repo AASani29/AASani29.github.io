@@ -4,6 +4,25 @@ import ProjectImage from "./ProjectImage";
 const Projects = () => {
   const projects = [
     {
+      title: "KalKorbo",
+      year: "2025",
+      description:
+        "A high-performance, real-time issue and task management platform with AI-powered voice commands, collaborative Kanban boards, and live presence tracking. Features enterprise-grade security, interactive calendar views, and seamless GitHub integration for modern development teams.",
+      tech: [
+        "React",
+        "TypeScript",
+        "Supabase",
+        "Tailwind CSS",
+        "AI/ML",
+        "Voice Commands",
+        "WebSockets",
+        "PostgreSQL",
+      ],
+      github: "https://github.com/AASani29/KalKorbo",
+      live: "https://kalkorbo.netlify.app",
+      image: "/images/IMG-20260106-WA0011(1).jpg",
+    },
+    {
       title: "Daekho",
       year: "2025",
       description:
@@ -298,7 +317,7 @@ const Projects = () => {
             </div>
             <div className="w-px h-12 bg-slate-700"></div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-400">2024</div>
+              <div className="text-2xl font-bold text-blue-400">2026</div>
               <div className="text-slate-400 text-sm">Latest</div>
             </div>
             <div className="w-px h-12 bg-slate-700"></div>

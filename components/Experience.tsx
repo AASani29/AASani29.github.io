@@ -14,18 +14,6 @@ const Experience = () => {
       logo: "/images/im.png",
     },
     {
-      title: "Assistant Event Management Executive",
-      company: "IUT Computer Society",
-      period: "Oct 2024 – Present",
-      location: "Dhaka, Bangladesh",
-      description:
-        "Organized events, managed logistics, and handled social media communications for the organization.",
-      type: "Part-time",
-      logo: "/images/iutcs.jpg",
-      website:
-        "https://iutcs.iutoic-dhaka.edu/?fbclid=IwY2xjawN91clleHRuA2FlbQIxMABicmlkETF4MkRWR1paOW9wZEtFeDFoc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHmddB7N-nJuiDfZe-3Up4P7_iwpyCYN14sCArEfhr-d2DgkWtzqmmuwfU05S_aem_8qHQc4bZc01QbCoR6xiAjw",
-    },
-    {
       title: "Intern",
       company: "Development Initiative for Social Advancement (DISA)",
       period: "July 2024 – Sep 2024",
@@ -35,6 +23,18 @@ const Experience = () => {
       type: "Internship",
       logo: "/images/disa.jpg",
       website: "https://www.disabd.org/",
+    },
+    {
+      title: "Head of Creative Strategy",
+      company: "IUT Computer Society",
+      period: "Jan 2026 – Present",
+      location: "Dhaka, Bangladesh",
+      description:
+        "Leading creative decisions and design strategies for the organization. Responsible for overseeing all creative content, publications, and social media management to enhance brand visibility and engagement.",
+      type: "Leadership",
+      logo: "/images/iutcs.jpg",
+      website:
+        "https://iutcs.iutoic-dhaka.edu/?fbclid=IwY2xjawN91clleHRuA2FlbQIxMABicmlkETF4MkRWR1paOW9wZEtFeDFoc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHmddB7N-nJuiDfZe-3Up4P7_iwpyCYN14sCArEfhr-d2DgkWtzqmmuwfU05S_aem_8qHQc4bZc01QbCoR6xiAjw",
     },
   ];
 
