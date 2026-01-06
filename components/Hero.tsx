@@ -36,7 +36,7 @@ const Hero = () => {
                 </span>
               </h1>
               <p className="text-xl text-slate-600 max-w-lg">
-                FullStack Developer & Software Engineering Major passionate
+                FullStack Developer, Research Enthusiast & Software Engineering Major passionate
                 about building innovative solutions with AI/ML technologies.
               </p>
             </div>
