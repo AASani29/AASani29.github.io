@@ -1,7 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  GraduationCap,
+  BookOpen,
+} from "lucide-react";
 import Image from "next/image";
 
 const Hero = () => {
@@ -56,7 +64,7 @@ const Hero = () => {
               </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <a
                 href="https://github.com/AASani29"
                 target="_blank"
@@ -74,6 +82,24 @@ const Hero = () => {
               >
                 <Linkedin size={18} />
                 LinkedIn
+              </a>
+              <a
+                href="https://scholar.google.com/citations?user=Qtlp6LYAAAAJ&hl=en"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors duration-200 font-medium cursor-target"
+              >
+                <GraduationCap size={18} />
+                Google Scholar
+              </a>
+              <a
+                href="https://www.researchgate.net/profile/Ahmed-Sani-7?ev=hdr_xprf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors duration-200 font-medium cursor-target"
+              >
+                <BookOpen size={18} />
+                ResearchGate
               </a>
             </div>
 
@@ -93,7 +119,7 @@ const Hero = () => {
                 <div className="w-full h-full rounded-full bg-slate-100 flex items-center justify-center overflow-hidden">
                   {!imageError ? (
                     <Image
-                      src="/images/sani.jpg"
+                      src="/images/sani.png"
                       alt="Ahmed Alfey Sani"
                       width={320}
                       height={320}

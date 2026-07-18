@@ -78,7 +78,7 @@ const About = () => {
             <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Sparkles className="w-6 h-6 text-emerald-600" />
             </div>
-            <div className="text-3xl font-bold text-emerald-600 mb-2">10+</div>
+            <div className="text-3xl font-bold text-emerald-600 mb-2">25+</div>
             <div className="text-slate-600 text-sm font-medium">
               Tech Stacks
             </div>
@@ -98,7 +98,7 @@ const About = () => {
             <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Laptop className="w-6 h-6 text-orange-600" />
             </div>
-            <div className="text-3xl font-bold text-orange-600 mb-2">2+</div>
+            <div className="text-3xl font-bold text-orange-600 mb-2">3+</div>
             <div className="text-slate-600 text-sm font-medium">
               Work Experience
             </div>

@@ -12,6 +12,27 @@ const Research = () => {
   const papers = [
     {
       id: 1,
+      title:
+        "LinguIUTics at PsyDefDetect: Imbalance-Aware Fine-tuning of Qwen3-8B",
+      conference: "BioNLP @ ACL 2026",
+      conferenceFullName: "BioNLP Workshop, Association for Computational Linguistics",
+      year: "2026",
+      status: "3rd Place (All-Class)",
+      description:
+        "Fine-tuned Qwen3-8B with QLoRA for the PsyDefDetect shared task on psychological defense mechanism classification, tackling class imbalance to improve detection of underrepresented defense mechanism categories in text.",
+      keyFindings: [
+        "Imbalance-aware QLoRA fine-tuning of Qwen3-8B for psychological defense mechanism classification",
+        "3rd place on the All-Class Leaderboard",
+        "4th place on the Positive-Class Leaderboard",
+      ],
+      authors: ["Alfey Sani"],
+      team: "LinguIUTics",
+      mentor: "",
+      paperLink: "https://aclanthology.org/2026.bionlp-2.18/",
+      color: "purple",
+    },
+    {
+      id: 2,
       title: "Combating Data Scarcity in Bangla Fake News Detection Using LLMs",
       conference: "ICSCA 2026",
       conferenceFullName: "International Conference on Software and Computer Applications",
@@ -30,11 +51,12 @@ const Research = () => {
         "Md Abdul Muqtadir"
       ],
       mentor: "Ajwad Abrar",
+      team: "",
       paperLink: "", // To be added when published
       color: "blue",
     },
     {
-      id: 2,
+      id: 3,
       title: "Assessing Large Language Models for Medical QA: Zero-Shot and LLM-as-a-Judge Evaluation",
       conference: "ICCIT 2025",
       conferenceFullName: "28th International Conference on Computer and Information Technology",
@@ -52,6 +74,7 @@ const Research = () => {
         "Ekramul Esham"
       ],
       mentor: "Ajwad Abrar",
+      team: "",
       paperLink: "", // To be added when published
       color: "emerald",
     },
@@ -74,6 +97,14 @@ const Research = () => {
         icon: "bg-emerald-100 text-emerald-600",
         accent: "text-emerald-600",
         hover: "hover:border-emerald-300"
+      },
+      purple: {
+        bg: "from-purple-50 to-purple-100",
+        border: "border-purple-200",
+        badge: "bg-purple-100 text-purple-800",
+        icon: "bg-purple-100 text-purple-600",
+        accent: "text-purple-600",
+        hover: "hover:border-purple-300"
       }
     };
     return colors[color as keyof typeof colors] || colors.blue;
@@ -183,9 +214,16 @@ const Research = () => {
                         </span>
                       ))}
                     </div>
-                    <p className="text-slate-600 text-sm mt-3">
-                      <span className="font-semibold">Mentor:</span> {paper.mentor}
-                    </p>
+                    {paper.mentor && (
+                      <p className="text-slate-600 text-sm mt-3">
+                        <span className="font-semibold">Mentor:</span> {paper.mentor}
+                      </p>
+                    )}
+                    {paper.team && (
+                      <p className="text-slate-600 text-sm mt-3">
+                        <span className="font-semibold">Team:</span> {paper.team}
+                      </p>
+                    )}
                   </div>
 
                   {/* Paper Link */}
@@ -221,7 +259,7 @@ const Research = () => {
             <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
               <FileText className="w-6 h-6 text-blue-600" />
             </div>
-            <div className="text-3xl font-bold text-blue-600 mb-2">2</div>
+            <div className="text-3xl font-bold text-blue-600 mb-2">3</div>
             <div className="text-slate-600 text-sm font-medium">
               Research Papers
             </div>
@@ -231,7 +269,7 @@ const Research = () => {
             <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Award className="w-6 h-6 text-emerald-600" />
             </div>
-            <div className="text-3xl font-bold text-emerald-600 mb-2">2</div>
+            <div className="text-3xl font-bold text-emerald-600 mb-2">3</div>
             <div className="text-slate-600 text-sm font-medium">
               Conference Acceptances
             </div>

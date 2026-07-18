@@ -104,6 +104,102 @@ const Skills = () => {
         />
       </svg>
     ),
+    HTML5: () => (
+      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.649 10.556.003.229-2.556L5.412 4.548l.696 7.919h9.586l-.322 3.6-3.372.9-3.379-.905-.216-2.42h-2.5l.428 4.7L12 19.351l6.093-1.629L19.06 7.5H8.531z"
+          fill="#E34F26"
+        />
+      </svg>
+    ),
+    CSS3: () => (
+      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-3.15.923-3.177-.93-.203-2.264h-2.62l.336 3.836L12 19.278l5.905-1.72L19.09 4.413z"
+          fill="#1572B6"
+        />
+      </svg>
+    ),
+    Cpp: () => (
+      <div
+        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-sm"
+        style={{ backgroundColor: "#00599C", color: "#fff" }}
+      >
+        C++
+      </div>
+    ),
+    C: () => (
+      <div
+        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-sm"
+        style={{ backgroundColor: "#A8B9CC", color: "#1a1a1a" }}
+      >
+        C
+      </div>
+    ),
+    CSharp: () => (
+      <div
+        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-sm"
+        style={{ backgroundColor: "#68217A", color: "#fff" }}
+      >
+        C#
+      </div>
+    ),
+    Solidity: () => (
+      <div
+        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-sm"
+        style={{ backgroundColor: "#363636", color: "#fff" }}
+      >
+        Sol
+      </div>
+    ),
+    DotNet: () => (
+      <div
+        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
+        style={{ backgroundColor: "#512BD4", color: "#fff" }}
+      >
+        .NET
+      </div>
+    ),
+    Firebase: () => (
+      <div
+        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
+        style={{ backgroundColor: "#FFCA28", color: "#1a1a1a" }}
+      >
+        FB
+      </div>
+    ),
+    Supabase: () => (
+      <div
+        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
+        style={{ backgroundColor: "#3ECF8E", color: "#1a1a1a" }}
+      >
+        SB
+      </div>
+    ),
+    Oracle: () => (
+      <div
+        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
+        style={{ backgroundColor: "#F80000", color: "#fff" }}
+      >
+        DB
+      </div>
+    ),
+    Neo4j: () => (
+      <div
+        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
+        style={{ backgroundColor: "#008CC1", color: "#fff" }}
+      >
+        N4j
+      </div>
+    ),
+    Azure: () => (
+      <div
+        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
+        style={{ backgroundColor: "#0089D6", color: "#fff" }}
+      >
+        Az
+      </div>
+    ),
   };
 
   const allSkills = [
@@ -122,6 +218,19 @@ const Skills = () => {
     { name: "TensorFlow", icon: "Python", category: "AI/ML" },
     { name: "FastAPI", icon: "Python", category: "Backend" },
     { name: "Spring Boot", icon: "Spring", category: "Backend" },
+    { name: "C++", icon: "Cpp", category: "Programming" },
+    { name: "C#", icon: "CSharp", category: "Programming" },
+    { name: "C", icon: "C", category: "Programming" },
+    { name: "HTML5", icon: "HTML5", category: "Programming" },
+    { name: "CSS3", icon: "CSS3", category: "Programming" },
+    { name: "Solidity", icon: "Solidity", category: "Programming" },
+    { name: ".NET", icon: "DotNet", category: "Backend" },
+    { name: "React Native", icon: "React", category: "Mobile" },
+    { name: "Oracle", icon: "Oracle", category: "Database" },
+    { name: "Neo4j", icon: "Neo4j", category: "Database" },
+    { name: "Firebase", icon: "Firebase", category: "Database" },
+    { name: "Supabase", icon: "Supabase", category: "Database" },
+    { name: "Microsoft Azure", icon: "Azure", category: "Cloud" },
   ];
 
   useEffect(() => {

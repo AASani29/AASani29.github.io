@@ -3,12 +3,35 @@ import { Calendar, MapPin } from "lucide-react";
 const Experience = () => {
   const experiences = [
     {
-      title: "Junior Software Engineer",
+      title: "AI Engineer (Part-time)",
       company: "Intelligent Machines Limited",
-      period: "Oct 2025 – Present",
+      period: "Feb 2026 – Present",
       location: "Dhaka, Bangladesh",
       description:
-        "Working on fullstack development for multiple products serviced to MNCs including Unilever, bKash, and others.",
+        "Working on a field force management solution for Unilever, contributing to an AI-based share of shelf solution for bKash and Olympic, collaborating on a RAG-based travelling platform for CholoJai Ltd, and building RetailOS, an in-house retail platform with image-based share of shelf, field force management, and analytics.",
+      type: "Part-time",
+      website: "https://intelmachines.ai/",
+      logo: "/images/im.png",
+    },
+    {
+      title: "Head of Creative Strategy",
+      company: "IUT Computer Society",
+      period: "Jan 2026 – Present",
+      location: "Dhaka, Bangladesh",
+      description:
+        "Leading creative decisions and design strategies for the organization. Responsible for overseeing all creative content, publications, and social media management to enhance brand visibility and engagement.",
+      type: "Leadership",
+      logo: "/images/iutcs.jpg",
+      website:
+        "https://iutcs.iutoic-dhaka.edu/?fbclid=IwY2xjawN91clleHRuA2FlbQIxMABicmlkETF4MkRWR1paOW9wZEtFeDFoc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHmddB7N-nJuiDfZe-3Up4P7_iwpyCYN14sCArEfhr-d2DgkWtzqmmuwfU05S_aem_8qHQc4bZc01QbCoR6xiAjw",
+    },
+    {
+      title: "Junior Software Engineer (Intern)",
+      company: "Intelligent Machines Limited",
+      period: "Oct 2025 – Feb 2026",
+      location: "Dhaka, Bangladesh",
+      description:
+        "Worked on fullstack development for multiple products serviced to MNCs including Unilever, bKash, and others.",
       type: "Internship",
       website: "https://intelmachines.ai/",
       logo: "/images/im.png",
@@ -23,18 +46,6 @@ const Experience = () => {
       type: "Internship",
       logo: "/images/disa.jpg",
       website: "https://www.disabd.org/",
-    },
-    {
-      title: "Head of Creative Strategy",
-      company: "IUT Computer Society",
-      period: "Jan 2026 – Present",
-      location: "Dhaka, Bangladesh",
-      description:
-        "Leading creative decisions and design strategies for the organization. Responsible for overseeing all creative content, publications, and social media management to enhance brand visibility and engagement.",
-      type: "Leadership",
-      logo: "/images/iutcs.jpg",
-      website:
-        "https://iutcs.iutoic-dhaka.edu/?fbclid=IwY2xjawN91clleHRuA2FlbQIxMABicmlkETF4MkRWR1paOW9wZEtFeDFoc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHmddB7N-nJuiDfZe-3Up4P7_iwpyCYN14sCArEfhr-d2DgkWtzqmmuwfU05S_aem_8qHQc4bZc01QbCoR6xiAjw",
     },
   ];
 
