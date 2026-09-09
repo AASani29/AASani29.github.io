@@ -1,289 +1,164 @@
-import {
-  FileText,
-  Calendar,
-  Users,
-  ExternalLink,
-  Award,
-  BookOpen,
-  AlertCircle,
-} from "lucide-react";
+import { Calendar, Users, ExternalLink, Award, BookOpen, Quote } from "lucide-react";
+
+type Paper = {
+  title: string;
+  conference: string;
+  year: string;
+  status: string;
+  description: string;
+  authors: string[];
+  mentor?: string;
+  paperLink: string;
+  citedBy?: number;
+};
+
+const papers: Paper[] = [
+  {
+    title:
+      "LinguIUTics at PsyDefDetect: Imbalance-Aware Fine-tuning of Qwen3-8B",
+    conference: "BioNLP @ ACL 2026",
+    year: "2026",
+    status: "3rd Place (All-Class Leaderboard)",
+    description:
+      "Imbalance-aware QLoRA fine-tuning of Qwen3-8B for the PsyDefDetect shared task on psychological defense-mechanism classification, improving detection of underrepresented categories.",
+    authors: ["Alfey Sani"],
+    paperLink: "https://aclanthology.org/2026.bionlp-2.18/",
+  },
+  {
+    title:
+      "BenHalluEval: A Multi-Task Hallucination Evaluation Framework for Large Language Models on Bengali",
+    conference: "AACL-IJCNLP 2026",
+    year: "2026",
+    status: "Accepted",
+    description:
+      "The first dedicated hallucination benchmark for Bengali — 12,000 hallucinated candidates across twelve task-specific hallucination types, spanning generative QA, code-mixed QA, summarisation and reasoning. Introduces BenHalluScore, a dual-track calibration metric that jointly penalises false positives and missed hallucinations across seven evaluated LLMs.",
+    authors: [
+      "Shefayat E Shams Adib",
+      "Ahmed Alfey Sani",
+      "Ekramul Alam Esham",
+      "Ajwad Abrar",
+      "Ishmam Tashdeed",
+      "Md Taukir Azam Chowdhury",
+    ],
+    paperLink: "https://arxiv.org/abs/2605.31483",
+    citedBy: 1,
+  },
+  {
+    title: "Combating Data Scarcity in Bangla Fake News Detection Using LLMs",
+    conference: "ICSCA 2026",
+    year: "2026",
+    status: "Accepted",
+    description:
+      "LLM-based dataset augmentation for low-resource languages: zero-shot prompting and random subsampling with Gemma-3 significantly improve minority-class detection in Bangla fake-news classification.",
+    authors: [
+      "Alfey Sani",
+      "Shefayat E Shams Adib",
+      "Kazi Akib Zaoad",
+      "Md Abdul Muqtadir",
+    ],
+    mentor: "Ajwad Abrar",
+    paperLink: "",
+  },
+  {
+    title:
+      "Assessing Large Language Models for Medical QA: Zero-Shot and LLM-as-a-Judge Evaluation",
+    conference: "ICCIT 2025",
+    year: "2025",
+    status: "Accepted",
+    description:
+      "Evaluation of modern LLMs on real-world medical queries across accuracy, safety, clarity, and clinical usefulness, using zero-shot and LLM-as-a-Judge methodologies.",
+    authors: ["Alfey Sani", "Shefayat E Shams Adib", "Ekramul Esham"],
+    mentor: "Ajwad Abrar",
+    paperLink: "",
+  },
+];
 
 const Research = () => {
-  const papers = [
-    {
-      id: 1,
-      title:
-        "LinguIUTics at PsyDefDetect: Imbalance-Aware Fine-tuning of Qwen3-8B",
-      conference: "BioNLP @ ACL 2026",
-      conferenceFullName: "BioNLP Workshop, Association for Computational Linguistics",
-      year: "2026",
-      status: "3rd Place (All-Class)",
-      description:
-        "Fine-tuned Qwen3-8B with QLoRA for the PsyDefDetect shared task on psychological defense mechanism classification, tackling class imbalance to improve detection of underrepresented defense mechanism categories in text.",
-      keyFindings: [
-        "Imbalance-aware QLoRA fine-tuning of Qwen3-8B for psychological defense mechanism classification",
-        "3rd place on the All-Class Leaderboard",
-        "4th place on the Positive-Class Leaderboard",
-      ],
-      authors: ["Alfey Sani"],
-      team: "LinguIUTics",
-      mentor: "",
-      paperLink: "https://aclanthology.org/2026.bionlp-2.18/",
-      color: "purple",
-    },
-    {
-      id: 2,
-      title: "Combating Data Scarcity in Bangla Fake News Detection Using LLMs",
-      conference: "ICSCA 2026",
-      conferenceFullName: "International Conference on Software and Computer Applications",
-      year: "2026",
-      status: "Accepted",
-      description: "Addressing the challenge of data scarcity in low-resource languages through LLM-based dataset augmentation. Our research validates that Zero-Shot prompting and random subsampling with the Gemma-3 model significantly improves detection performance on the minority fake news class in Bangla language.",
-      keyFindings: [
-        "LLM-based dataset augmentation effectively bridges the data scarcity gap",
-        "Zero-Shot prompting with Gemma-3 improves minority class detection",
-        "Significant performance enhancement in Bangla fake news classification"
-      ],
-      authors: [
-        "Alfey Sani",
-        "Shefayat E Shams Adib",
-        "Kazi Akib Zaoad",
-        "Md Abdul Muqtadir"
-      ],
-      mentor: "Ajwad Abrar",
-      team: "",
-      paperLink: "", // To be added when published
-      color: "blue",
-    },
-    {
-      id: 3,
-      title: "Assessing Large Language Models for Medical QA: Zero-Shot and LLM-as-a-Judge Evaluation",
-      conference: "ICCIT 2025",
-      conferenceFullName: "28th International Conference on Computer and Information Technology",
-      year: "2025",
-      status: "Accepted",
-      description: "Evaluating modern Large Language Models on real-world medical queries by analyzing accuracy, safety, clarity, and overall clinical usefulness. This research explores how reliably AI can answer actual medical questions, a critical consideration as AI reshapes healthcare.",
-      keyFindings: [
-        "Comprehensive evaluation of LLMs on real medical queries",
-        "Analysis of accuracy, safety, clarity, and clinical usefulness",
-        "Zero-Shot and LLM-as-a-Judge evaluation methodologies"
-      ],
-      authors: [
-        "Alfey Sani",
-        "Shefayat E Shams Adib",
-        "Ekramul Esham"
-      ],
-      mentor: "Ajwad Abrar",
-      team: "",
-      paperLink: "", // To be added when published
-      color: "emerald",
-    },
-  ];
-
-  const getColorClasses = (color: string) => {
-    const colors = {
-      blue: {
-        bg: "from-blue-50 to-blue-100",
-        border: "border-blue-200",
-        badge: "bg-blue-100 text-blue-800",
-        icon: "bg-blue-100 text-blue-600",
-        accent: "text-blue-600",
-        hover: "hover:border-blue-300"
-      },
-      emerald: {
-        bg: "from-emerald-50 to-emerald-100",
-        border: "border-emerald-200",
-        badge: "bg-emerald-100 text-emerald-800",
-        icon: "bg-emerald-100 text-emerald-600",
-        accent: "text-emerald-600",
-        hover: "hover:border-emerald-300"
-      },
-      purple: {
-        bg: "from-purple-50 to-purple-100",
-        border: "border-purple-200",
-        badge: "bg-purple-100 text-purple-800",
-        icon: "bg-purple-100 text-purple-600",
-        accent: "text-purple-600",
-        hover: "hover:border-purple-300"
-      }
-    };
-    return colors[color as keyof typeof colors] || colors.blue;
-  };
-
   return (
-    <section id="research" className="py-20 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
-        <div className="text-center mb-20">
-          <h2 className="text-4xl font-bold text-slate-800 mb-4">Research</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            Exploring cutting-edge solutions in AI and machine learning
+    <section id="research" className="scroll-mt-24 bg-slate-50 py-20 sm:py-24">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-14 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
+            Research
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+            Published and accepted work in NLP and applied machine learning.
           </p>
         </div>
 
-        {/* Research Papers */}
-        <div className="space-y-8">
-          {papers.map((paper, index) => {
-            const colors = getColorClasses(paper.color);
-            return (
-              <div
-                key={paper.id}
-                className={`bg-white border-2 ${colors.border} ${colors.hover} rounded-3xl overflow-hidden transition-all hover:shadow-xl`}
-              >
-                <div className={`bg-gradient-to-r ${colors.bg} p-8`}>
-                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
-                    <div className="flex-1">
-                      {/* Status Badge */}
-                      <div className="flex items-center gap-3 mb-4">
-                        <span className={`${colors.badge} px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2`}>
-                          <Award className="w-4 h-4" />
-                          {paper.status}
-                        </span>
-                        <span className="bg-white/80 text-slate-700 px-4 py-2 rounded-full text-sm font-medium">
-                          {paper.year}
-                        </span>
-                      </div>
-
-                      {/* Title */}
-                      <h3 className="text-2xl lg:text-3xl font-bold text-slate-800 mb-3 leading-tight">
-                        {paper.title}
-                      </h3>
-
-                      {/* Conference */}
-                      <div className="flex items-start gap-2 mb-4">
-                        <BookOpen className={`w-5 h-5 ${colors.accent} flex-shrink-0 mt-0.5`} />
-                        <div>
-                          <p className={`font-bold ${colors.accent}`}>
-                            {paper.conference}
-                          </p>
-                          <p className="text-slate-600 text-sm">
-                            {paper.conferenceFullName}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Icon */}
-                    <div className="flex-shrink-0">
-                      <div className={`w-20 h-20 ${colors.icon} rounded-2xl flex items-center justify-center`}>
-                        <FileText className="w-10 h-10" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Paper Details */}
-                <div className="p-8">
-                  {/* Description */}
-                  <div className="mb-6">
-                    <p className="text-slate-700 leading-relaxed">
-                      {paper.description}
-                    </p>
-                  </div>
-
-                  {/* Key Findings */}
-                  <div className="mb-6">
-                    <h4 className="text-lg font-bold text-slate-800 mb-3">
-                      Key Findings
-                    </h4>
-                    <ul className="space-y-2">
-                      {paper.keyFindings.map((finding, idx) => (
-                        <li key={idx} className="flex items-start gap-3">
-                          <div className={`w-1.5 h-1.5 ${colors.accent.replace('text-', 'bg-')} rounded-full mt-2 flex-shrink-0`}></div>
-                          <span className="text-slate-600">{finding}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Authors */}
-                  <div className="mb-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Users className="w-5 h-5 text-slate-600" />
-                      <h4 className="text-lg font-bold text-slate-800">
-                        Authors
-                      </h4>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {paper.authors.map((author, idx) => (
-                        <span
-                          key={idx}
-                          className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium"
-                        >
-                          {author}
-                        </span>
-                      ))}
-                    </div>
-                    {paper.mentor && (
-                      <p className="text-slate-600 text-sm mt-3">
-                        <span className="font-semibold">Mentor:</span> {paper.mentor}
-                      </p>
-                    )}
-                    {paper.team && (
-                      <p className="text-slate-600 text-sm mt-3">
-                        <span className="font-semibold">Team:</span> {paper.team}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Paper Link */}
-                  <div className="pt-6 border-t border-slate-200">
-                    {paper.paperLink ? (
-                      <a
-                        href={paper.paperLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`inline-flex items-center gap-2 ${colors.accent} hover:underline font-semibold cursor-target`}
-                      >
-                        View Publication
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    ) : (
-                      <div className="flex items-center gap-2 text-slate-500">
-                        <AlertCircle className="w-4 h-4" />
-                        <span className="text-sm italic">
-                          Publication link will be available once published
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
+        <div className="space-y-5">
+          {papers.map((paper) => (
+            <article
+              key={paper.title}
+              className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6"
+            >
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
+                  <Award size={12} />
+                  {paper.status}
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+                  <Calendar size={12} />
+                  {paper.year}
+                </span>
+                {paper.citedBy ? (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+                    <Quote size={12} />
+                    Cited by {paper.citedBy}
+                  </span>
+                ) : null}
               </div>
-            );
-          })}
+
+              <h3 className="mt-3 text-lg font-bold leading-snug text-slate-900">
+                {paper.title}
+              </h3>
+
+              <p className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600">
+                <BookOpen size={14} />
+                {paper.conference}
+              </p>
+
+              <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                {paper.description}
+              </p>
+
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-slate-100 pt-4 text-xs text-slate-500">
+                <span className="inline-flex items-center gap-1.5">
+                  <Users size={13} />
+                  {paper.authors.join(", ")}
+                </span>
+                {paper.mentor && <span>Mentor: {paper.mentor}</span>}
+                {paper.paperLink && (
+                  <a
+                    href={paper.paperLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 font-semibold text-blue-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  >
+                    View publication
+                    <ExternalLink size={12} />
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
         </div>
 
-        {/* Research Stats */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white border-2 border-blue-100 rounded-2xl p-6 text-center hover:border-blue-200 transition-colors">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <FileText className="w-6 h-6 text-blue-600" />
-            </div>
-            <div className="text-3xl font-bold text-blue-600 mb-2">3</div>
-            <div className="text-slate-600 text-sm font-medium">
-              Research Papers
-            </div>
-          </div>
-
-          <div className="bg-white border-2 border-emerald-100 rounded-2xl p-6 text-center hover:border-emerald-200 transition-colors">
-            <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Award className="w-6 h-6 text-emerald-600" />
-            </div>
-            <div className="text-3xl font-bold text-emerald-600 mb-2">3</div>
-            <div className="text-slate-600 text-sm font-medium">
-              Conference Acceptances
-            </div>
-          </div>
-
-          <div className="bg-white border-2 border-purple-100 rounded-2xl p-6 text-center hover:border-purple-200 transition-colors">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <BookOpen className="w-6 h-6 text-purple-600" />
-            </div>
-            <div className="text-3xl font-bold text-purple-600 mb-2">AI/ML</div>
-            <div className="text-slate-600 text-sm font-medium">
-              Research Focus
-            </div>
-          </div>
+        <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm">
+          <span className="rounded-full border border-slate-200 bg-white px-4 py-1.5 text-slate-600">
+            <strong className="text-slate-900">4</strong> papers accepted
+          </span>
+          <span className="rounded-full border border-slate-200 bg-white px-4 py-1.5 text-slate-600">
+            <strong className="text-slate-900">ACL · AACL · ICCIT</strong> venues
+          </span>
+          <a
+            href="https://scholar.google.com/citations?user=Qtlp6LYAAAAJ&hl=en"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full border border-slate-200 bg-white px-4 py-1.5 font-medium text-blue-600 hover:border-blue-200"
+          >
+            Google Scholar →
+          </a>
         </div>
       </div>
     </section>

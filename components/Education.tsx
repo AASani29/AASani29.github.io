@@ -1,129 +1,83 @@
-import {
-  GraduationCap,
-  BookOpen,
-  Award,
-  Calendar,
-} from "lucide-react";
+import { GraduationCap, Award } from "lucide-react";
+
+const priorEducation = [
+  {
+    school: "Dhaka College",
+    level: "HSC",
+    year: "2021",
+    result: "GPA 5.00 / 5.00",
+    accent: "text-purple-600",
+  },
+  {
+    school: "Ideal School and College",
+    level: "SSC",
+    year: "2019",
+    result: "GPA 5.00 / 5.00",
+    accent: "text-emerald-600",
+  },
+];
 
 const Education = () => {
   return (
-    <section id="education" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
-        <div className="text-center mb-20">
-          <h2 className="text-4xl font-bold text-slate-800 mb-4">Education</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            My academic journey and qualifications
+    <section id="education" className="scroll-mt-24 bg-white py-20 sm:py-24">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-14 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
+            Education
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+            Academic background and qualifications.
           </p>
         </div>
 
-        {/* Current Education Hero Section */}
-        <div className="relative mb-12">
-          <div className="bg-gradient-to-r from-slate-50 via-blue-50 to-emerald-50 rounded-3xl p-12 relative overflow-hidden">
-            {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full -translate-y-16 translate-x-16 opacity-50"></div>
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-emerald-100 rounded-full translate-y-12 -translate-x-12 opacity-50"></div>
-
-            <div className="relative z-10">
-              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-                <div className="flex-1">
-                  <div className="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
-                    <span className="flex items-center gap-2">
-                      <GraduationCap className="w-4 h-4" /> Current Education
-                    </span>
-                  </div>
-                  <h3 className="text-3xl font-bold text-slate-800 mb-3">
-                    Bachelor of Science in Software Engineering
-                  </h3>
-                  <p className="text-xl text-slate-600 mb-4">
-                    Islamic University of Technology
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                    <span className="text-slate-500 font-medium">
-                      2022 - Present
-                    </span>
-                  </div>
-                </div>
-                <div className="flex-shrink-0">
-                  <div className="w-32 h-32 bg-white rounded-2xl shadow-lg flex items-center justify-center">
-                    <GraduationCap className="w-16 h-16 text-blue-500" />
-                  </div>
-                </div>
-              </div>
+        {/* Current */}
+        <div className="rounded-2xl bg-gradient-to-r from-slate-50 via-blue-50 to-emerald-50 p-6 sm:p-8">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
+                <GraduationCap size={14} />
+                Current
+              </span>
+              <h3 className="mt-3 text-xl font-bold text-slate-900 sm:text-2xl">
+                B.Sc. in Software Engineering
+              </h3>
+              <p className="mt-1 text-slate-600">
+                Islamic University of Technology (IUT)
+              </p>
+              <p className="mt-2 text-sm font-medium text-slate-500">
+                2022 – 2026 (expected)
+              </p>
+            </div>
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm">
+              <GraduationCap className="h-10 w-10 text-blue-500" />
             </div>
           </div>
         </div>
 
-        {/* Previous Education Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-20">
-          {/* College Education */}
-          <div className="bg-white border-2 border-purple-100 rounded-2xl p-8 hover:border-purple-200 transition-all hover:shadow-lg">
-            <div className="flex items-start justify-between mb-6">
-              <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center">
-                <BookOpen className="w-8 h-8 text-purple-600" />
+        {/* Prior */}
+        <div className="mt-5 grid gap-5 sm:grid-cols-2">
+          {priorEducation.map((edu) => (
+            <div
+              key={edu.school}
+              className="rounded-2xl border border-slate-200 p-6"
+            >
+              <div className="flex items-center justify-between">
+                <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+                  {edu.level}
+                </span>
+                <span className="text-sm text-slate-400">{edu.year}</span>
               </div>
-              <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
-                HSC
-              </span>
+              <h3 className="mt-3 text-lg font-bold text-slate-900">
+                {edu.school}
+              </h3>
+              <p
+                className={`mt-2 inline-flex items-center gap-2 text-sm font-semibold ${edu.accent}`}
+              >
+                <Award size={15} />
+                {edu.result}
+              </p>
             </div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-2">
-              Dhaka College
-            </h3>
-            <div className="flex items-center gap-2 text-slate-600 mb-4">
-              <Calendar className="w-4 h-4" />
-              <span className="font-medium">2021</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Award className="w-5 h-5 text-purple-600" />
-              <div>
-                <span className="text-slate-600 text-sm">GPA: </span>
-                <span className="text-2xl font-bold text-purple-600">5.00</span>
-                <span className="text-slate-500 text-sm ml-1">/ 5.00</span>
-              </div>
-            </div>
-          </div>
-
-          {/* School Education */}
-          <div className="bg-white border-2 border-emerald-100 rounded-2xl p-8 hover:border-emerald-200 transition-all hover:shadow-lg">
-            <div className="flex items-start justify-between mb-6">
-              <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center">
-                <BookOpen className="w-8 h-8 text-emerald-600" />
-              </div>
-              <span className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm font-medium">
-                SSC
-              </span>
-            </div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-2">
-              Ideal School and College
-            </h3>
-            <div className="flex items-center gap-2 text-slate-600 mb-4">
-              <Calendar className="w-4 h-4" />
-              <span className="font-medium">2019</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Award className="w-5 h-5 text-emerald-600" />
-              <div>
-                <span className="text-slate-600 text-sm">GPA: </span>
-                <span className="text-2xl font-bold text-emerald-600">5.00</span>
-                <span className="text-slate-500 text-sm ml-1">/ 5.00</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Academic Excellence Section */}
-        <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-emerald-50 rounded-3xl p-8 text-center">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <Award className="w-8 h-8 text-blue-600" />
-            <h3 className="text-2xl font-bold text-slate-800">
-              Academic Excellence
-            </h3>
-          </div>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            Consistently maintained excellent academic performance throughout my educational journey, 
-            achieving perfect GPA in both HSC and SSC examinations.
-          </p>
+          ))}
         </div>
       </div>
     </section>

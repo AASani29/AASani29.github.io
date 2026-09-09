@@ -1,144 +1,73 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void;
 }
 
 const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
-  const [currentText, setCurrentText] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [fadeOut, setFadeOut] = useState(false);
-  const [startTime] = useState(() => Date.now()); // Initialize once
-
-  const fullText = "Ahmed Alfey Sani";
-  const typingSpeed = 100; // milliseconds per character (much faster typing)
-  const pauseAfterTyping = 50; // pause after typing is complete (shorter pause)
-  const fadeOutDuration = 200; // fade out duration (faster fade)
-  const minimumLoadTime = 2500; // minimum total loading time (2.5 seconds instead of 6)
 
   useEffect(() => {
-    console.log("LoadingScreen mounted");
-    console.log("fullText:", fullText);
-    console.log("typingSpeed:", typingSpeed);
-  }, []);
-
-  useEffect(() => {
-    // Typing animation
-    console.log(
-      "Typing effect - currentIndex:",
-      currentIndex,
-      "fullText.length:",
-      fullText.length
-    );
-    if (currentIndex < fullText.length) {
-      const timer = setTimeout(() => {
-        console.log("Adding character:", fullText[currentIndex]);
-        setCurrentText((prev) => prev + fullText[currentIndex]);
-        setCurrentIndex((prev) => prev + 1);
-      }, typingSpeed);
-
-      return () => clearTimeout(timer);
+    // Skip the intro entirely for reduced-motion users.
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      onLoadingComplete();
+      return;
     }
-  }, [currentIndex, fullText, typingSpeed]);
 
-  useEffect(() => {
-    // Handle completion after typing is done
-    if (currentIndex >= fullText.length && !isTypingComplete) {
-      setIsTypingComplete(true);
-    }
-  }, [currentIndex, fullText.length, isTypingComplete]);
+    const duration = 750;
+    const start = performance.now();
+    let raf = 0;
 
-  useEffect(() => {
-    // Handle the complete loading sequence
-    if (isTypingComplete) {
-      const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(
-        minimumLoadTime - elapsedTime,
-        pauseAfterTyping
-      );
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      setProgress(Math.round(eased * 100));
 
-      const completeTimer = setTimeout(() => {
+      if (t < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
         setFadeOut(true);
+        window.setTimeout(onLoadingComplete, 320);
+      }
+    };
 
-        // Call completion after fade starts
-        const fadeTimer = setTimeout(() => {
-          onLoadingComplete();
-        }, fadeOutDuration);
-
-        return () => clearTimeout(fadeTimer);
-      }, remainingTime);
-
-      return () => clearTimeout(completeTimer);
-    }
-  }, [
-    isTypingComplete,
-    startTime,
-    minimumLoadTime,
-    pauseAfterTyping,
-    fadeOutDuration,
-    onLoadingComplete,
-  ]);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [onLoadingComplete]);
 
   return (
     <div
-      className={`fixed inset-0 z-[10000] flex items-center justify-center bg-white transition-opacity duration-300 ${
+      aria-hidden="true"
+      className={`fixed inset-0 z-[10000] flex items-center justify-center bg-slate-50 transition-opacity duration-300 ${
         fadeOut ? "opacity-0" : "opacity-100"
       }`}
     >
-      {/* Background animated elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-emerald-500/5 rounded-full animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 right-1/3 w-32 h-32 bg-slate-500/5 rounded-full animate-pulse delay-500"></div>
-      </div>
-
-      {/* Main content */}
-      <div className="relative text-center px-4 max-w-4xl mx-auto">
-        {/* Typing text */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-bold text-slate-800 mb-4 sm:mb-6 md:mb-8 font-mono leading-tight">
-          {currentText}
-          {!isTypingComplete && (
-            <span className="animate-pulse text-blue-600">|</span>
-          )}
-        </h1>
-
-        {/* Subtitle that appears after typing */}
-        <div
-          className={`transition-all duration-500 ${
-            isTypingComplete
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-4"
-          }`}
-        >
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-slate-600 mb-4 sm:mb-6 md:mb-8 px-2">
-            FullStack Developer & AI/ML Enthusiast
-          </p>
-
-          {/* Loading dots */}
-          <div className="flex justify-center space-x-1 sm:space-x-2">
-            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-600 rounded-full animate-bounce"></div>
-            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-emerald-600 rounded-full animate-bounce delay-100"></div>
-            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-slate-600 rounded-full animate-bounce delay-200"></div>
+      <div className="flex flex-col items-center gap-6 px-6">
+        <div className="relative">
+          <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-blue-500/25 to-emerald-500/25 blur-xl" />
+          <div className="relative flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 to-emerald-600 text-2xl font-bold tracking-tight text-white shadow-lg">
+            AS
           </div>
         </div>
 
-        {/* Decorative elements - hidden on small screens */}
-        <div
-          className={`hidden sm:block absolute -top-8 -left-8 transition-all duration-500 ${
-            isTypingComplete ? "opacity-100 rotate-0" : "opacity-0 rotate-45"
-          }`}
-        >
-          <div className="w-12 h-12 md:w-16 md:h-16 border-4 border-blue-600/20 rounded-lg transform rotate-45"></div>
+        <div className="text-center">
+          <p className="text-lg font-semibold text-slate-900">Ahmed Alfey Sani</p>
+          <p className="text-sm text-slate-500">
+            Full-Stack Developer &amp; AI Engineer
+          </p>
         </div>
-        <div
-          className={`hidden sm:block absolute -bottom-8 -right-8 transition-all duration-500 delay-150 ${
-            isTypingComplete ? "opacity-100 rotate-0" : "opacity-0 -rotate-45"
-          }`}
-        >
-          <div className="w-12 h-12 md:w-16 md:h-16 border-4 border-emerald-600/20 rounded-lg transform rotate-45"></div>
+
+        <div className="h-1 w-48 overflow-hidden rounded-full bg-slate-200">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-600"
+            style={{ width: `${progress}%` }}
+          />
         </div>
       </div>
     </div>

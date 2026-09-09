@@ -1,332 +1,288 @@
 import { ExternalLink, Github } from "lucide-react";
 import ProjectImage from "./ProjectImage";
 
+type Project = {
+  title: string;
+  year: string;
+  description: string;
+  tech: string[];
+  github: string | null;
+  live: string | null;
+  image: string;
+};
+
+const featured: Project[] = [
+  {
+    title: "KalKorbo",
+    year: "2025",
+    description:
+      "Real-time issue and task management platform with AI-powered voice commands, collaborative Kanban boards, and live presence tracking. Enterprise-grade auth, calendar views, and GitHub integration for modern teams.",
+    tech: [
+      "React",
+      "TypeScript",
+      "Supabase",
+      "PostgreSQL",
+      "WebSockets",
+      "Tailwind CSS",
+    ],
+    github: "https://github.com/AASani29/KalKorbo",
+    live: "https://kalkorbo.netlify.app",
+    image: "/images/IMG-20260106-WA0011(1).jpg",
+  },
+  {
+    title: "SoulAce",
+    year: "2024",
+    description:
+      "AI-powered mental-health platform with real-time assessment and personalised recommendations, built on the MERN stack with third-party AI APIs.",
+    tech: ["React", "Node.js", "MongoDB", "Express", "AI/ML"],
+    github: "https://github.com/AASani29/Soulace",
+    live: "https://soulace.onrender.com/",
+    image: "/images/Soulace.png",
+  },
+  {
+    title: "Blingo",
+    year: "2024",
+    description:
+      "Bengali language-learning platform combining RAG-based AI tutoring with real-time collaboration features.",
+    tech: ["AI", "RAG", "Machine Learning", "Bengali NLP", "APIs"],
+    github: "https://github.com/AASani29/Blingo",
+    live: "https://blingo.onrender.com/",
+    image: "/images/blingo.png",
+  },
+];
+
+const more: Project[] = [
+  {
+    title: "EXPENSIO",
+    year: "2025",
+    description:
+      "Mobile expense tracker with budget management, biometric auth, multi-currency support, and local SQLite storage for full privacy.",
+    tech: ["React Native", "Expo", "TypeScript", "SQLite"],
+    github: "https://github.com/AASani29/expensio",
+    live: null,
+    image: "/images/expensio.png",
+  },
+  {
+    title: "Daekho",
+    year: "2025",
+    description:
+      "React Native movie-discovery app with personalised recommendations via genre-based filtering and intelligent exclusion.",
+    tech: ["React Native", "Expo", "TypeScript", "Firebase", "TMDB API"],
+    github: "https://github.com/AASani29/Daekho",
+    live: null,
+    image: "/images/Daekho.png",
+  },
+  {
+    title: "TaskLumina",
+    year: "2024",
+    description:
+      "Smart task manager with AI-powered prioritisation and scheduling, built on Java Spring Boot with NLP-based automation.",
+    tech: ["Java", "Spring Boot", "AI/ML", "NLP"],
+    github: "https://github.com/AASani29/JavaFest-TaskLumina",
+    live: null,
+    image: "/images/tasklumina.png",
+  },
+  {
+    title: "SignAll",
+    year: "2024",
+    description:
+      "ML web app that translates sign language to text from a webcam feed, helping people with hearing disabilities communicate.",
+    tech: ["Machine Learning", "FastAPI", "Python", "Computer Vision"],
+    github: "https://github.com/hasin023/sign-all_DP1",
+    live: null,
+    image: "/images/signall.png",
+  },
+  {
+    title: "RAG Pipeline for Financial Data",
+    year: "2024",
+    description:
+      "Retrieval-Augmented Generation system that turns PDF documents into interactive chatbots using modern NLP techniques.",
+    tech: ["Python", "RAG", "NLP", "Streamlit", "AI/ML"],
+    github: "https://github.com/AASani29/RAG-PipeLine-for-Financial-Data-",
+    live: "https://ragpipelineforfinancialdatabysani.streamlit.app/",
+    image: "/images/rag.png",
+  },
+  {
+    title: "MediEase",
+    year: "2024",
+    description:
+      "Hospital management solution covering patient records, appointment scheduling, and staff management.",
+    tech: ["Next.js", "TypeScript", "React", "Node.js", "PostgreSQL"],
+    github: "https://github.com/hasin023/MediEase",
+    live: null,
+    image: "/images/mediease.png",
+  },
+];
+
+const TechChips = ({ tech }: { tech: string[] }) => (
+  <div className="flex flex-wrap gap-1.5">
+    {tech.map((t) => (
+      <span
+        key={t}
+        className="rounded-md border border-slate-700 bg-slate-800/60 px-2 py-0.5 text-xs font-medium text-slate-300"
+      >
+        {t}
+      </span>
+    ))}
+  </div>
+);
+
+const ProjectLinks = ({
+  github,
+  live,
+  variant = "dark",
+}: {
+  github: string | null;
+  live: string | null;
+  variant?: "dark" | "solid";
+}) => (
+  <div className="flex flex-wrap gap-3">
+    {github && (
+      <a
+        href={github}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
+          variant === "solid"
+            ? "bg-slate-700 text-white hover:bg-slate-600"
+            : "border border-slate-700 text-slate-200 hover:bg-slate-800"
+        }`}
+      >
+        <Github size={16} />
+        Code
+      </a>
+    )}
+    {live && (
+      <a
+        href={live}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-emerald-600 px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+      >
+        <ExternalLink size={16} />
+        Live Demo
+      </a>
+    )}
+  </div>
+);
+
 const Projects = () => {
-  const projects = [
-    {
-      title: "KalKorbo",
-      year: "2025",
-      description:
-        "A high-performance, real-time issue and task management platform with AI-powered voice commands, collaborative Kanban boards, and live presence tracking. Features enterprise-grade security, interactive calendar views, and seamless GitHub integration for modern development teams.",
-      tech: [
-        "React",
-        "TypeScript",
-        "Supabase",
-        "Tailwind CSS",
-        "AI/ML",
-        "Voice Commands",
-        "WebSockets",
-        "PostgreSQL",
-      ],
-      github: "https://github.com/AASani29/KalKorbo",
-      live: "https://kalkorbo.netlify.app",
-      image: "/images/IMG-20260106-WA0011(1).jpg",
-    },
-    {
-      title: "Daekho",
-      year: "2025",
-      description:
-        "A React Native movie discovery app built with Expo that solves the problem of endlessly searching for what to watch next by providing truly personalized movie recommendations using smart genre-based filtering and intelligent exclusion systems.",
-      tech: [
-        "React Native",
-        "Expo",
-        "TypeScript",
-        "Firebase",
-        "TMDB API",
-        "Mobile Development",
-      ],
-      github: "https://github.com/AASani29/Daekho",
-      live: null,
-      image: "/images/Daekho.png",
-    },
-    {
-      title: "EXPENSIO",
-      year: "2025",
-      description:
-        "A comprehensive mobile expense tracking application built with React Native and Expo featuring intelligent budget management, secure biometric authentication, and detailed spending analytics. Includes multi-currency support, dark/light themes, and advanced security with local SQLite storage for complete privacy.",
-      tech: [
-        "React Native",
-        "Expo",
-        "TypeScript",
-        "SQLite",
-        "Biometric Auth",
-        "Multi-Currency",
-      ],
-      github: "https://github.com/AASani29/expensio",
-      live: null,
-      image: "/images/expensio.png",
-    },
-
-    {
-      title: "TaskLumina",
-      year: "2024",
-      description:
-        "Smart task management system with AI-powered task prioritization and scheduling features, built using Java Spring Boot with NLP-based automation.",
-      tech: ["Java", "Spring Boot", "AI/ML", "NLP", "Task Management"],
-      github: "https://github.com/AASani29/JavaFest-TaskLumina",
-      live: null,
-      image: "/images/tasklumina.png",
-    },
-    {
-      title: "SoulAce",
-      year: "2024",
-      description:
-        "AI-powered mental health and wellbeing platform with real-time mental health assessment and personalized recommendations using MERN stack.",
-      tech: ["React", "Node.js", "MongoDB", "Express", "AI/ML", "APIs"],
-      github: "https://github.com/AASani29/Soulace",
-      live: "https://soulace.onrender.com/",
-      image: "/images/Soulace.png",
-    },
-    {
-      title: "Blingo",
-      year: "2024",
-      description:
-        "Innovative Bengali language learning platform that combines AI-powered features with real-time collaboration capabilities using RAG and Machine Learning.",
-      tech: ["AI", "RAG", "Machine Learning", "APIs", "Bengali NLP"],
-      github: "https://github.com/AASani29/Blingo",
-      live: "https://blingo.onrender.com/",
-      image: "/images/blingo.png",
-    },
-    {
-      title: "MediEase",
-      year: "2024",
-      description:
-        "Complete hospital management solution with patient records, appointment scheduling, and staff management built with modern web technologies.",
-      tech: ["Next.js", "TypeScript", "React", "Node.js", "PostgreSQL"],
-      github: "https://github.com/hasin023/MediEase",
-      live: null,
-      image: "/images/mediease.png",
-    },
-    {
-      title: "SignAll",
-      year: "2024",
-      description:
-        "ML-based web application that helps people with hearing disabilities communicate by translating sign language to text using webcam with FastAPI.",
-      tech: [
-        "Machine Learning",
-        "FastAPI",
-        "Python",
-        "Computer Vision",
-        "WebCam",
-      ],
-      github: "https://github.com/hasin023/sign-all_DP1",
-      live: null,
-      image: "/images/signall.png",
-    },
-    {
-      title: "RAG-PipeLine for Financial Data",
-      year: "2024",
-      description:
-        "An intelligent Retrieval-Augmented Generation (RAG) system that transforms PDF documents into interactive chatbots using state-of-the-art NLP techniques",
-      tech: ["Python", "RAG", "NLP", "Streamlit", "AI/ML", "PDF Processing"],
-      github: "https://github.com/AASani29/RAG-PipeLine-for-Financial-Data-",
-      live: "https://ragpipelineforfinancialdatabysani.streamlit.app/",
-      image: "/images/rag.png",
-    },
-    {
-      title: "SeePlussy",
-      year: "2024",
-      description:
-        "C++ skill evaluation platform where developers can test and assess their programming knowledge. Built entirely using AI with advanced prompt engineering techniques to create intelligent assessments.",
-      tech: [
-        "AI",
-        "Prompt Engineering",
-        "C++",
-        "Evaluation System",
-        "NLP",
-        "Assessment",
-      ],
-      github: null,
-      live: "https://seeplussy.netlify.app/",
-      image: "/images/seeplussy.jpg",
-    },
-  ];
-
   return (
     <section
       id="projects"
-      className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden"
+      className="scroll-mt-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-20 sm:py-24"
     >
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmMWY1ZjkiIGZpbGwtb3BhY2l0eT0iMC4zIj48Y2lyY2xlIGN4PSIzIiBjeT0iMyIgcj0iMyIvPjwvZz48L2c+PC9zdmc+')] repeat"></div>
-      </div>
-
-      {/* Animated background gradients */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-14 text-center">
+          <h2 className="text-3xl font-bold text-white sm:text-4xl">
             Featured Projects
           </h2>
-          <p className="text-slate-300 max-w-2xl mx-auto text-lg">
-            Explore my latest work and technical achievements
+          <p className="mx-auto mt-3 max-w-2xl text-slate-300">
+            A selection of what I&apos;ve built — full-stack products, mobile
+            apps, and applied ML.
           </p>
         </div>
 
-        {/* Projects Grid */}
-        <div className="space-y-12 md:space-y-20">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className={`group relative ${
-                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-              } flex flex-col md:flex md:items-center md:gap-12`}
+        {/* Featured */}
+        <div className="space-y-12 lg:space-y-16">
+          {featured.map((project, index) => (
+            <article
+              key={project.title}
+              className="grid items-center gap-6 lg:grid-cols-2 lg:gap-10"
             >
-              {/* Project Image */}
-              <div className="w-full md:w-1/2 relative">
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-700 to-slate-800 shadow-2xl group-hover:shadow-blue-500/25 transition-all duration-500">
-                  <div className="aspect-video relative">
-                    <ProjectImage
-                      src={project.image}
-                      alt={project.title}
-                      title={project.title}
-                    />
-
-                    {/* Floating year badge */}
-                    <div className="absolute top-4 right-4">
-                      <div className="bg-emerald-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
-                        {project.year}
-                      </div>
-                    </div>
-
-                    {/* Hover overlay with links */}
-                    <div className="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-4">
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-all duration-200 cursor-target"
-                        >
-                          <Github size={18} />
-                          <span className="text-sm font-medium">Code</span>
-                        </a>
-                      )}
-                      {project.live && (
-                        <a
-                          href={project.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 bg-blue-500/80 backdrop-blur-sm text-white rounded-lg hover:bg-blue-500 transition-all duration-200 cursor-target"
-                        >
-                          <ExternalLink size={18} />
-                          <span className="text-sm font-medium">Live Demo</span>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Decorative elements */}
-                <div
-                  className={`absolute -z-10 top-8 ${
-                    index % 2 === 0 ? "-right-8" : "-left-8"
-                  } w-full h-full bg-gradient-to-br from-blue-500/20 to-emerald-500/20 rounded-2xl blur-xl`}
-                ></div>
-              </div>
-
-              {/* Project Content */}
-              <div className="w-full md:w-1/2 mt-8 md:mt-0">
-                <div className={`${index % 2 === 0 ? "md:pl-8" : "md:pr-8"}`}>
-                  {/* Project number */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-emerald-400 text-sm font-mono">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <div className="h-px bg-gradient-to-r from-emerald-400 to-transparent flex-1"></div>
-                  </div>
-
-                  {/* Project title */}
-                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors duration-300">
-                    {project.title}
-                  </h3>
-
-                  {/* Project description */}
-                  <p className="text-slate-300 leading-relaxed mb-6 text-sm md:text-base">
-                    {project.description}
-                  </p>
-
-                  {/* Technologies */}
-                  <div className="mb-8">
-                    <h4 className="text-white font-semibold mb-3 text-sm uppercase tracking-wider">
-                      Technologies
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tech.map((tech, techIndex) => (
-                        <span
-                          key={techIndex}
-                          className="px-3 py-1 bg-slate-700/50 text-slate-300 rounded-md text-sm font-medium border border-slate-600/50 hover:bg-slate-600/50 hover:text-emerald-400 transition-all duration-200"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Action buttons - Desktop only */}
-                  <div className="hidden md:flex gap-4">
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-slate-700 text-white rounded-xl hover:bg-slate-600 transition-all duration-300 font-medium group/btn cursor-target"
-                      >
-                        <Github
-                          size={20}
-                          className="group-hover/btn:scale-110 transition-transform duration-200"
-                        />
-                        View Code
-                      </a>
-                    )}
-                    {project.live && (
-                      <a
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-emerald-600 text-white rounded-xl hover:from-blue-500 hover:to-emerald-500 transition-all duration-300 font-medium group/btn shadow-lg cursor-target"
-                      >
-                        <ExternalLink
-                          size={20}
-                          className="group-hover/btn:scale-110 transition-transform duration-200"
-                        />
-                        Live Demo
-                      </a>
-                    )}
-                  </div>
+              <div
+                className={`overflow-hidden rounded-2xl border border-slate-700 shadow-xl ${
+                  index % 2 === 1 ? "lg:order-2" : ""
+                }`}
+              >
+                <div className="relative aspect-video">
+                  <ProjectImage
+                    src={project.image}
+                    alt={`${project.title} screenshot`}
+                    title={project.title}
+                  />
+                  <span className="absolute right-3 top-3 rounded-full bg-emerald-500/90 px-2.5 py-0.5 text-xs font-semibold text-white">
+                    {project.year}
+                  </span>
                 </div>
               </div>
-            </div>
+
+              <div className={index % 2 === 1 ? "lg:order-1" : ""}>
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="font-mono text-sm text-emerald-400">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="h-px flex-1 bg-gradient-to-r from-emerald-400/60 to-transparent" />
+                </div>
+                <h3 className="text-2xl font-bold text-white">
+                  {project.title}
+                </h3>
+                <p className="mt-3 leading-relaxed text-slate-300">
+                  {project.description}
+                </p>
+                <div className="mt-5">
+                  <TechChips tech={project.tech} />
+                </div>
+                <div className="mt-6">
+                  <ProjectLinks
+                    github={project.github}
+                    live={project.live}
+                    variant="solid"
+                  />
+                </div>
+              </div>
+            </article>
           ))}
         </div>
 
-        {/* Bottom section with stats */}
-        <div className="mt-20 text-center">
-          <div className="inline-flex items-center gap-8 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl px-8 py-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-emerald-400">
-                {projects.length}
+        {/* More projects */}
+        <h3 className="mb-8 mt-20 text-center text-xl font-bold text-white">
+          More Projects
+        </h3>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {more.map((project) => (
+            <article
+              key={project.title}
+              className="flex flex-col overflow-hidden rounded-2xl border border-slate-700 bg-slate-800/40"
+            >
+              <div className="relative aspect-video border-b border-slate-700">
+                <ProjectImage
+                  src={project.image}
+                  alt={`${project.title} screenshot`}
+                  title={project.title}
+                />
+                <span className="absolute right-3 top-3 rounded-full bg-slate-900/80 px-2 py-0.5 text-xs font-semibold text-slate-200">
+                  {project.year}
+                </span>
               </div>
-              <div className="text-slate-400 text-sm">Projects</div>
-            </div>
-            <div className="w-px h-12 bg-slate-700"></div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-400">2026</div>
-              <div className="text-slate-400 text-sm">Latest</div>
-            </div>
-            <div className="w-px h-12 bg-slate-700"></div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-purple-400">∞</div>
-              <div className="text-slate-400 text-sm">Learning</div>
-            </div>
-          </div>
+              <div className="flex flex-1 flex-col p-5">
+                <h4 className="text-lg font-bold text-white">{project.title}</h4>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">
+                  {project.description}
+                </p>
+                <div className="mt-4">
+                  <TechChips tech={project.tech.slice(0, 4)} />
+                </div>
+                <div className="mt-4">
+                  <ProjectLinks github={project.github} live={project.live} />
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
+
+        <p className="mt-12 text-center text-sm text-slate-400">
+          More on{" "}
+          <a
+            href="https://github.com/AASani29"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-emerald-400 hover:underline"
+          >
+            GitHub
+          </a>
+          .
+        </p>
       </div>
     </section>
   );

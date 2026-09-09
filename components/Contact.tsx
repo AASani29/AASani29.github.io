@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Mail,
   Phone,
@@ -9,209 +10,346 @@ import {
   Send,
   Instagram,
   Facebook,
+  Check,
+  Copy,
+  Loader2,
 } from "lucide-react";
 
+// This address also receives the contact-form submissions (via FormSubmit.co).
+// Note: it is a university address and will stop working after graduation —
+// swap it for a permanent personal email before then.
+const CONTACT_EMAIL = "ahmedalfey@iut-dhaka.edu";
+const PHONE = "(+880) 1764604075";
+
+const socials = [
+  {
+    name: "GitHub",
+    href: "https://github.com/AASani29",
+    Icon: Github,
+    hover: "hover:bg-slate-950",
+  },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/ahmed-alfey-sani/",
+    Icon: Linkedin,
+    hover: "hover:bg-blue-600",
+  },
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/ahmedalfeysani/",
+    Icon: Instagram,
+    hover: "hover:bg-pink-600",
+  },
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/alfey.sani.5/",
+    Icon: Facebook,
+    hover: "hover:bg-blue-500",
+  },
+];
+
+type Status = "idle" | "sending" | "sent" | "error";
+
 const Contact = () => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+  const [status, setStatus] = useState<Status>("idle");
+  const [copied, setCopied] = useState(false);
 
-    const firstName = formData.get("firstName") as string;
-    const lastName = formData.get("lastName") as string;
-    const email = formData.get("email") as string;
-    const subject = formData.get("subject") as string;
-    const message = formData.get("message") as string;
-
-    const fullName = `${firstName} ${lastName}`.trim();
-    const emailSubject = subject || "Contact from Portfolio Website";
-    const emailBody = `Hi Ahmed,
-
-${message}
-
-Best regards,
-${fullName}
-Email: ${email}`;
-
-    const mailtoLink = `mailto:ahmedalfey@iut-dhaka.edu?subject=${encodeURIComponent(
-      emailSubject
-    )}&body=${encodeURIComponent(emailBody)}`;
-    window.location.href = mailtoLink;
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable — the mailto link is still there */
+    }
   };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+
+    // Honeypot — bots fill hidden fields, humans don't.
+    if (data._honey) return;
+
+    setStatus("sending");
+    try {
+      const res = await fetch(
+        `https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_EMAIL)}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: `${data.firstName ?? ""} ${data.lastName ?? ""}`.trim(),
+            email: data.email,
+            message: data.message,
+            _subject: `Portfolio contact: ${data.subject || "New message"}`,
+            _template: "table",
+            _captcha: "false",
+          }),
+        }
+      );
+      if (!res.ok) throw new Error("Request failed");
+      form.reset();
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden text-white">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmMWY1ZjkiIGZpbGwtb3BhY2l0eT0iMC4zIj48Y2lyY2xlIGN4PSIzIiBjeT0iMyIgcj0iMyIvPjwvZz48L2c+PC9zdmc+')] repeat"></div>
-      </div>
-
-      {/* Animated background gradients */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
-          <p className="text-slate-300 max-w-2xl mx-auto">
-            Let's connect and discuss opportunities, collaborations, or just
-            have a chat about technology
+    <section
+      id="contact"
+      className="scroll-mt-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-20 text-white sm:py-24"
+    >
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-14 text-center">
+          <h2 className="text-3xl font-bold sm:text-4xl">Get in touch</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-slate-300">
+            Open to full-time software and AI engineering roles. Happy to talk
+            about opportunities or collaborations.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
+        <div className="grid gap-10 lg:grid-cols-2">
+          {/* Info */}
           <div className="space-y-8">
-            <div>
-              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                    <Mail size={20} />
-                  </div>
-                  <div>
-                    <p className="font-medium">Email</p>
-                    <p className="text-slate-300">ahmedalfey@iut-dhaka.edu</p>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-600">
+                  <Mail size={18} />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-slate-400">Email</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <a
+                      href={`mailto:${CONTACT_EMAIL}`}
+                      className="break-all text-slate-100 hover:text-white"
+                    >
+                      {CONTACT_EMAIL}
+                    </a>
+                    <button
+                      type="button"
+                      onClick={copyEmail}
+                      aria-label="Copy email address"
+                      className="inline-flex items-center gap-1 rounded-md bg-slate-700 px-2 py-0.5 text-xs text-slate-200 transition-colors hover:bg-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                    >
+                      {copied ? (
+                        <>
+                          <Check size={12} /> Copied
+                        </>
+                      ) : (
+                        <>
+                          <Copy size={12} /> Copy
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-emerald-600 rounded-full flex items-center justify-center">
-                    <Phone size={20} />
-                  </div>
-                  <div>
-                    <p className="font-medium">Phone</p>
-                    <p className="text-slate-300">(+880) 1764604075</p>
-                  </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-600">
+                  <Phone size={18} />
                 </div>
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
-                    <MapPin size={20} />
-                  </div>
-                  <div>
-                    <p className="font-medium">Location</p>
-                    <p className="text-slate-300">Dhaka, Bangladesh</p>
-                  </div>
+                <div>
+                  <p className="text-sm font-medium text-slate-400">Phone</p>
+                  <a href={`tel:${PHONE.replace(/[^\d+]/g, "")}`} className="text-slate-100 hover:text-white">
+                    {PHONE}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600">
+                  <MapPin size={18} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-slate-400">Location</p>
+                  <p className="text-slate-100">Dhaka, Bangladesh</p>
                 </div>
               </div>
             </div>
 
             <div>
-              <h3 className="text-2xl font-bold mb-6">Follow Me</h3>
-              <div className="flex space-x-4">
-                <a
-                  href="https://github.com/AASani29"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-slate-900 transition-colors duration-200 cursor-target"
-                >
-                  <Github size={20} />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/ahmed-alfey-sani/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors duration-200 cursor-target"
-                >
-                  <Linkedin size={20} />
-                </a>
-                <a
-                  href="https://www.instagram.com/ahmedalfeysani/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors duration-200 cursor-target"
-                >
-                  <Instagram size={20} />
-                </a>
-                <a
-                  href="https://www.facebook.com/alfey.sani.5/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors duration-200 cursor-target"
-                >
-                  <Facebook size={20} />
-                </a>
+              <h3 className="mb-3 text-sm font-medium text-slate-400">
+                Find me online
+              </h3>
+              <div className="flex gap-3">
+                {socials.map(({ name, href, Icon, hover }) => (
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={name}
+                    title={name}
+                    className={`flex h-11 w-11 items-center justify-center rounded-full bg-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${hover}`}
+                  >
+                    <Icon size={18} />
+                  </a>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* Contact Form */}
-          <div className="bg-slate-700 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    required
-                    className="w-full px-4 py-3 bg-slate-600 border border-slate-500 rounded-lg focus:outline-none focus:border-blue-500 transition-colors duration-200 cursor-target"
-                    placeholder="Your first name"
-                  />
+          {/* Form */}
+          <div className="rounded-2xl bg-slate-800 p-6 sm:p-8">
+            {status === "sent" ? (
+              <div className="flex h-full flex-col items-center justify-center py-10 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600">
+                  <Check size={22} />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    className="w-full px-4 py-3 bg-slate-600 border border-slate-500 rounded-lg focus:outline-none focus:border-blue-500 transition-colors duration-200 cursor-target"
-                    placeholder="Your last name"
-                  />
-                </div>
+                <p className="mt-4 text-lg font-semibold">Message sent</p>
+                <p className="mt-1 text-sm text-slate-400">
+                  Thanks — I&apos;ll get back to you soon.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setStatus("idle")}
+                  className="mt-4 text-sm font-medium text-blue-400 hover:underline"
+                >
+                  Send another
+                </button>
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  className="w-full px-4 py-3 bg-slate-600 border border-slate-500 rounded-lg focus:outline-none focus:border-blue-500 transition-colors duration-200 cursor-target"
-                  placeholder="your.email@example.com"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Subject
-                </label>
+            ) : (
+              <form className="space-y-5" onSubmit={handleSubmit}>
                 <input
                   type="text"
-                  name="subject"
-                  className="w-full px-4 py-3 bg-slate-600 border border-slate-500 rounded-lg focus:outline-none focus:border-blue-500 transition-colors duration-200 cursor-target"
-                  placeholder="What's this about?"
+                  name="_honey"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  className="hidden"
+                  aria-hidden="true"
                 />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Message
-                </label>
-                <textarea
-                  rows={4}
-                  name="message"
-                  required
-                  className="w-full px-4 py-3 bg-slate-600 border border-slate-500 rounded-lg focus:outline-none focus:border-blue-500 transition-colors duration-200 resize-none cursor-target"
-                  placeholder="Your message here..."
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium cursor-target"
-              >
-                <Send size={18} />
-                Send Message
-              </button>
-            </form>
+
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label
+                      htmlFor="firstName"
+                      className="mb-1.5 block text-sm font-medium"
+                    >
+                      First name
+                    </label>
+                    <input
+                      id="firstName"
+                      type="text"
+                      name="firstName"
+                      required
+                      autoComplete="given-name"
+                      className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      placeholder="Your first name"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="lastName"
+                      className="mb-1.5 block text-sm font-medium"
+                    >
+                      Last name
+                    </label>
+                    <input
+                      id="lastName"
+                      type="text"
+                      name="lastName"
+                      autoComplete="family-name"
+                      className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      placeholder="Your last name"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="mb-1.5 block text-sm font-medium"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    required
+                    autoComplete="email"
+                    className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    placeholder="you@example.com"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="subject"
+                    className="mb-1.5 block text-sm font-medium"
+                  >
+                    Subject
+                  </label>
+                  <input
+                    id="subject"
+                    type="text"
+                    name="subject"
+                    className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    placeholder="What's this about?"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="mb-1.5 block text-sm font-medium"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    required
+                    className="w-full resize-none rounded-lg border border-slate-600 bg-slate-700 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    placeholder="Your message…"
+                  />
+                </div>
+
+                {status === "error" && (
+                  <p className="text-sm text-red-400">
+                    Something went wrong. Email me directly at{" "}
+                    <a
+                      href={`mailto:${CONTACT_EMAIL}`}
+                      className="underline"
+                    >
+                      {CONTACT_EMAIL}
+                    </a>
+                    .
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {status === "sending" ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      Sending…
+                    </>
+                  ) : (
+                    <>
+                      <Send size={18} />
+                      Send message
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="mt-16 pt-8 border-t border-slate-700 text-center">
-          <p className="text-slate-400">
-            © 2025 Ahmed Alfey Sani.
-          </p>
+        <div className="mt-16 border-t border-slate-700 pt-8 text-center text-sm text-slate-400">
+          © {new Date().getFullYear()} Ahmed Alfey Sani
         </div>
       </div>
     </section>

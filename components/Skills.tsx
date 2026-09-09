@@ -1,378 +1,138 @@
-"use client";
+import {
+  Code2,
+  Layout,
+  Server,
+  Brain,
+  Database,
+  Cloud,
+  type LucideIcon,
+} from "lucide-react";
 
-import { useEffect, useRef } from "react";
+type Accent = "blue" | "emerald" | "violet" | "rose" | "amber" | "sky";
+
+type SkillGroup = {
+  title: string;
+  Icon: LucideIcon;
+  accent: Accent;
+  skills: string[];
+};
+
+const ACCENTS: Record<Accent, { tile: string; pill: string }> = {
+  blue: {
+    tile: "bg-blue-50 text-blue-600",
+    pill: "hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700",
+  },
+  emerald: {
+    tile: "bg-emerald-50 text-emerald-600",
+    pill: "hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700",
+  },
+  violet: {
+    tile: "bg-violet-50 text-violet-600",
+    pill: "hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700",
+  },
+  rose: {
+    tile: "bg-rose-50 text-rose-600",
+    pill: "hover:border-rose-300 hover:bg-rose-50 hover:text-rose-700",
+  },
+  amber: {
+    tile: "bg-amber-50 text-amber-600",
+    pill: "hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700",
+  },
+  sky: {
+    tile: "bg-sky-50 text-sky-600",
+    pill: "hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700",
+  },
+};
+
+const skillGroups: SkillGroup[] = [
+  {
+    title: "Languages",
+    Icon: Code2,
+    accent: "blue",
+    skills: ["Python", "JavaScript", "TypeScript", "Java", "C++", "C#", "C", "Solidity"],
+  },
+  {
+    title: "Frontend",
+    Icon: Layout,
+    accent: "emerald",
+    skills: ["React", "Next.js", "React Native", "HTML5", "CSS3", "Tailwind CSS"],
+  },
+  {
+    title: "Backend",
+    Icon: Server,
+    accent: "violet",
+    skills: ["Node.js", "Express.js", "Spring Boot", "FastAPI", ".NET"],
+  },
+  {
+    title: "AI / ML",
+    Icon: Brain,
+    accent: "rose",
+    skills: ["PyTorch", "TensorFlow", "Hugging Face", "RAG", "LLM Fine-tuning", "NLP"],
+  },
+  {
+    title: "Databases",
+    Icon: Database,
+    accent: "amber",
+    skills: ["PostgreSQL", "MongoDB", "Oracle", "Neo4j", "Supabase", "Firebase"],
+  },
+  {
+    title: "Cloud & DevOps",
+    Icon: Cloud,
+    accent: "sky",
+    skills: ["AWS", "Microsoft Azure", "Docker", "Git"],
+  },
+];
 
 const Skills = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  // SVG Icon Components for tech stacks
-  const TechIcons = {
-    Python: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.26-.02.21-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25c-.2 0-.38.09-.5.25-.12.16-.18.38-.18.61 0 .22.06.44.18.61.12.16.3.25.5.25.2 0 .38-.09.5-.25.12-.17.18-.39.18-.61 0-.23-.06-.45-.18-.61-.12-.16-.3-.25-.5-.25z"
-          fill="#3776ab"
-        />
-      </svg>
-    ),
-    JavaScript: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"
-          fill="#f7df1e"
-        />
-      </svg>
-    ),
-    TypeScript: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z"
-          fill="#3178c6"
-        />
-      </svg>
-    ),
-    React: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44a23.476 23.476 0 0 0-3.107-.534A23.892 23.892 0 0 0 12.769 4.7c1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442a22.73 22.73 0 0 0-3.113.538 15.02 15.02 0 0 1-.254-1.42c-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.36-.034-.471 0-.92.014-1.36.034.44-.572.895-1.096 1.36-1.564zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87a25.64 25.64 0 0 1-4.412.005 26.64 26.64 0 0 1-1.183-1.86c-.372-.64-.71-1.29-1.018-1.946a25.17 25.17 0 0 1 1.013-1.954c.38-.66.773-1.286 1.18-1.868A25.245 25.245 0 0 1 12 8.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933a25.952 25.952 0 0 0-1.345-2.32zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493a23.966 23.966 0 0 0-1.1-2.98c.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98a23.142 23.142 0 0 0-1.086 2.964c-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39a25.819 25.819 0 0 0 1.341-2.338zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143a22.005 22.005 0 0 1-2.006-.386c.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295a1.185 1.185 0 0 1-.553-.132c-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.36.034.47 0 .92-.014 1.36-.034-.44.572-.895 1.095-1.36 1.56-.465-.467-.92-.99-1.36-1.56z"
-          fill="#61dafb"
-        />
-      </svg>
-    ),
-    Node: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.275-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z"
-          fill="#339933"
-        />
-      </svg>
-    ),
-    // Professional SVG icons for additional technologies
-    Java: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M8.851 18.56s-.917.534.653.714c1.902.218 2.874.187 4.969-.211 0 0 .552.346 1.321.646-4.699 2.013-10.633-.118-6.943-1.149M8.276 15.933s-1.028.761.542.924c2.032.209 3.636.227 6.413-.308 0 0 .384.389.987.602-5.679 1.661-12.007.13-7.942-1.218M13.116 11.475c1.158 1.333-.304 2.533-.304 2.533s2.939-1.518 1.589-3.418c-1.261-1.772-2.228-2.652 3.007-5.688 0-.001-8.216 2.051-4.292 6.573M19.33 20.504s.679.559-.747.991c-2.712.822-11.288 1.069-13.669.033-.856-.373.75-.89 1.254-.998.527-.114.828-.093.828-.093-.953-.671-6.156 1.317-2.643 1.887 9.58 1.553 17.462-.7 14.977-1.82M9.292 13.21s-4.362 1.036-1.544 1.412c1.189.159 3.561.123 5.77-.062 1.806-.152 3.618-.477 3.618-.477s-.637.272-1.098.587c-4.429 1.165-12.986.623-10.522-.568 2.082-1.006 3.776-.892 3.776-.892M17.116 17.584c4.503-2.34 2.421-4.589.968-4.285-.355.074-.515.138-.515.138s.132-.207.385-.297c2.875-1.011 5.086 2.981-.928 4.562 0-.001.07-.062.09-.118M14.401 0s2.494 2.494-2.365 6.33c-3.896 3.077-.888 4.832-.001 6.836-2.274-2.053-3.943-3.858-2.824-5.539 1.644-2.469 6.197-3.665 5.19-7.627M9.734 23.924c4.322.277 10.959-.153 11.116-2.198 0 0-.302.775-3.572 1.391-3.688.694-8.239.613-10.937.168 0-.001.553.457 3.393.639"
-          fill="#ED8B00"
-        />
-      </svg>
-    ),
-    Docker: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.186m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.186m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"
-          fill="#2496ED"
-        />
-      </svg>
-    ),
-    AWS: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M6.763 10.036c0 .296.032.535.088.718.064.182.144.368.256.555.04.056.056.112.056.152 0 .064-.04.128-.128.2l-.424.28c-.064.04-.124.064-.168.064-.064 0-.128-.032-.192-.088a2.02 2.02 0 01-.24-.32 4.85 4.85 0 01-.2-.368c-.528.616-1.176.928-1.944.928-.56 0-1.005-.16-1.336-.48-.332-.32-.5-.744-.5-1.272 0-.568.2-1.024.6-1.384.4-.36.936-.544 1.608-.544.224 0 .456.016.704.056.248.04.504.088.776.152v-.504c0-.525-.112-.888-.328-1.096-.224-.208-.6-.312-1.152-.312-.248 0-.504.032-.768.08-.264.056-.520.12-.78.2-.12.048-.208.08-.248.096a.414.414 0 01-.112.016c-.096 0-.144-.072-.144-.216v-.344c0-.112.016-.2.056-.256.04-.056.112-.112.2-.144.248-.128.544-.232.888-.328.344-.088.712-.136 1.096-.136.835 0 1.448.192 1.832.576.392.384.584.96.584 1.728v2.28zm-2.712 1.016c.216 0 .44-.04.68-.12.24-.08.448-.2.624-.36.104-.096.184-.2.224-.312.04-.112.064-.248.064-.408v-.504a6.1 6.1 0 00-.616-.112 5.56 5.56 0 00-.64-.04c-.456 0-.792.088-1.008.272-.216.184-.328.440-.328.776 0 .32.08.56.224.720.152.16.376.24.672.24.016 0 .032 0 .056.016.016 0 .032-.008.048-.016zm5.216 1.072c-.128 0-.216-.024-.256-.08-.04-.048-.08-.144-.104-.28l-1.16-3.824c-.024-.08-.04-.136-.04-.168 0-.112.056-.168.168-.168h.688c.136 0 .224.024.264.08.04.048.072.144.104.28l.832 3.272.776-3.272c.024-.136.056-.232.104-.28.048-.056.144-.08.272-.08h.560c.128 0 .216.024.272.08.048.048.088.144.104.28l.784 3.312.856-3.312c.032-.136.072-.232.104-.28.048-.056.136-.08.264-.08h.656c.112 0 .168.056.168.168 0 .032-.008.072-.016.112-.008.04-.024.096-.048.168l-1.192 3.824c-.024.136-.064.232-.104.28-.04.056-.128.08-.256.08h-.6c-.128 0-.216-.024-.272-.08-.048-.048-.088-.144-.104-.28l-.776-3.184-.768 3.184c-.024.136-.056.232-.104.28-.048.056-.144.08-.272.08h-.6zm8.328.144c-.336 0-.672-.04-.992-.12-.32-.08-.568-.168-.744-.28-.112-.072-.184-.152-.216-.232-.032-.08-.048-.168-.048-.264v-.352c0-.144.056-.216.152-.216.04 0 .08.008.12.024.04.016.104.048.176.08.24.104.504.184.784.232.288.056.568.08.856.08.456 0 .808-.08 1.056-.24.248-.16.376-.392.376-.688 0-.2-.064-.368-.184-.504-.128-.136-.368-.264-.704-.384l-1.016-.32c-.512-.16-.888-.4-1.128-.704-.24-.304-.36-.64-.36-1.016 0-.296.064-.560.184-.792.128-.232.296-.432.52-.6.224-.168.48-.296.784-.376.304-.088.624-.128.96-.128.144 0 .296.008.44.032.152.016.288.048.424.08.128.032.256.072.376.112.12.048.216.096.288.144.104.064.184.136.224.208.048.072.064.16.064.264v.328c0 .144-.056.216-.152.216-.056 0-.144-.024-.248-.08-.376-.168-.8-.256-1.28-.256-.416 0-.744.064-.984.2-.24.136-.36.344-.36.624 0 .2.072.368.216.504.144.136.416.272.8.408l.992.312c.504.16.872.384 1.096.672.224.288.336.616.336.984 0 .304-.064.576-.184.816-.128.24-.304.448-.536.624-.232.176-.512.312-.84.408-.336.088-.696.136-1.088.136zm1.776 2.2c-2.992 0-5.568-.88-7.728-2.64-.16-.144-.016-.336.176-.224 2.2 1.28 4.912 2.048 7.712 2.048 1.888 0 3.968-.392 5.88-1.2.288-.128.528.192.256.464-1.776 1.456-4.104 2.552-6.296 2.552zm.752-12.744c-.384-.488-2.544-.232-3.52-.116-.296.036-.344-.224-.08-.408 1.72-1.208 4.544-.856 4.872-.456.328.408-.088 3.208-1.688 4.544-.248.208-.488.096-.376-.176.36-.896 1.176-2.896.792-3.388z"
-          fill="#FF9900"
-        />
-      </svg>
-    ),
-    MongoDB: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296 4.604-2.78 4.292-11.375zm-5.336 7.696c-.054-.195-.054-.503-.054-.503s-.18.455-.896.455c-.616 0-.896-.455-.896-.455s0 .308-.054.503c-.185.679-.185 1.287-.185 1.287s.2.117.54.117h.089c.34 0 .54-.117.54-.117s0-.608-.184-1.287z"
-          fill="#47A248"
-        />
-        <path
-          d="M11.5 15.251c-.054-.195-.054-.503-.054-.503s-.18.455-.896.455c-.616 0-.896-.455-.896-.455s0 .308-.054.503c-.185.679-.185 1.287-.185 1.287s.2.117.54.117h.089c.34 0 .54-.117.54-.117s0-.608-.184-1.287zm.5-11.807s-.296 2.332-3.123 3.124v.89s1.207.73 3.123 1.826v.89s-1.98.786-3.123 2.177v.89s1.143 1.391 3.123 1.826v.89s-2.296.652-3.123 1.826v.89s1.63 1.043 3.123 1.826v.91s-2.296.652-3.123 1.826v.89s1.63 1.043 3.123 1.826v.896H12v-.896s1.493-.783 3.123-1.826v-.89s-2.827-1.174-3.123-1.826v-.91s1.493-.783 3.123-1.826v-.89s-2.827-1.174-3.123-1.826v-.89s1.143-1.391 3.123-1.826v-.89s-1.98-.786-3.123-2.177v-.89s1.916-1.096 3.123-1.826v-.89S14.327 5.776 12 3.444z"
-          fill="#47A248"
-        />
-      </svg>
-    ),
-    PostgreSQL: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M23.111 5.441c-.777-1.006-2.001-1.51-3.747-1.539-.409 0-.836.029-1.278.087-.525-.379-1.167-.585-1.914-.618-1.948-.087-3.747.728-5.072 2.297-1.325-1.569-3.124-2.384-5.072-2.297-.747.033-1.389.239-1.914.618-.442-.058-.869-.087-1.278-.087C1.089 3.931-.135 4.435-.912 5.441-.999 5.587-.999 5.792-.912 5.938c.058.087.145.117.233.146.087.029.175.058.233.146.087.146.087.351.058.497-.029.175-.087.322-.145.497-.058.175-.087.351-.058.526.029.175.087.322.175.468.058.087.145.146.233.175.087.029.175.058.262.087.087.029.175.087.233.175.087.146.087.351.058.497-.029.175-.087.322-.145.497-.058.175-.087.351-.058.526.029.175.087.322.175.468.058.087.145.146.233.175.087.029.175.058.262.087.087.029.175.087.233.175.087.146.087.351.058.497-.029.175-.087.322-.145.497-.058.175-.087.351-.058.526.029.175.087.322.175.468.058.087.145.146.233.175.087.029.175.058.262.087.087.029.175.087.233.175.087.146.087.351.058.497-.029.175-.087.322-.145.497-.058.175-.087.351-.058.526.029.175.087.322.175.468.058.087.145.146.233.175.087.029.175.058.262.087.087.029.175.087.233.175.087.146.087.351.058.497-.029.175-.087.322-.145.497-.058.175-.087.351-.058.526.029.175.087.322.175.468.058.087.145.146.233.175.087.029.175.058.262.087.087.029.175.087.233.175.087.146.087.351.058.497-.029.175-.087.322-.145.497-.058.175-.087.351-.058.526.029.175.087.322.175.468.058.087.145.146.233.175.087.029.175.058.262.087.087.029.175.087.233.175.087.146.087.351.058.497-.029.175-.087.322-.145.497-.058.175-.087.351-.058.526.029.175.087.322.175.468.058.087.145.146.233.175.087.029.175.058.262.087.087.029.175.087.233.175.087.146.087.351.058.497-.029.175-.087.322-.145.497-.058.175-.087.351-.058.526.029.175.087.322.175.468.058.087.145.146.233.175.087.029.175.058.262.087.087.029.175.087.233.175.087.146.087.351.058.497-.029.175-.087.322-.145.497-.058.175-.087.351-.058.526.029.175.087.322.175.468.058.087.145.146.233.175.087.029.175.058.262.087.087.029.175.087.233.175.087.146.087.351.058.497-.029.175-.087.322-.145.497-.058.175-.087.351-.058.526.029.175.087.322.175.468.058.087.145.146.233.175z"
-          fill="#336791"
-        />
-      </svg>
-    ),
-    Spring: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M21.8537 1.4158c-1.0541.0387-2.0844.2226-3.0594.5391-.1788.0581-.3576.125-.5329.1919l-.0968.0387c-.6051-1.0821-1.7012-1.8837-2.9858-2.1451C13.2952-.1677 11.162.2742 9.6041 1.508c-.0259.0194-.0482.0419-.0709.0645l-.0129.0129c-1.2556 1.0282-1.9769 2.5345-1.9027 3.9678.0032.0613.0097.1226.0194.1806v.0032c.5715 3.4886 3.3557 6.1495 6.1947 6.8463 2.839.6968 6.1818-.1032 8.4541-2.0155.0194-.0161.0387-.0355.0548-.0548l.0129-.0129c1.7399-1.5437 2.8134-3.8483 2.8197-6.2347v-.0194c-.0065-2.1581-.8467-4.1926-2.3239-5.6278-.3932-.3834-.8402-.7184-1.3258-1.0024zm-7.2671 19.1594c-4.8026-.1548-8.6155-4.0541-8.4574-8.6703.1419-4.1378 3.4886-7.6085 7.6537-7.9247 4.1652-.3162 7.9588 2.7329 8.6929 6.7883.734 4.0555-1.4125 8.1781-4.8892 9.4067z"
-          fill="#6DB33F"
-        />
-        <path
-          d="M15.8594 5.8125c-.5844 0-1.0576.4732-1.0576 1.0576 0 .5845.4732 1.0577 1.0576 1.0577.5845 0 1.0577-.4732 1.0577-1.0577 0-.5844-.4732-1.0576-1.0577-1.0576z"
-          fill="#6DB33F"
-        />
-      </svg>
-    ),
-    HTML5: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.649 10.556.003.229-2.556L5.412 4.548l.696 7.919h9.586l-.322 3.6-3.372.9-3.379-.905-.216-2.42h-2.5l.428 4.7L12 19.351l6.093-1.629L19.06 7.5H8.531z"
-          fill="#E34F26"
-        />
-      </svg>
-    ),
-    CSS3: () => (
-      <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-3.15.923-3.177-.93-.203-2.264h-2.62l.336 3.836L12 19.278l5.905-1.72L19.09 4.413z"
-          fill="#1572B6"
-        />
-      </svg>
-    ),
-    Cpp: () => (
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-sm"
-        style={{ backgroundColor: "#00599C", color: "#fff" }}
-      >
-        C++
-      </div>
-    ),
-    C: () => (
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-sm"
-        style={{ backgroundColor: "#A8B9CC", color: "#1a1a1a" }}
-      >
-        C
-      </div>
-    ),
-    CSharp: () => (
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-sm"
-        style={{ backgroundColor: "#68217A", color: "#fff" }}
-      >
-        C#
-      </div>
-    ),
-    Solidity: () => (
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-sm"
-        style={{ backgroundColor: "#363636", color: "#fff" }}
-      >
-        Sol
-      </div>
-    ),
-    DotNet: () => (
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
-        style={{ backgroundColor: "#512BD4", color: "#fff" }}
-      >
-        .NET
-      </div>
-    ),
-    Firebase: () => (
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
-        style={{ backgroundColor: "#FFCA28", color: "#1a1a1a" }}
-      >
-        FB
-      </div>
-    ),
-    Supabase: () => (
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
-        style={{ backgroundColor: "#3ECF8E", color: "#1a1a1a" }}
-      >
-        SB
-      </div>
-    ),
-    Oracle: () => (
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
-        style={{ backgroundColor: "#F80000", color: "#fff" }}
-      >
-        DB
-      </div>
-    ),
-    Neo4j: () => (
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
-        style={{ backgroundColor: "#008CC1", color: "#fff" }}
-      >
-        N4j
-      </div>
-    ),
-    Azure: () => (
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xs"
-        style={{ backgroundColor: "#0089D6", color: "#fff" }}
-      >
-        Az
-      </div>
-    ),
-  };
-
-  const allSkills = [
-    { name: "Python", icon: "Python", category: "Programming" },
-    { name: "JavaScript", icon: "JavaScript", category: "Programming" },
-    { name: "TypeScript", icon: "TypeScript", category: "Programming" },
-    { name: "React.js", icon: "React", category: "Frontend" },
-    { name: "Node.js", icon: "Node", category: "Backend" },
-    { name: "Java", icon: "Java", category: "Programming" },
-    { name: "Docker", icon: "Docker", category: "DevOps" },
-    { name: "AWS", icon: "AWS", category: "Cloud" },
-    { name: "MongoDB", icon: "MongoDB", category: "Database" },
-    { name: "Next.js", icon: "React", category: "Frontend" },
-    { name: "Express.js", icon: "Node", category: "Backend" },
-    { name: "PostgreSQL", icon: "PostgreSQL", category: "Database" },
-    { name: "TensorFlow", icon: "Python", category: "AI/ML" },
-    { name: "FastAPI", icon: "Python", category: "Backend" },
-    { name: "Spring Boot", icon: "Spring", category: "Backend" },
-    { name: "C++", icon: "Cpp", category: "Programming" },
-    { name: "C#", icon: "CSharp", category: "Programming" },
-    { name: "C", icon: "C", category: "Programming" },
-    { name: "HTML5", icon: "HTML5", category: "Programming" },
-    { name: "CSS3", icon: "CSS3", category: "Programming" },
-    { name: "Solidity", icon: "Solidity", category: "Programming" },
-    { name: ".NET", icon: "DotNet", category: "Backend" },
-    { name: "React Native", icon: "React", category: "Mobile" },
-    { name: "Oracle", icon: "Oracle", category: "Database" },
-    { name: "Neo4j", icon: "Neo4j", category: "Database" },
-    { name: "Firebase", icon: "Firebase", category: "Database" },
-    { name: "Supabase", icon: "Supabase", category: "Database" },
-    { name: "Microsoft Azure", icon: "Azure", category: "Cloud" },
-  ];
-
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-
-    let animationId: number;
-    let scrollSpeed = 1;
-
-    const scroll = () => {
-      if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-        scrollContainer.scrollLeft = 0;
-      } else {
-        scrollContainer.scrollLeft += scrollSpeed;
-      }
-      animationId = requestAnimationFrame(scroll);
-    };
-
-    // Start auto-scroll
-    animationId = requestAnimationFrame(scroll);
-
-    // Pause on hover
-    const handleMouseEnter = () => {
-      cancelAnimationFrame(animationId);
-    };
-
-    const handleMouseLeave = () => {
-      animationId = requestAnimationFrame(scroll);
-    };
-
-    scrollContainer.addEventListener("mouseenter", handleMouseEnter);
-    scrollContainer.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-      scrollContainer.removeEventListener("mouseenter", handleMouseEnter);
-      scrollContainer.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
-
   return (
-    <section
-      id="skills"
-      className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden"
-    >
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 bg-gradient-to-r from-blue-400 via-emerald-400 to-blue-400 bg-clip-text text-transparent">
+    <section id="skills" className="scroll-mt-24 bg-slate-50 py-20 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-14 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
             Tech Stack
           </h2>
-          <p className="text-slate-300 max-w-2xl mx-auto text-lg">
-            Technologies and tools I use to build modern applications
+          <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+            Tools and technologies I use to design, build, and ship software.
           </p>
         </div>
 
-        {/* Sliding Skills Container */}
-        <div className="relative">
-          <div
-            ref={scrollRef}
-            className="flex overflow-hidden space-x-8 py-8"
-            style={{
-              maskImage:
-                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-              WebkitMaskImage:
-                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-            }}
-          >
-            {/* First set of skills */}
-            {allSkills.map((skill, index) => (
-              <div key={index} className="flex-shrink-0 group cursor-pointer">
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-110 hover:bg-white/20 min-w-[180px]">
-                  <div className="flex flex-col items-center space-y-4">
-                    <div className="relative">
-                      {TechIcons[skill.icon as keyof typeof TechIcons] ? (
-                        TechIcons[skill.icon as keyof typeof TechIcons]()
-                      ) : (
-                        <div className="w-12 h-12 bg-slate-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">
-                          {skill.name.slice(0, 2)}
-                        </div>
-                      )}
-                      <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 to-emerald-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
-                    </div>
-                    <div className="text-center">
-                      <h3 className="text-white font-semibold text-sm">
-                        {skill.name}
-                      </h3>
-                      <p className="text-slate-400 text-xs mt-1">
-                        {skill.category}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {/* Duplicate set for seamless loop */}
-            {allSkills.map((skill, index) => (
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {skillGroups.map((group) => {
+            const accent = ACCENTS[group.accent];
+            return (
               <div
-                key={`duplicate-${index}`}
-                className="flex-shrink-0 group cursor-pointer"
+                key={group.title}
+                className="group rounded-2xl border border-slate-200 bg-white p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg sm:p-6"
               >
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-110 hover:bg-white/20 min-w-[180px]">
-                  <div className="flex flex-col items-center space-y-4">
-                    <div className="relative">
-                      {TechIcons[skill.icon as keyof typeof TechIcons] ? (
-                        TechIcons[skill.icon as keyof typeof TechIcons]()
-                      ) : (
-                        <div className="w-12 h-12 bg-slate-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">
-                          {skill.name.slice(0, 2)}
-                        </div>
-                      )}
-                      <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 to-emerald-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
-                    </div>
-                    <div className="text-center">
-                      <h3 className="text-white font-semibold text-sm">
-                        {skill.name}
-                      </h3>
-                      <p className="text-slate-400 text-xs mt-1">
-                        {skill.category}
-                      </p>
-                    </div>
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105 ${accent.tile}`}
+                  >
+                    <group.Icon className="h-5 w-5" strokeWidth={2} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800">
+                      {group.title}
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      {group.skills.length} technologies
+                    </p>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Additional Info */}
-        <div className="text-center mt-16">
-          <div className="inline-flex items-center space-x-2 text-slate-400 text-sm">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-            <span>Hover to pause • Always learning new technologies</span>
-            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse delay-500"></div>
-          </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className={`rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-sm font-medium text-slate-700 shadow-sm transition-colors ${accent.pill}`}
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

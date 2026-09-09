@@ -1,141 +1,212 @@
-import { Calendar, MapPin } from "lucide-react";
+import { Calendar, MapPin, ExternalLink } from "lucide-react";
+
+type Role = {
+  title: string;
+  company: string;
+  period: string;
+  location: string;
+  description: string;
+  type: string;
+  website: string;
+  logo: string;
+  projects?: {
+    name: string;
+    blurb: string;
+    tech: string[];
+    link?: string;
+  }[];
+};
+
+const experiences: Role[] = [
+  {
+    title: "AI Engineer (Part-time)",
+    company: "Intelligent Machines Limited",
+    period: "Feb 2026 – Present",
+    location: "Dhaka, Bangladesh",
+    description:
+      "Building AI and full-stack products for multinational clients — an image-based share-of-shelf solution for bKash and Olympic, RetailOS (an in-house retail platform with field-force management and analytics), and the projects below.",
+    type: "Part-time",
+    website: "https://intelmachines.ai/",
+    logo: "/images/im.png",
+    projects: [
+      {
+        name: "URewards — Unilever Bangladesh",
+        blurb:
+          "Enterprise shopper-digitization and field-force performance platform powering large-scale brand activations. Built web modules for workforce, activation, outlet, product and shopper management; role-based access and hierarchical visibility across agencies, NCs and brand promoters; bulk-upload data pipelines; and real-time KPI dashboards with SKU-level reporting. Backend services in TypeScript / TypeORM with Redis + BullMQ queues for async processing.",
+        tech: [
+          "React",
+          "TypeScript",
+          "Node.js",
+          "TypeORM",
+          "Redis",
+          "BullMQ",
+          "Docker",
+        ],
+      },
+      {
+        name: "CholoJai",
+        blurb:
+          "RAG-based travel-assistance platform for CholoJai, an online travel startup focused on seamless trip planning through technology, data and quality customer service. Contributed across the stack — from product ideation and system architecture to frontend development.",
+        tech: ["RAG", "LLM", "Next.js", "TypeScript"],
+        link: "https://www.cholojai.ai/",
+      },
+    ],
+  },
+  {
+    title: "Head of Creative Strategy",
+    company: "IUT Computer Society",
+    period: "Jan 2026 – Present",
+    location: "Dhaka, Bangladesh",
+    description:
+      "Leading creative direction and design strategy for the organisation — overseeing all creative content, publications, and social media to grow brand visibility and engagement.",
+    type: "Leadership",
+    website: "https://iutcs.iutoic-dhaka.edu/",
+    logo: "/images/iutcs.jpg",
+  },
+  {
+    title: "Junior Software Engineer (Intern)",
+    company: "Intelligent Machines Limited",
+    period: "Oct 2025 – Feb 2026",
+    location: "Dhaka, Bangladesh",
+    description:
+      "Full-stack development across multiple products serviced to multinationals including Unilever and bKash.",
+    type: "Internship",
+    website: "https://intelmachines.ai/",
+    logo: "/images/im.png",
+  },
+  {
+    title: "Intern",
+    company: "Development Initiative for Social Advancement (DISA)",
+    period: "Jul 2024 – Sep 2024",
+    location: "Dhaka, Bangladesh",
+    description:
+      "Worked with the IT section on microfinance systems and technology integration across the NGO's operations.",
+    type: "Internship",
+    website: "https://www.disabd.org/",
+    logo: "/images/disa.jpg",
+  },
+];
 
 const Experience = () => {
-  const experiences = [
-    {
-      title: "AI Engineer (Part-time)",
-      company: "Intelligent Machines Limited",
-      period: "Feb 2026 – Present",
-      location: "Dhaka, Bangladesh",
-      description:
-        "Working on a field force management solution for Unilever, contributing to an AI-based share of shelf solution for bKash and Olympic, collaborating on a RAG-based travelling platform for CholoJai Ltd, and building RetailOS, an in-house retail platform with image-based share of shelf, field force management, and analytics.",
-      type: "Part-time",
-      website: "https://intelmachines.ai/",
-      logo: "/images/im.png",
-    },
-    {
-      title: "Head of Creative Strategy",
-      company: "IUT Computer Society",
-      period: "Jan 2026 – Present",
-      location: "Dhaka, Bangladesh",
-      description:
-        "Leading creative decisions and design strategies for the organization. Responsible for overseeing all creative content, publications, and social media management to enhance brand visibility and engagement.",
-      type: "Leadership",
-      logo: "/images/iutcs.jpg",
-      website:
-        "https://iutcs.iutoic-dhaka.edu/?fbclid=IwY2xjawN91clleHRuA2FlbQIxMABicmlkETF4MkRWR1paOW9wZEtFeDFoc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHmddB7N-nJuiDfZe-3Up4P7_iwpyCYN14sCArEfhr-d2DgkWtzqmmuwfU05S_aem_8qHQc4bZc01QbCoR6xiAjw",
-    },
-    {
-      title: "Junior Software Engineer (Intern)",
-      company: "Intelligent Machines Limited",
-      period: "Oct 2025 – Feb 2026",
-      location: "Dhaka, Bangladesh",
-      description:
-        "Worked on fullstack development for multiple products serviced to MNCs including Unilever, bKash, and others.",
-      type: "Internship",
-      website: "https://intelmachines.ai/",
-      logo: "/images/im.png",
-    },
-    {
-      title: "Intern",
-      company: "Development Initiative for Social Advancement (DISA)",
-      period: "July 2024 – Sep 2024",
-      location: "Dhaka, Bangladesh",
-      description:
-        "Collaborated with IT section and learned about NGO landscape, microfinance, and technology integration.",
-      type: "Internship",
-      logo: "/images/disa.jpg",
-      website: "https://www.disabd.org/",
-    },
-  ];
-
   return (
-    <section id="experience" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-slate-800 mb-4">
+    <section id="experience" className="scroll-mt-24 bg-white py-20 sm:py-24">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-14 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
             Work Experience
           </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            Professional experience and internships that shaped my development
-            journey
+          <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+            Professional roles and internships that shaped how I build software.
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-slate-200"></div>
+        <div className="relative">
+          {/* Timeline rail */}
+          <div className="absolute left-[11px] top-3 bottom-3 w-0.5 bg-slate-200" />
 
-            <div className="space-y-12">
-              {experiences.map((exp, index) => (
-                <div key={index} className="relative flex items-start">
-                  {/* Timeline dot */}
-                  <div className="absolute left-6 w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-lg z-10"></div>
+          <div className="space-y-8">
+            {experiences.map((exp, index) => (
+              <div key={index} className="relative pl-9 sm:pl-12">
+                {/* Node */}
+                <span className="absolute left-[11px] top-7 h-3.5 w-3.5 -translate-x-1/2 rounded-full border-[3px] border-white bg-blue-600 shadow" />
 
-                  {/* Content */}
-                  <div className="ml-20 bg-slate-50 rounded-2xl p-6 w-full hover:shadow-lg transition-shadow duration-300">
-                    <div className="flex gap-6">
-                      {/* Company Logo */}
-                      <div className="flex-shrink-0">
-                        <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-xl shadow-md flex items-center justify-center p-3 overflow-hidden">
-                          <img
-                            src={exp.logo}
-                            alt={`${exp.company} logo`}
-                            className="w-full h-full object-contain"
-                          />
-                        </div>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-shadow hover:shadow-md sm:p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1.5 shadow-sm sm:h-16 sm:w-16 sm:p-2">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={exp.logo}
+                        alt={`${exp.company} logo`}
+                        className="h-full w-full object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                        <h3 className="text-lg font-bold text-slate-900">
+                          {exp.title}
+                        </h3>
+                        <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                          {exp.type}
+                        </span>
                       </div>
 
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
-                          <div>
-                            <h3 className="text-xl font-bold text-slate-800 mb-1">
-                              {exp.title}
-                            </h3>
-                            {exp.website ? (
-                              <a
-                                href={exp.website}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-lg font-semibold text-blue-600 mb-2 hover:text-blue-700 hover:underline inline-block transition-colors"
+                      <a
+                        href={exp.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-0.5 inline-flex items-center gap-1 text-sm font-semibold text-blue-600 transition-colors hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      >
+                        {exp.company}
+                        <ExternalLink size={13} className="shrink-0" />
+                      </a>
+
+                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
+                        <span className="inline-flex items-center gap-1.5">
+                          <Calendar size={13} />
+                          {exp.period}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5">
+                          <MapPin size={13} />
+                          {exp.location}
+                        </span>
+                      </div>
+
+                      <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                        {exp.description}
+                      </p>
+
+                      {exp.projects && exp.projects.length > 0 && (
+                        <div className="mt-4 border-t border-slate-200 pt-4">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                            Selected projects
+                          </p>
+                          <div className="mt-3 space-y-3">
+                            {exp.projects.map((project) => (
+                              <div
+                                key={project.name}
+                                className="rounded-xl border border-slate-200 bg-white p-4"
                               >
-                                {exp.company}
-                              </a>
-                            ) : (
-                              <h4 className="text-lg font-semibold text-blue-600 mb-2">
-                                {exp.company}
-                              </h4>
-                            )}
-                          </div>
-                          <div className="flex flex-col sm:items-end space-y-1">
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                              {exp.type}
-                            </span>
+                                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                  <h4 className="text-sm font-bold text-slate-900">
+                                    {project.name}
+                                  </h4>
+                                  {project.link && (
+                                    <a
+                                      href={project.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 transition-colors hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                    >
+                                      Live site
+                                      <ExternalLink size={11} className="shrink-0" />
+                                    </a>
+                                  )}
+                                </div>
+                                <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
+                                  {project.blurb}
+                                </p>
+                                <div className="mt-2.5 flex flex-wrap gap-1.5">
+                                  {project.tech.map((tech) => (
+                                    <span
+                                      key={tech}
+                                      className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600"
+                                    >
+                                      {tech}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
                           </div>
                         </div>
-
-                        <div className="flex flex-wrap gap-4 mb-4 text-sm text-slate-600">
-                          <div className="flex items-center gap-2">
-                            <Calendar size={16} />
-                            <span>{exp.period}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <MapPin size={16} />
-                            <span>{exp.location}</span>
-                          </div>
-                        </div>
-
-                        <p className="text-slate-600 leading-relaxed">
-                          {exp.description}
-                        </p>
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

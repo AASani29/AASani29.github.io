@@ -1,142 +1,141 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Image from "next/image";
 import {
   Github,
   Linkedin,
   Mail,
   MapPin,
-  Phone,
   GraduationCap,
   BookOpen,
+  ArrowRight,
 } from "lucide-react";
-import Image from "next/image";
+
+const CONTACT_EMAIL = "ahmedalfey@iut-dhaka.edu";
+
+const socials = [
+  { name: "GitHub", href: "https://github.com/AASani29", Icon: Github },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/ahmed-alfey-sani/",
+    Icon: Linkedin,
+  },
+  {
+    name: "Google Scholar",
+    href: "https://scholar.google.com/citations?user=Qtlp6LYAAAAJ&hl=en",
+    Icon: GraduationCap,
+  },
+  {
+    name: "ResearchGate",
+    href: "https://www.researchgate.net/profile/Ahmed-Sani-7?ev=hdr_xprf",
+    Icon: BookOpen,
+  },
+];
 
 const Hero = () => {
-  const [mounted, setMounted] = useState(false);
   const [imageError, setImageError] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center pt-20 px-4"
+      className="relative flex min-h-screen items-center overflow-hidden px-4 pb-16 pt-28 sm:px-6 sm:pt-32 lg:px-8"
     >
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <div className="animate-pulse">
-                <span className="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                  Available for Opportunities
-                </span>
-              </div>
-              <h1 className="text-5xl lg:text-7xl font-bold text-slate-800 leading-tight">
-                Hi, I'm{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-600">
-                  Sani
-                </span>
-              </h1>
-              <p className="text-xl text-slate-600 max-w-lg">
-                FullStack Developer, Research Enthusiast & Software Engineering Major passionate
-                about building innovative solutions with AI/ML technologies.
-              </p>
-            </div>
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          {/* Text */}
+          <div className="space-y-6 text-center lg:text-left">
+            <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              Available for full-time roles &middot; 2026
+            </span>
 
-            <div className="space-y-3 text-slate-600">
-              <div className="flex items-center gap-3">
-                <MapPin size={18} className="text-blue-600" />
-                <span>Dhaka, Bangladesh</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail size={18} className="text-blue-600" />
-                <span>ahmedalfey@iut-dhaka.edu</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone size={18} className="text-blue-600" />
-                <span>(+880) 1764604075</span>
-              </div>
-            </div>
+            <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl xl:text-7xl">
+              Hi, I&apos;m{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
+                Ahmed
+              </span>
+            </h1>
 
-            <div className="flex flex-wrap gap-4">
+            <p className="mx-auto max-w-xl text-base text-slate-600 sm:text-lg lg:mx-0">
+              Full-Stack Developer &amp; AI Engineer building production software
+              for Unilever, bKash and Olympic at Intelligent Machines. Software
+              Engineering @ IUT, graduating 2026.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-slate-600 lg:justify-start">
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin size={16} className="text-blue-600" />
+                Dhaka, Bangladesh
+              </span>
               <a
-                href="https://github.com/AASani29"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium cursor-target"
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="inline-flex items-center gap-1.5 break-all transition-colors hover:text-blue-600"
               >
-                <Github size={18} />
-                GitHub
-              </a>
-              <a
-                href="https://www.linkedin.com/in/ahmed-alfey-sani/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors duration-200 font-medium cursor-target"
-              >
-                <Linkedin size={18} />
-                LinkedIn
-              </a>
-              <a
-                href="https://scholar.google.com/citations?user=Qtlp6LYAAAAJ&hl=en"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors duration-200 font-medium cursor-target"
-              >
-                <GraduationCap size={18} />
-                Google Scholar
-              </a>
-              <a
-                href="https://www.researchgate.net/profile/Ahmed-Sani-7?ev=hdr_xprf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors duration-200 font-medium cursor-target"
-              >
-                <BookOpen size={18} />
-                ResearchGate
+                <Mail size={16} className="shrink-0 text-blue-600" />
+                {CONTACT_EMAIL}
               </a>
             </div>
 
-            <div className="pt-8">
-              <p className="text-slate-500 text-sm">
-                Graduating in{" "}
-                <span className="font-semibold text-slate-700">2026</span> from
-                Islamic University of Technology
-              </p>
+            <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center lg:justify-start">
+              <a
+                href="#projects"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              >
+                View Projects
+                <ArrowRight size={18} />
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 px-6 py-3 font-medium text-slate-700 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              >
+                Get in touch
+              </a>
+            </div>
+
+            <div className="flex items-center justify-center gap-2 pt-1 lg:justify-start">
+              {socials.map(({ name, href, Icon }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={name}
+                  title={name}
+                  className="rounded-lg border border-slate-200 bg-white p-2.5 text-slate-600 transition-colors hover:border-slate-300 hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                >
+                  <Icon size={18} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Right Content - Profile Image */}
+          {/* Portrait */}
           <div className="flex justify-center lg:justify-end">
             <div className="relative">
-              <div className="w-80 h-80 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 p-1">
-                <div className="w-full h-full rounded-full bg-slate-100 flex items-center justify-center overflow-hidden">
+              <div className="h-52 w-52 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 p-1.5 sm:h-64 sm:w-64 lg:h-80 lg:w-80">
+                <div className="h-full w-full overflow-hidden rounded-full bg-slate-100">
                   {!imageError ? (
                     <Image
                       src="/images/sani.png"
                       alt="Ahmed Alfey Sani"
                       width={320}
                       height={320}
-                      className="w-full h-full object-cover rounded-full"
+                      priority
+                      className="h-full w-full rounded-full object-cover"
                       onError={() => setImageError(true)}
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 rounded-full flex items-center justify-center">
-                      <span className="text-6xl font-bold text-slate-600">
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-200 to-slate-300">
+                      <span className="text-5xl font-bold text-slate-500">
                         AS
                       </span>
                     </div>
                   )}
                 </div>
               </div>
-              <div className="absolute -top-4 -right-4 w-8 h-8 bg-emerald-500 rounded-full animate-pulse"></div>
-              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-blue-500 rounded-full animate-pulse delay-300"></div>
+              <span className="absolute -right-2 -top-2 h-6 w-6 rounded-full bg-emerald-500" />
+              <span className="absolute -bottom-2 -left-2 h-5 w-5 rounded-full bg-blue-500" />
             </div>
           </div>
         </div>
