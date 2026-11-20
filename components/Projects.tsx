@@ -33,7 +33,7 @@ const featured: Project[] = [
     ],
     github: "https://github.com/AASani29/TicketDaata",
     live: null,
-    image: "/images/ticketdaata.png",
+    image: "/images/ticketdaata.jpg",
   },
   {
     title: "NutriAI",
@@ -55,7 +55,7 @@ const featured: Project[] = [
     ],
     github: "https://github.com/AASani29/NutriAI",
     live: null,
-    image: "/images/nutriai.png",
+    image: "/images/nutriai.jpg",
   },
   {
     title: "KalKorbo",
