@@ -79,7 +79,7 @@ const skillGroups: SkillGroup[] = [
     title: "Cloud & DevOps",
     Icon: Cloud,
     accent: "sky",
-    skills: ["AWS", "Microsoft Azure", "Docker", "Git"],
+    skills: ["AWS", "Microsoft Azure", "Docker", "Kubernetes", "GitHub Actions", "Git", "RabbitMQ", "Redis"],
   },
 ];
 

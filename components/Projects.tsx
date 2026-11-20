@@ -13,6 +13,51 @@ type Project = {
 
 const featured: Project[] = [
   {
+    title: "TicketDaata",
+    year: "2026",
+    description:
+      "A ticket resale marketplace built as a Spring Boot microservices system — deployed to Kubernetes with autoscaling, a full GitHub Actions CI/CD pipeline publishing to GHCR, and a Prometheus/Grafana observability stack. Users list, browse and buy tickets; a 15-minute TTL reservation holds the ticket during simulated payment, with automatic expiry. Zero-downtime verified.",
+    tech: [
+      "Java 17",
+      "Spring Boot 3.5",
+      "Spring Cloud Gateway",
+      "React 19",
+      "TypeScript",
+      "MongoDB",
+      "RabbitMQ",
+      "Kubernetes",
+      "Docker",
+      "Prometheus",
+      "Grafana",
+      "GitHub Actions",
+    ],
+    github: "https://github.com/AASani29/TicketDaata",
+    live: null,
+    image: "/images/ticketdaata.png",
+  },
+  {
+    title: "NutriAI",
+    year: "2026",
+    description:
+      "HealthTech platform democratising personalised nutrition for the Bangladeshi context — integrating real-time local market prices, live weather-adjusted shelf-life, USDA nutritional data, and household inventory to generate affordable, clinically-safe meal plans. Features a Smart Pantry engine, AI-powered dashboard with ChatBot, neighbourhood food sharing, OCR receipt scanning, and health & fitness tracking.",
+    tech: [
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS",
+      "Node.js",
+      "Express.js",
+      "PostgreSQL",
+      "Prisma",
+      "Gemini AI",
+      "BullMQ",
+      "Cloudinary",
+      "React Leaflet",
+    ],
+    github: "https://github.com/AASani29/NutriAI",
+    live: null,
+    image: "/images/nutriai.png",
+  },
+  {
     title: "KalKorbo",
     year: "2025",
     description:
@@ -39,19 +84,19 @@ const featured: Project[] = [
     live: "https://soulace.onrender.com/",
     image: "/images/Soulace.png",
   },
+];
+
+const more: Project[] = [
   {
     title: "Blingo",
     year: "2024",
     description:
       "Bengali language-learning platform combining RAG-based AI tutoring with real-time collaboration features.",
-    tech: ["AI", "RAG", "Machine Learning", "Bengali NLP", "APIs"],
+    tech: ["AI", "RAG", "Machine Learning", "Bengali NLP"],
     github: "https://github.com/AASani29/Blingo",
     live: "https://blingo.onrender.com/",
     image: "/images/blingo.png",
   },
-];
-
-const more: Project[] = [
   {
     title: "EXPENSIO",
     year: "2025",
@@ -178,8 +223,8 @@ const Projects = () => {
             Featured Projects
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-slate-300">
-            A selection of what I&apos;ve built — full-stack products, mobile
-            apps, and applied ML.
+            A selection of what I&apos;ve built — full-stack products, microservices,
+            mobile apps, and applied ML.
           </p>
         </div>
 
