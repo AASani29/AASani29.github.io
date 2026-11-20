@@ -44,6 +44,13 @@
   }
 }
 
+/* Hide default OS mouse cursor on desktop devices so only the animated custom cursor is displayed */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
 /* Subtle noise texture for sections */
 .noise-bg::before {
   content: "";

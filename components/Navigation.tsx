@@ -86,7 +86,7 @@ const Navigation = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold tracking-tight text-white group-hover:text-violet-300 transition-colors">
-              Ahmed Sani
+              Alfey Sani
             </span>
             <span className="text-[10px] text-zinc-400 font-medium hidden sm:block">
               Software & AI Eng.

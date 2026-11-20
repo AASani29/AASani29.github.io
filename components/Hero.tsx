@@ -193,7 +193,7 @@ const Hero = () => {
                   {/* Card bottom banner */}
                   <div className="absolute bottom-3 inset-x-3 rounded-xl bg-zinc-900/85 border border-white/15 p-2.5 backdrop-blur-md flex items-center justify-between">
                     <div>
-                      <p className="text-xs font-bold text-white">Ahmed Alfey Sani</p>
+                      <p className="text-xs font-bold text-white">Alfey Sani</p>
                       <p className="text-[10px] text-zinc-400">Software &amp; AI Engineer</p>
                     </div>
                     <span className="text-[10px] font-mono font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-md">

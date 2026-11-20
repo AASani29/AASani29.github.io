@@ -50,7 +50,7 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
       <div className="flex flex-col items-center gap-8">
         <div className="relative">
           <span className="block text-5xl font-bold tracking-tight text-white">
-            Ahmed <span className="text-violet-400">Sani</span>
+            Alfey <span className="text-violet-400">Sani</span>
           </span>
           <span className="mt-1 block text-center text-sm font-medium tracking-widest text-zinc-500 uppercase">
             Portfolio

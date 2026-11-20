@@ -53,7 +53,7 @@ export default function CustomCursor({
           >
             <div className="rounded-full bg-zinc-900/90 backdrop-blur-md px-3 py-1 text-xs font-semibold text-zinc-200 shadow-xl border border-white/15 flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              <span>Ahmed Sani</span>
+              <span>Alfey Sani</span>
             </div>
           </CursorFollow>
         )}
