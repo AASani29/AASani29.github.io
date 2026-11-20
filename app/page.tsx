@@ -5,6 +5,7 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
+import MagicTransform from "@/components/MagicTransform";
 import Skills from "@/components/Skills";
 import Achievements from "@/components/Achievements";
 import Research from "@/components/Research";
@@ -21,14 +22,15 @@ export default function Home() {
         <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
       )}
 
-      <main className="min-h-screen bg-slate-50">
+      <main className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-violet-500 selection:text-white">
         <Navigation />
         <Hero />
         <Experience />
         <Projects />
+        <MagicTransform />
         <Skills />
-        <Achievements />
         <Research />
+        <Achievements />
         <Education />
         <Contact />
       </main>
