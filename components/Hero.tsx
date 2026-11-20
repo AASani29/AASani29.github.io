@@ -10,10 +10,6 @@ import {
   GraduationCap,
   BookOpen,
   ArrowRight,
-  Sparkles,
-  Cpu,
-  Layers,
-  Award,
 } from "lucide-react";
 
 const CONTACT_EMAIL = "ahmedalfey@iut-dhaka.edu";
@@ -146,39 +142,34 @@ const Hero = () => {
                 </a>
               ))}
             </div>
+
+            {/* Quick credentials bar */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-white/5 text-center lg:text-left">
+              {highlights.map((h) => (
+                <div key={h.label} className="rounded-lg bg-white/[0.02] border border-white/5 p-2">
+                  <div className="text-xs font-bold text-white">{h.value}</div>
+                  <div className="text-[10px] text-zinc-400 mt-0.5">{h.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Right Image / Showcase Card */}
+          {/* Right Image / Clean Editorial Portrait */}
           <div className="relative flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-sm sm:max-w-md">
-              {/* Outer decorative glow & rings */}
-              <div className="absolute -inset-2 rounded-[32px] bg-gradient-to-tr from-violet-600/40 via-indigo-600/20 to-emerald-500/30 blur-xl opacity-75 animate-pulse" />
+            <div className="relative w-full max-w-[320px] sm:max-w-[360px]">
+              {/* Subtle ambient backlight */}
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-b from-violet-600/20 via-indigo-600/10 to-transparent blur-2xl opacity-60 pointer-events-none" />
 
-              {/* Main Card Frame */}
-              <div className="relative overflow-hidden rounded-[28px] border border-white/15 bg-zinc-900/90 p-3 shadow-2xl backdrop-blur-2xl">
-                {/* Terminal Header */}
-                <div className="flex items-center justify-between px-3 py-2 border-b border-white/10 mb-3 text-[11px] font-mono text-zinc-400">
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-rose-500/80" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-amber-500/80" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
-                  </div>
-                  <span className="text-zinc-500">engineer.profile.active</span>
-                  <span className="flex items-center gap-1 text-emerald-400 font-semibold">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
-                    LIVE
-                  </span>
-                </div>
-
-                {/* Portrait Container with inner effects */}
-                <div className="relative aspect-[4/4.5] w-full overflow-hidden rounded-2xl bg-zinc-950 border border-white/10">
+              {/* Minimalist Photo Frame */}
+              <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/60 p-2 shadow-2xl backdrop-blur-sm group">
+                <div className="relative aspect-[4/4.8] w-full overflow-hidden rounded-2xl bg-zinc-950">
                   {!imageError ? (
                     <Image
                       src="/images/sani.png"
-                      alt="Ahmed Alfey Sani"
+                      alt="Alfey Sani"
                       fill
                       priority
-                      className="object-cover object-top transition-transform duration-500 hover:scale-105"
+                      className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                       onError={() => setImageError(true)}
                     />
                   ) : (
@@ -187,54 +178,17 @@ const Hero = () => {
                     </div>
                   )}
 
-                  {/* Gradient bottom overlay */}
-                  <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent" />
+                  {/* Subtle bottom vignette */}
+                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent" />
 
-                  {/* Card bottom banner */}
-                  <div className="absolute bottom-3 inset-x-3 rounded-xl bg-zinc-900/85 border border-white/15 p-2.5 backdrop-blur-md flex items-center justify-between">
-                    <div>
-                      <p className="text-xs font-bold text-white">Alfey Sani</p>
-                      <p className="text-[10px] text-zinc-400">Software &amp; AI Engineer</p>
+                  {/* Minimalist floating pill */}
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between rounded-xl bg-zinc-950/80 px-3 py-2 backdrop-blur-md border border-white/10">
+                    <div className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                      <span className="text-xs font-semibold text-zinc-200">Alfey Sani</span>
                     </div>
-                    <span className="text-[10px] font-mono font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-md">
-                      IUT &apos;26
-                    </span>
+                    <span className="text-[11px] font-mono text-zinc-400">IUT &apos;26</span>
                   </div>
-                </div>
-
-                {/* Highlights row */}
-                <div className="grid grid-cols-2 gap-2 mt-3 text-left">
-                  {highlights.map((h) => (
-                    <div
-                      key={h.label}
-                      className="rounded-xl border border-white/5 bg-white/[0.03] p-2 px-3"
-                    >
-                      <div className="text-xs font-bold text-zinc-100">{h.value}</div>
-                      <div className="text-[10px] text-zinc-400">{h.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Floating Badge 1 - Top Left */}
-              <div className="absolute -top-3 -left-3 hidden sm:flex items-center gap-2 rounded-2xl border border-violet-500/40 bg-zinc-900/95 px-3 py-2 shadow-xl backdrop-blur-xl">
-                <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-violet-600 text-white">
-                  <Cpu size={14} />
-                </div>
-                <div>
-                  <div className="text-[11px] font-bold text-white leading-tight">Spring Boot &amp; K8s</div>
-                  <div className="text-[9px] text-violet-300">Autoscaling Architecture</div>
-                </div>
-              </div>
-
-              {/* Floating Badge 2 - Bottom Right */}
-              <div className="absolute -bottom-3 -right-3 hidden sm:flex items-center gap-2 rounded-2xl border border-emerald-500/40 bg-zinc-900/95 px-3 py-2 shadow-xl backdrop-blur-xl">
-                <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-emerald-600 text-white">
-                  <Award size={14} />
-                </div>
-                <div>
-                  <div className="text-[11px] font-bold text-white leading-tight">3rd Place @ ACL BioNLP</div>
-                  <div className="text-[9px] text-emerald-300">Mental Health LLM Benchmark</div>
                 </div>
               </div>
             </div>
