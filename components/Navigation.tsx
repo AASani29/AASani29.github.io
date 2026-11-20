@@ -6,7 +6,6 @@ import { Menu, X, Sparkles, ArrowUpRight } from "lucide-react";
 const navItems = [
   { name: "Experience", href: "#experience" },
   { name: "Projects", href: "#projects" },
-  { name: "Skills", href: "#skills" },
   { name: "Research", href: "#research" },
   { name: "Achievements", href: "#achievements" },
   { name: "Education", href: "#education" },

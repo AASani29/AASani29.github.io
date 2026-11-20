@@ -34,7 +34,7 @@ const socials = [
 ];
 
 const highlights = [
-  { value: "4 Papers", label: "ACL · AACL · ICCIT" },
+  { value: "5 Papers", label: "EACL · ACL · AACL · ICCIT" },
   { value: "Microservices", label: "Spring Boot + K8s" },
   { value: "Production AI", label: "Unilever · bKash" },
   { value: "IUT '26", label: "Software Engineering" },
@@ -91,7 +91,8 @@ const Hero = () => {
             <p className="text-sm leading-relaxed text-zinc-400 max-w-lg mx-auto lg:mx-0">
               Shipped production platforms for <strong className="text-zinc-200">Unilever</strong>,{" "}
               <strong className="text-zinc-200">bKash</strong>, and <strong className="text-zinc-200">Olympic</strong> at
-              Intelligent Machines. Authored 4 accepted papers in Bengali LLM hallucination and clinical NLP.
+              Intelligent Machines. Authored 5 accepted papers in LLM hallucination and NLP at{" "}
+              <strong className="text-zinc-200">EACL, ACL, AACL, ICCIT</strong>.
             </p>
 
             {/* Location & Email */}

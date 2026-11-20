@@ -16,6 +16,27 @@ type Paper = {
 const papers: Paper[] = [
   {
     title:
+      "One Framework to Diagnose Them All: A Stratified Benchmark for Bengali LLM Hallucination",
+    conference: "Findings of EACL 2027",
+    year: "2027",
+    status: "Accepted",
+    statusColor: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
+    description:
+      "Alikbachan, a Bengali hallucination benchmark stratified by cultural distance, task type, and a 32-mode taxonomy. Evaluated across two phases: 2,516 test items and 5,000 gold-labeled items. Developed in conjunction with an open international competition that drew 222 teams and 3,566 submissions.",
+    authors: [
+      "A. S. Sushmit",
+      "S. E. S. Adib",
+      "...",
+      "A. A. Sani",
+      "...",
+      "A. Abrar",
+      "...",
+      "M. M. O. Rashid (19 authors)",
+    ],
+    paperLink: "",
+  },
+  {
+    title:
       "LinguIUTics at PsyDefDetect: Imbalance-Aware Fine-tuning of Qwen3-8B",
     conference: "BioNLP @ ACL 2026",
     year: "2026",
@@ -156,10 +177,10 @@ const Research = () => {
         {/* Footer stats */}
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <span className="rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1.5 text-sm text-zinc-600">
-            <strong className="text-zinc-900">4</strong> papers accepted
+            <strong className="text-zinc-900">5</strong> papers accepted
           </span>
           <span className="rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1.5 text-sm text-zinc-600">
-            <strong className="text-zinc-900">ACL · AACL · ICCIT</strong> venues
+            <strong className="text-zinc-900">EACL · ACL · AACL · ICCIT</strong> venues
           </span>
           <a
             href="https://scholar.google.com/citations?user=Qtlp6LYAAAAJ&hl=en"
