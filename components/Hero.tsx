@@ -10,6 +10,7 @@ import {
   GraduationCap,
   BookOpen,
   ArrowRight,
+  Download,
 } from "lucide-react";
 
 const CONTACT_EMAIL = "ahmedalfey@iut-dhaka.edu";
@@ -33,67 +34,102 @@ const socials = [
   },
 ];
 
+const stats = [
+  { value: "4", label: "Published Papers" },
+  { value: "2+", label: "Years Building" },
+  { value: "15+", label: "Projects Shipped" },
+  { value: "ACL", label: "Top Venue" },
+];
+
 const Hero = () => {
   const [imageError, setImageError] = useState(false);
 
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center overflow-hidden px-4 pb-16 pt-28 sm:px-6 sm:pt-32 lg:px-8"
+      className="relative min-h-screen overflow-hidden bg-zinc-950"
     >
-      <div className="mx-auto w-full max-w-7xl">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
-          {/* Text */}
-          <div className="space-y-6 text-center lg:text-left">
-            <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              Available for full-time roles &middot; 2026
-            </span>
+      {/* Background grid */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+      {/* Glow */}
+      <div className="absolute left-1/4 top-1/4 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-600/10 blur-3xl" />
+      <div className="absolute right-1/4 bottom-1/4 h-72 w-72 rounded-full bg-indigo-600/10 blur-3xl" />
 
-            <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl xl:text-7xl">
-              Hi, I&apos;m{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
-                Ahmed
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-5 pb-20 pt-28 sm:px-8">
+        <div className="grid w-full items-center gap-14 lg:grid-cols-[1fr_auto] lg:gap-20">
+          {/* Text side */}
+          <div className="space-y-7">
+            {/* Status badge */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-sm font-medium text-violet-300">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-400" />
               </span>
-            </h1>
+              Open to full-time roles · 2026
+            </div>
 
-            <p className="mx-auto max-w-xl text-base text-slate-600 sm:text-lg lg:mx-0">
-              Full-Stack Developer &amp; AI Engineer building production software
-              for Unilever, bKash and Olympic at Intelligent Machines. Software
-              Engineering @ IUT, graduating 2026.
+            {/* Headline */}
+            <div className="space-y-2">
+              <h1 className="text-5xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
+                Ahmed Alfey
+                <br />
+                <span className="text-violet-400">Sani</span>
+              </h1>
+              <p className="text-lg font-medium text-zinc-400 sm:text-xl">
+                Full-Stack Engineer · AI Researcher · IUT &apos;26
+              </p>
+            </div>
+
+            <p className="max-w-lg text-base leading-relaxed text-zinc-400">
+              Building production AI and full-stack systems for{" "}
+              <span className="font-medium text-zinc-200">Unilever</span>,{" "}
+              <span className="font-medium text-zinc-200">bKash</span> and{" "}
+              <span className="font-medium text-zinc-200">Olympic</span> at
+              Intelligent Machines. Published researcher in NLP at{" "}
+              <span className="font-medium text-zinc-200">ACL, AACL, ICCIT</span>.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-slate-600 lg:justify-start">
+            {/* Meta */}
+            <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-500">
               <span className="inline-flex items-center gap-1.5">
-                <MapPin size={16} className="text-blue-600" />
+                <MapPin size={14} className="text-violet-400" />
                 Dhaka, Bangladesh
               </span>
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="inline-flex items-center gap-1.5 break-all transition-colors hover:text-blue-600"
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-zinc-300"
               >
-                <Mail size={16} className="shrink-0 text-blue-600" />
+                <Mail size={14} className="text-violet-400" />
                 {CONTACT_EMAIL}
               </a>
             </div>
 
-            <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center lg:justify-start">
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-3">
               <a
                 href="#projects"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
               >
                 View Projects
-                <ArrowRight size={18} />
+                <ArrowRight size={16} />
               </a>
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 px-6 py-3 font-medium text-slate-700 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-900 px-6 py-3 text-sm font-semibold text-zinc-200 transition-all hover:border-zinc-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
               >
-                Get in touch
+                Get in Touch
               </a>
             </div>
 
-            <div className="flex items-center justify-center gap-2 pt-1 lg:justify-start">
+            {/* Social links */}
+            <div className="flex items-center gap-2 pt-1">
               {socials.map(({ name, href, Icon }) => (
                 <a
                   key={name}
@@ -102,41 +138,57 @@ const Hero = () => {
                   rel="noopener noreferrer"
                   aria-label={name}
                   title={name}
-                  className="rounded-lg border border-slate-200 bg-white p-2.5 text-slate-600 transition-colors hover:border-slate-300 hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-800 text-zinc-500 transition-all hover:border-zinc-600 hover:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
                 >
-                  <Icon size={18} />
+                  <Icon size={16} />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Portrait */}
-          <div className="flex justify-center lg:justify-end">
+          {/* Photo + stats */}
+          <div className="flex flex-col items-center gap-8 lg:items-end">
+            {/* Photo */}
             <div className="relative">
-              <div className="h-52 w-52 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 p-1.5 sm:h-64 sm:w-64 lg:h-80 lg:w-80">
-                <div className="h-full w-full overflow-hidden rounded-full bg-slate-100">
-                  {!imageError ? (
-                    <Image
-                      src="/images/sani.png"
-                      alt="Ahmed Alfey Sani"
-                      width={320}
-                      height={320}
-                      priority
-                      className="h-full w-full rounded-full object-cover"
-                      onError={() => setImageError(true)}
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-200 to-slate-300">
-                      <span className="text-5xl font-bold text-slate-500">
-                        AS
-                      </span>
-                    </div>
-                  )}
-                </div>
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-violet-500/40 to-indigo-500/40 blur-sm" />
+              <div className="relative h-56 w-56 overflow-hidden rounded-2xl ring-1 ring-zinc-700 sm:h-64 sm:w-64 lg:h-72 lg:w-72">
+                {!imageError ? (
+                  <Image
+                    src="/images/sani.png"
+                    alt="Ahmed Alfey Sani"
+                    fill
+                    priority
+                    className="object-cover"
+                    onError={() => setImageError(true)}
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-zinc-800">
+                    <span className="text-5xl font-bold text-zinc-500">AS</span>
+                  </div>
+                )}
               </div>
-              <span className="absolute -right-2 -top-2 h-6 w-6 rounded-full bg-emerald-500" />
-              <span className="absolute -bottom-2 -left-2 h-5 w-5 rounded-full bg-blue-500" />
             </div>
+
+            {/* Stats grid */}
+            <div className="grid grid-cols-2 gap-3">
+              {stats.map((s) => (
+                <div
+                  key={s.label}
+                  className="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-3 text-center"
+                >
+                  <div className="text-xl font-bold text-white">{s.value}</div>
+                  <div className="mt-0.5 text-xs text-zinc-500">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll hint */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+          <div className="flex flex-col items-center gap-1.5 text-zinc-600">
+            <span className="text-xs tracking-widest uppercase">Scroll</span>
+            <div className="h-8 w-px bg-gradient-to-b from-zinc-600 to-transparent" />
           </div>
         </div>
       </div>

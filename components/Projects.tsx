@@ -159,174 +159,176 @@ const more: Project[] = [
   },
 ];
 
-const TechChips = ({ tech }: { tech: string[] }) => (
-  <div className="flex flex-wrap gap-1.5">
-    {tech.map((t) => (
-      <span
-        key={t}
-        className="rounded-md border border-slate-700 bg-slate-800/60 px-2 py-0.5 text-xs font-medium text-slate-300"
-      >
-        {t}
-      </span>
-    ))}
-  </div>
+const TechChip = ({ label }: { label: string }) => (
+  <span className="rounded-md bg-zinc-800 px-2 py-0.5 text-xs font-medium text-zinc-300">
+    {label}
+  </span>
 );
 
-const ProjectLinks = ({
-  github,
-  live,
-  variant = "dark",
-}: {
-  github: string | null;
-  live: string | null;
-  variant?: "dark" | "solid";
-}) => (
-  <div className="flex flex-wrap gap-3">
-    {github && (
-      <a
-        href={github}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
-          variant === "solid"
-            ? "bg-slate-700 text-white hover:bg-slate-600"
-            : "border border-slate-700 text-slate-200 hover:bg-slate-800"
-        }`}
-      >
-        <Github size={16} />
-        Code
-      </a>
-    )}
-    {live && (
-      <a
-        href={live}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-emerald-600 px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-      >
-        <ExternalLink size={16} />
-        Live Demo
-      </a>
-    )}
-  </div>
+const CardTechChip = ({ label }: { label: string }) => (
+  <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">
+    {label}
+  </span>
 );
 
 const Projects = () => {
   return (
-    <section
-      id="projects"
-      className="scroll-mt-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-20 sm:py-24"
-    >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-14 text-center">
-          <h2 className="text-3xl font-bold text-white sm:text-4xl">
-            Featured Projects
+    <section id="projects" className="scroll-mt-20 bg-zinc-950 py-20 sm:py-28">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        {/* Header */}
+        <div className="mb-14">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-violet-400">
+            Work
+          </p>
+          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Projects
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-slate-300">
-            A selection of what I&apos;ve built — full-stack products, microservices,
-            mobile apps, and applied ML.
+          <p className="mt-3 max-w-xl text-zinc-400">
+            Full-stack products, microservices, mobile apps, and applied ML.
           </p>
         </div>
 
-        {/* Featured */}
-        <div className="space-y-12 lg:space-y-16">
+        {/* Featured — alternating layout */}
+        <div className="space-y-6">
           {featured.map((project, index) => (
             <article
               key={project.title}
-              className="grid items-center gap-6 lg:grid-cols-2 lg:gap-10"
+              className="group grid overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition-all hover:border-zinc-600 lg:grid-cols-2"
             >
+              {/* Image */}
               <div
-                className={`overflow-hidden rounded-2xl border border-slate-700 shadow-xl ${
-                  index % 2 === 1 ? "lg:order-2" : ""
+                className={`relative aspect-video overflow-hidden border-zinc-800 ${
+                  index % 2 === 1 ? "lg:order-2 lg:border-l" : "lg:border-r"
                 }`}
               >
-                <div className="relative aspect-video">
-                  <ProjectImage
-                    src={project.image}
-                    alt={`${project.title} screenshot`}
-                    title={project.title}
-                  />
-                  <span className="absolute right-3 top-3 rounded-full bg-emerald-500/90 px-2.5 py-0.5 text-xs font-semibold text-white">
-                    {project.year}
-                  </span>
-                </div>
-              </div>
-
-              <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                <div className="mb-3 flex items-center gap-3">
-                  <span className="font-mono text-sm text-emerald-400">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="h-px flex-1 bg-gradient-to-r from-emerald-400/60 to-transparent" />
-                </div>
-                <h3 className="text-2xl font-bold text-white">
-                  {project.title}
-                </h3>
-                <p className="mt-3 leading-relaxed text-slate-300">
-                  {project.description}
-                </p>
-                <div className="mt-5">
-                  <TechChips tech={project.tech} />
-                </div>
-                <div className="mt-6">
-                  <ProjectLinks
-                    github={project.github}
-                    live={project.live}
-                    variant="solid"
-                  />
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        {/* More projects */}
-        <h3 className="mb-8 mt-20 text-center text-xl font-bold text-white">
-          More Projects
-        </h3>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {more.map((project) => (
-            <article
-              key={project.title}
-              className="flex flex-col overflow-hidden rounded-2xl border border-slate-700 bg-slate-800/40"
-            >
-              <div className="relative aspect-video border-b border-slate-700">
                 <ProjectImage
                   src={project.image}
                   alt={`${project.title} screenshot`}
                   title={project.title}
                 />
-                <span className="absolute right-3 top-3 rounded-full bg-slate-900/80 px-2 py-0.5 text-xs font-semibold text-slate-200">
+                <span className="absolute left-3 top-3 rounded-full bg-zinc-950/80 px-2.5 py-1 text-xs font-semibold text-zinc-300 backdrop-blur-sm">
                   {project.year}
                 </span>
               </div>
-              <div className="flex flex-1 flex-col p-5">
-                <h4 className="text-lg font-bold text-white">{project.title}</h4>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">
+
+              {/* Info */}
+              <div
+                className={`flex flex-col justify-center p-7 sm:p-9 ${
+                  index % 2 === 1 ? "lg:order-1" : ""
+                }`}
+              >
+                <span className="font-mono text-xs text-violet-500">
+                  {String(index + 1).padStart(2, "0")} / Featured
+                </span>
+                <h3 className="mt-2 text-2xl font-bold text-white">
+                  {project.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-400">
                   {project.description}
                 </p>
-                <div className="mt-4">
-                  <TechChips tech={project.tech.slice(0, 4)} />
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {project.tech.map((t) => (
+                    <TechChip key={t} label={t} />
+                  ))}
                 </div>
-                <div className="mt-4">
-                  <ProjectLinks github={project.github} live={project.live} />
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
+                    >
+                      <Github size={15} />
+                      Code
+                    </a>
+                  )}
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-500"
+                    >
+                      <ExternalLink size={15} />
+                      Live Demo
+                    </a>
+                  )}
                 </div>
               </div>
             </article>
           ))}
         </div>
 
-        <p className="mt-12 text-center text-sm text-slate-400">
+        {/* More projects grid */}
+        <div className="mt-14">
+          <h3 className="mb-6 text-lg font-semibold text-zinc-400">
+            More Projects
+          </h3>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {more.map((project) => (
+              <article
+                key={project.title}
+                className="group flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition-shadow hover:shadow-md"
+              >
+                <div className="relative aspect-video overflow-hidden border-b border-zinc-100">
+                  <ProjectImage
+                    src={project.image}
+                    alt={`${project.title} screenshot`}
+                    title={project.title}
+                  />
+                  <span className="absolute right-2 top-2 rounded-md bg-white/90 px-2 py-0.5 text-xs font-semibold text-zinc-600 backdrop-blur-sm">
+                    {project.year}
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <h4 className="font-bold text-zinc-900">{project.title}</h4>
+                  <p className="mt-1.5 flex-1 text-sm leading-relaxed text-zinc-500">
+                    {project.description}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {project.tech.slice(0, 4).map((t) => (
+                      <CardTechChip key={t} label={t} />
+                    ))}
+                  </div>
+                  <div className="mt-4 flex gap-2">
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-3 py-1.5 text-xs font-medium text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900"
+                      >
+                        <Github size={13} /> Code
+                      </a>
+                    )}
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-violet-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-violet-500"
+                      >
+                        <ExternalLink size={13} /> Demo
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <p className="mt-10 text-center text-sm text-zinc-500">
           More on{" "}
           <a
             href="https://github.com/AASani29"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-medium text-emerald-400 hover:underline"
+            className="font-medium text-violet-400 hover:underline"
           >
-            GitHub
+            GitHub →
           </a>
-          .
         </p>
       </div>
     </section>

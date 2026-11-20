@@ -3,7 +3,6 @@
 import { useState } from "react";
 import {
   Mail,
-  Phone,
   MapPin,
   Github,
   Linkedin,
@@ -13,38 +12,31 @@ import {
   Check,
   Copy,
   Loader2,
+  ArrowRight,
 } from "lucide-react";
 
-// This address also receives the contact-form submissions (via FormSubmit.co).
-// Note: it is a university address and will stop working after graduation —
-// swap it for a permanent personal email before then.
 const CONTACT_EMAIL = "ahmedalfey@iut-dhaka.edu";
-const PHONE = "(+880) 1764604075";
 
 const socials = [
   {
     name: "GitHub",
     href: "https://github.com/AASani29",
     Icon: Github,
-    hover: "hover:bg-slate-950",
   },
   {
     name: "LinkedIn",
     href: "https://www.linkedin.com/in/ahmed-alfey-sani/",
     Icon: Linkedin,
-    hover: "hover:bg-blue-600",
   },
   {
     name: "Instagram",
     href: "https://www.instagram.com/ahmedalfeysani/",
     Icon: Instagram,
-    hover: "hover:bg-pink-600",
   },
   {
     name: "Facebook",
     href: "https://www.facebook.com/alfey.sani.5/",
     Icon: Facebook,
-    hover: "hover:bg-blue-500",
   },
 ];
 
@@ -59,267 +51,198 @@ const Contact = () => {
       await navigator.clipboard.writeText(CONTACT_EMAIL);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* clipboard unavailable — the mailto link is still there */
-    }
+    } catch {}
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
-
-    // Honeypot — bots fill hidden fields, humans don't.
-    if (data._honey) return;
-
+    if (status === "sending" || status === "sent") return;
     setStatus("sending");
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
     try {
       const res = await fetch(
-        `https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_EMAIL)}`,
+        `https://formsubmit.co/ajax/${CONTACT_EMAIL}`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: `${data.firstName ?? ""} ${data.lastName ?? ""}`.trim(),
-            email: data.email,
-            message: data.message,
-            _subject: `Portfolio contact: ${data.subject || "New message"}`,
-            _template: "table",
-            _captcha: "false",
-          }),
+          headers: { Accept: "application/json" },
+          body: data,
         }
       );
-      if (!res.ok) throw new Error("Request failed");
-      form.reset();
-      setStatus("sent");
+      if (res.ok) {
+        setStatus("sent");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
     } catch {
       setStatus("error");
     }
   };
 
   return (
-    <section
-      id="contact"
-      className="scroll-mt-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-20 text-white sm:py-24"
-    >
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-14 text-center">
-          <h2 className="text-3xl font-bold sm:text-4xl">Get in touch</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-slate-300">
-            Open to full-time software and AI engineering roles. Happy to talk
-            about opportunities or collaborations.
+    <section id="contact" className="scroll-mt-20 bg-zinc-950 py-20 sm:py-28">
+      <div className="mx-auto max-w-5xl px-5 sm:px-8">
+        {/* Header */}
+        <div className="mb-14">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-violet-400">
+            Contact
+          </p>
+          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Let&apos;s Work Together
+          </h2>
+          <p className="mt-3 max-w-xl text-zinc-400">
+            Open to full-time roles, research collaborations, and interesting
+            engineering problems. Drop me a message.
           </p>
         </div>
 
-        <div className="grid gap-10 lg:grid-cols-2">
-          {/* Info */}
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
+          {/* Left — info */}
           <div className="space-y-8">
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-600">
-                  <Mail size={18} />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-slate-400">Email</p>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <a
-                      href={`mailto:${CONTACT_EMAIL}`}
-                      className="break-all text-slate-100 hover:text-white"
-                    >
-                      {CONTACT_EMAIL}
-                    </a>
-                    <button
-                      type="button"
-                      onClick={copyEmail}
-                      aria-label="Copy email address"
-                      className="inline-flex items-center gap-1 rounded-md bg-slate-700 px-2 py-0.5 text-xs text-slate-200 transition-colors hover:bg-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-                    >
-                      {copied ? (
-                        <>
-                          <Check size={12} /> Copied
-                        </>
-                      ) : (
-                        <>
-                          <Copy size={12} /> Copy
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-600">
-                  <Phone size={18} />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-slate-400">Phone</p>
-                  <a href={`tel:${PHONE.replace(/[^\d+]/g, "")}`} className="text-slate-100 hover:text-white">
-                    {PHONE}
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600">
-                  <MapPin size={18} />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-slate-400">Location</p>
-                  <p className="text-slate-100">Dhaka, Bangladesh</p>
-                </div>
+            {/* Email card */}
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+              <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
+                Email
+              </p>
+              <div className="mt-3 flex items-center justify-between gap-3">
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="break-all text-sm font-medium text-zinc-200 hover:text-violet-400 transition-colors"
+                >
+                  {CONTACT_EMAIL}
+                </a>
+                <button
+                  onClick={copyEmail}
+                  title="Copy email"
+                  className="shrink-0 rounded-lg border border-zinc-700 p-2 text-zinc-400 transition-colors hover:border-zinc-500 hover:text-zinc-200"
+                >
+                  {copied ? <Check size={15} className="text-emerald-400" /> : <Copy size={15} />}
+                </button>
               </div>
             </div>
 
-            <div>
-              <h3 className="mb-3 text-sm font-medium text-slate-400">
-                Find me online
-              </h3>
-              <div className="flex gap-3">
-                {socials.map(({ name, href, Icon, hover }) => (
+            {/* Location */}
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+              <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
+                Location
+              </p>
+              <p className="mt-3 flex items-center gap-2 text-sm font-medium text-zinc-200">
+                <MapPin size={15} className="text-violet-400" />
+                Dhaka, Bangladesh
+              </p>
+              <p className="mt-1 text-xs text-zinc-500">
+                Open to remote & relocation opportunities
+              </p>
+            </div>
+
+            {/* Social links */}
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-500">
+                Socials
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {socials.map(({ name, href, Icon }) => (
                   <a
                     key={name}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={name}
-                    title={name}
-                    className={`flex h-11 w-11 items-center justify-center rounded-full bg-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${hover}`}
+                    className="flex items-center gap-2 rounded-lg border border-zinc-700 px-3 py-2 text-xs font-medium text-zinc-400 transition-all hover:border-violet-500/50 hover:text-violet-300"
                   >
-                    <Icon size={18} />
+                    <Icon size={14} />
+                    {name}
                   </a>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Form */}
-          <div className="rounded-2xl bg-slate-800 p-6 sm:p-8">
+          {/* Right — form */}
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:p-8">
             {status === "sent" ? (
-              <div className="flex h-full flex-col items-center justify-center py-10 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600">
-                  <Check size={22} />
+              <div className="flex h-full min-h-[300px] flex-col items-center justify-center gap-4 text-center">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10 ring-1 ring-emerald-500/20">
+                  <Check className="h-7 w-7 text-emerald-400" />
                 </div>
-                <p className="mt-4 text-lg font-semibold">Message sent</p>
-                <p className="mt-1 text-sm text-slate-400">
-                  Thanks — I&apos;ll get back to you soon.
-                </p>
+                <div>
+                  <p className="text-lg font-bold text-white">Message sent!</p>
+                  <p className="mt-1 text-sm text-zinc-400">
+                    I&apos;ll get back to you as soon as possible.
+                  </p>
+                </div>
                 <button
-                  type="button"
                   onClick={() => setStatus("idle")}
-                  className="mt-4 text-sm font-medium text-blue-400 hover:underline"
+                  className="mt-2 text-sm font-medium text-violet-400 hover:underline"
                 >
-                  Send another
+                  Send another message
                 </button>
               </div>
             ) : (
-              <form className="space-y-5" onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  name="_honey"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  className="hidden"
-                  aria-hidden="true"
-                />
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_subject" value="Portfolio enquiry" />
 
-                <div className="grid gap-5 sm:grid-cols-2">
+                <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label
-                      htmlFor="firstName"
-                      className="mb-1.5 block text-sm font-medium"
-                    >
-                      First name
+                    <label className="mb-1.5 block text-xs font-medium text-zinc-400">
+                      Name
                     </label>
                     <input
-                      id="firstName"
                       type="text"
-                      name="firstName"
+                      name="name"
                       required
-                      autoComplete="given-name"
-                      className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="Your first name"
+                      placeholder="Your name"
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3.5 py-2.5 text-sm text-zinc-200 placeholder-zinc-600 transition-colors focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
                     />
                   </div>
                   <div>
-                    <label
-                      htmlFor="lastName"
-                      className="mb-1.5 block text-sm font-medium"
-                    >
-                      Last name
+                    <label className="mb-1.5 block text-xs font-medium text-zinc-400">
+                      Email
                     </label>
                     <input
-                      id="lastName"
-                      type="text"
-                      name="lastName"
-                      autoComplete="family-name"
-                      className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="Your last name"
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="you@example.com"
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3.5 py-2.5 text-sm text-zinc-200 placeholder-zinc-600 transition-colors focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="mb-1.5 block text-sm font-medium"
-                  >
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    required
-                    autoComplete="email"
-                    className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    placeholder="you@example.com"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="subject"
-                    className="mb-1.5 block text-sm font-medium"
-                  >
+                  <label className="mb-1.5 block text-xs font-medium text-zinc-400">
                     Subject
                   </label>
                   <input
-                    id="subject"
                     type="text"
                     name="subject"
-                    className="w-full rounded-lg border border-slate-600 bg-slate-700 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    required
                     placeholder="What's this about?"
+                    className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3.5 py-2.5 text-sm text-zinc-200 placeholder-zinc-600 transition-colors focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
                   />
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="message"
-                    className="mb-1.5 block text-sm font-medium"
-                  >
+                  <label className="mb-1.5 block text-xs font-medium text-zinc-400">
                     Message
                   </label>
                   <textarea
-                    id="message"
                     name="message"
-                    rows={4}
                     required
-                    className="w-full resize-none rounded-lg border border-slate-600 bg-slate-700 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    placeholder="Your message…"
+                    rows={5}
+                    placeholder="Tell me about your project, role, or idea..."
+                    className="w-full resize-none rounded-lg border border-zinc-700 bg-zinc-800 px-3.5 py-2.5 text-sm text-zinc-200 placeholder-zinc-600 transition-colors focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
                   />
                 </div>
 
                 {status === "error" && (
-                  <p className="text-sm text-red-400">
-                    Something went wrong. Email me directly at{" "}
-                    <a
-                      href={`mailto:${CONTACT_EMAIL}`}
-                      className="underline"
-                    >
+                  <p className="rounded-lg border border-red-800 bg-red-900/20 p-3 text-xs text-red-400">
+                    Something went wrong. Please email me directly at{" "}
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="underline">
                       {CONTACT_EMAIL}
                     </a>
                     .
@@ -329,17 +252,17 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-violet-500 disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
                 >
                   {status === "sending" ? (
                     <>
-                      <Loader2 size={18} className="animate-spin" />
+                      <Loader2 size={16} className="animate-spin" />
                       Sending…
                     </>
                   ) : (
                     <>
-                      <Send size={18} />
-                      Send message
+                      <Send size={15} />
+                      Send Message
                     </>
                   )}
                 </button>
@@ -348,8 +271,10 @@ const Contact = () => {
           </div>
         </div>
 
-        <div className="mt-16 border-t border-slate-700 pt-8 text-center text-sm text-slate-400">
-          © {new Date().getFullYear()} Ahmed Alfey Sani
+        {/* Footer */}
+        <div className="mt-20 flex items-center justify-between gap-4 border-t border-zinc-800 pt-8 text-sm text-zinc-600">
+          <span>© {new Date().getFullYear()} Ahmed Alfey Sani</span>
+          <span>Dhaka, Bangladesh</span>
         </div>
       </div>
     </section>

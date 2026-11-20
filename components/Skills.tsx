@@ -8,7 +8,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-type Accent = "blue" | "emerald" | "violet" | "rose" | "amber" | "sky";
+type Accent = "violet" | "emerald" | "sky" | "rose" | "amber" | "indigo";
 
 type SkillGroup = {
   title: string;
@@ -17,50 +17,32 @@ type SkillGroup = {
   skills: string[];
 };
 
-const ACCENTS: Record<Accent, { tile: string; pill: string }> = {
-  blue: {
-    tile: "bg-blue-50 text-blue-600",
-    pill: "hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700",
-  },
-  emerald: {
-    tile: "bg-emerald-50 text-emerald-600",
-    pill: "hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700",
-  },
-  violet: {
-    tile: "bg-violet-50 text-violet-600",
-    pill: "hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700",
-  },
-  rose: {
-    tile: "bg-rose-50 text-rose-600",
-    pill: "hover:border-rose-300 hover:bg-rose-50 hover:text-rose-700",
-  },
-  amber: {
-    tile: "bg-amber-50 text-amber-600",
-    pill: "hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700",
-  },
-  sky: {
-    tile: "bg-sky-50 text-sky-600",
-    pill: "hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700",
-  },
+const ACCENTS: Record<Accent, { icon: string; badge: string }> = {
+  violet: { icon: "text-violet-600 bg-violet-50", badge: "bg-violet-50 text-violet-700 ring-violet-200" },
+  emerald: { icon: "text-emerald-600 bg-emerald-50", badge: "bg-emerald-50 text-emerald-700 ring-emerald-200" },
+  sky: { icon: "text-sky-600 bg-sky-50", badge: "bg-sky-50 text-sky-700 ring-sky-200" },
+  rose: { icon: "text-rose-600 bg-rose-50", badge: "bg-rose-50 text-rose-700 ring-rose-200" },
+  amber: { icon: "text-amber-600 bg-amber-50", badge: "bg-amber-50 text-amber-700 ring-amber-200" },
+  indigo: { icon: "text-indigo-600 bg-indigo-50", badge: "bg-indigo-50 text-indigo-700 ring-indigo-200" },
 };
 
 const skillGroups: SkillGroup[] = [
   {
     title: "Languages",
     Icon: Code2,
-    accent: "blue",
+    accent: "violet",
     skills: ["Python", "JavaScript", "TypeScript", "Java", "C++", "C#", "C", "Solidity"],
   },
   {
     title: "Frontend",
     Icon: Layout,
-    accent: "emerald",
+    accent: "sky",
     skills: ["React", "Next.js", "React Native", "HTML5", "CSS3", "Tailwind CSS"],
   },
   {
     title: "Backend",
     Icon: Server,
-    accent: "violet",
+    accent: "emerald",
     skills: ["Node.js", "Express.js", "Spring Boot", "FastAPI", ".NET"],
   },
   {
@@ -73,58 +55,55 @@ const skillGroups: SkillGroup[] = [
     title: "Databases",
     Icon: Database,
     accent: "amber",
-    skills: ["PostgreSQL", "MongoDB", "Oracle", "Neo4j", "Supabase", "Firebase"],
+    skills: ["PostgreSQL", "MongoDB", "Oracle", "Neo4j", "Supabase", "Firebase", "Redis"],
   },
   {
     title: "Cloud & DevOps",
     Icon: Cloud,
-    accent: "sky",
-    skills: ["AWS", "Microsoft Azure", "Docker", "Kubernetes", "GitHub Actions", "Git", "RabbitMQ", "Redis"],
+    accent: "indigo",
+    skills: ["AWS", "Microsoft Azure", "Docker", "Kubernetes", "GitHub Actions", "RabbitMQ", "Git"],
   },
 ];
 
 const Skills = () => {
   return (
-    <section id="skills" className="scroll-mt-24 bg-slate-50 py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-14 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
+    <section id="skills" className="scroll-mt-20 bg-zinc-50 py-20 sm:py-28">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        {/* Header */}
+        <div className="mb-14">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-violet-600">
+            Stack
+          </p>
+          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
             Tech Stack
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+          <p className="mt-3 max-w-xl text-zinc-500">
             Tools and technologies I use to design, build, and ship software.
           </p>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {skillGroups.map((group) => {
-            const accent = ACCENTS[group.accent];
+            const a = ACCENTS[group.accent];
             return (
               <div
                 key={group.title}
-                className="group rounded-2xl border border-slate-200 bg-white p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg sm:p-6"
+                className="rounded-2xl border border-zinc-200 bg-white p-6 transition-shadow hover:shadow-md"
               >
                 <div className="flex items-center gap-3">
-                  <div
-                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105 ${accent.tile}`}
-                  >
-                    <group.Icon className="h-5 w-5" strokeWidth={2} />
+                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${a.icon}`}>
+                    <group.Icon className="h-5 w-5" strokeWidth={1.75} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800">
-                      {group.title}
-                    </h3>
-                    <p className="text-xs text-slate-400">
-                      {group.skills.length} technologies
-                    </p>
+                    <h3 className="text-sm font-bold text-zinc-900">{group.title}</h3>
+                    <p className="text-xs text-zinc-400">{group.skills.length} technologies</p>
                   </div>
                 </div>
-
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-4 flex flex-wrap gap-1.5">
                   {group.skills.map((skill) => (
                     <span
                       key={skill}
-                      className={`rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-sm font-medium text-slate-700 shadow-sm transition-colors ${accent.pill}`}
+                      className={`rounded-lg px-2.5 py-1 text-xs font-medium ring-1 ${a.badge}`}
                     >
                       {skill}
                     </span>

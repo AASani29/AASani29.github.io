@@ -5,6 +5,7 @@ type Paper = {
   conference: string;
   year: string;
   status: string;
+  statusColor: string;
   description: string;
   authors: string[];
   mentor?: string;
@@ -19,6 +20,7 @@ const papers: Paper[] = [
     conference: "BioNLP @ ACL 2026",
     year: "2026",
     status: "3rd Place (All-Class Leaderboard)",
+    statusColor: "bg-amber-50 text-amber-700 ring-1 ring-amber-200",
     description:
       "Imbalance-aware QLoRA fine-tuning of Qwen3-8B for the PsyDefDetect shared task on psychological defense-mechanism classification, improving detection of underrepresented categories.",
     authors: ["Alfey Sani"],
@@ -30,6 +32,7 @@ const papers: Paper[] = [
     conference: "AACL-IJCNLP 2026",
     year: "2026",
     status: "Accepted",
+    statusColor: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
     description:
       "The first dedicated hallucination benchmark for Bengali — 12,000 hallucinated candidates across twelve task-specific hallucination types, spanning generative QA, code-mixed QA, summarisation and reasoning. Introduces BenHalluScore, a dual-track calibration metric that jointly penalises false positives and missed hallucinations across seven evaluated LLMs.",
     authors: [
@@ -48,6 +51,7 @@ const papers: Paper[] = [
     conference: "ICSCA 2026",
     year: "2026",
     status: "Accepted",
+    statusColor: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
     description:
       "LLM-based dataset augmentation for low-resource languages: zero-shot prompting and random subsampling with Gemma-3 significantly improve minority-class detection in Bangla fake-news classification.",
     authors: [
@@ -65,6 +69,7 @@ const papers: Paper[] = [
     conference: "ICCIT 2025",
     year: "2025",
     status: "Accepted",
+    statusColor: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
     description:
       "Evaluation of modern LLMs on real-world medical queries across accuracy, safety, clarity, and clinical usefulness, using zero-shot and LLM-as-a-Judge methodologies.",
     authors: ["Alfey Sani", "Shefayat E Shams Adib", "Ekramul Esham"],
@@ -75,68 +80,72 @@ const papers: Paper[] = [
 
 const Research = () => {
   return (
-    <section id="research" className="scroll-mt-24 bg-slate-50 py-20 sm:py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-14 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
+    <section id="research" className="scroll-mt-20 bg-white py-20 sm:py-28">
+      <div className="mx-auto max-w-5xl px-5 sm:px-8">
+        {/* Header */}
+        <div className="mb-14">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-violet-600">
+            Publications
+          </p>
+          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
             Research
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+          <p className="mt-3 max-w-xl text-zinc-500">
             Published and accepted work in NLP and applied machine learning.
           </p>
         </div>
 
-        <div className="space-y-5">
-          {papers.map((paper) => (
+        <div className="space-y-4">
+          {papers.map((paper, i) => (
             <article
               key={paper.title}
-              className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6"
+              className="group rounded-2xl border border-zinc-100 bg-zinc-50 p-6 transition-shadow hover:shadow-md"
             >
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
-                  <Award size={12} />
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ${paper.statusColor}`}>
+                  <Award size={11} />
                   {paper.status}
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
-                  <Calendar size={12} />
+                <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-500">
+                  <Calendar size={11} />
                   {paper.year}
                 </span>
-                {paper.citedBy ? (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
-                    <Quote size={12} />
+                {paper.citedBy && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-500">
+                    <Quote size={11} />
                     Cited by {paper.citedBy}
                   </span>
-                ) : null}
+                )}
               </div>
 
-              <h3 className="mt-3 text-lg font-bold leading-snug text-slate-900">
+              <h3 className="mt-3 text-base font-bold leading-snug text-zinc-900">
                 {paper.title}
               </h3>
 
-              <p className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600">
-                <BookOpen size={14} />
+              <p className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-violet-600">
+                <BookOpen size={13} />
                 {paper.conference}
               </p>
 
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">
+              <p className="mt-2.5 text-sm leading-relaxed text-zinc-500">
                 {paper.description}
               </p>
 
-              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-slate-100 pt-4 text-xs text-slate-500">
-                <span className="inline-flex items-center gap-1.5">
-                  <Users size={13} />
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 pt-4">
+                <span className="inline-flex items-center gap-1.5 text-xs text-zinc-400">
+                  <Users size={12} />
                   {paper.authors.join(", ")}
+                  {paper.mentor && ` · Mentor: ${paper.mentor}`}
                 </span>
-                {paper.mentor && <span>Mentor: {paper.mentor}</span>}
                 {paper.paperLink && (
                   <a
                     href={paper.paperLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 font-semibold text-blue-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-violet-600 hover:underline"
                   >
                     View publication
-                    <ExternalLink size={12} />
+                    <ExternalLink size={11} />
                   </a>
                 )}
               </div>
@@ -144,18 +153,19 @@ const Research = () => {
           ))}
         </div>
 
-        <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm">
-          <span className="rounded-full border border-slate-200 bg-white px-4 py-1.5 text-slate-600">
-            <strong className="text-slate-900">4</strong> papers accepted
+        {/* Footer stats */}
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <span className="rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1.5 text-sm text-zinc-600">
+            <strong className="text-zinc-900">4</strong> papers accepted
           </span>
-          <span className="rounded-full border border-slate-200 bg-white px-4 py-1.5 text-slate-600">
-            <strong className="text-slate-900">ACL · AACL · ICCIT</strong> venues
+          <span className="rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1.5 text-sm text-zinc-600">
+            <strong className="text-zinc-900">ACL · AACL · ICCIT</strong> venues
           </span>
           <a
             href="https://scholar.google.com/citations?user=Qtlp6LYAAAAJ&hl=en"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full border border-slate-200 bg-white px-4 py-1.5 font-medium text-blue-600 hover:border-blue-200"
+            className="rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 text-sm font-medium text-violet-700 transition-colors hover:bg-violet-100"
           >
             Google Scholar →
           </a>

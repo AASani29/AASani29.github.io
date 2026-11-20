@@ -6,7 +6,8 @@ const priorEducation = [
     level: "HSC",
     year: "2021",
     result: "GPA 5.00 / 5.00",
-    accent: "text-purple-600",
+    accent: "text-violet-600",
+    bg: "bg-violet-50",
   },
   {
     school: "Ideal School and College",
@@ -14,66 +15,67 @@ const priorEducation = [
     year: "2019",
     result: "GPA 5.00 / 5.00",
     accent: "text-emerald-600",
+    bg: "bg-emerald-50",
   },
 ];
 
 const Education = () => {
   return (
-    <section id="education" className="scroll-mt-24 bg-white py-20 sm:py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-14 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
+    <section id="education" className="scroll-mt-20 bg-white py-20 sm:py-28">
+      <div className="mx-auto max-w-5xl px-5 sm:px-8">
+        {/* Header */}
+        <div className="mb-14">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-violet-600">
+            Background
+          </p>
+          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
             Education
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+          <p className="mt-3 max-w-xl text-zinc-500">
             Academic background and qualifications.
           </p>
         </div>
 
         {/* Current */}
-        <div className="rounded-2xl bg-gradient-to-r from-slate-50 via-blue-50 to-emerald-50 p-6 sm:p-8">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-950">
+          <div className="flex flex-col gap-6 p-7 sm:flex-row sm:items-center sm:justify-between sm:p-9">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
-                <GraduationCap size={14} />
-                Current
+              <span className="inline-flex items-center gap-2 rounded-full bg-violet-500/10 px-3 py-1 text-xs font-semibold text-violet-400 ring-1 ring-violet-500/20">
+                <GraduationCap size={13} />
+                Currently enrolled
               </span>
-              <h3 className="mt-3 text-xl font-bold text-slate-900 sm:text-2xl">
+              <h3 className="mt-4 text-2xl font-bold text-white">
                 B.Sc. in Software Engineering
               </h3>
-              <p className="mt-1 text-slate-600">
+              <p className="mt-1 text-zinc-400">
                 Islamic University of Technology (IUT)
               </p>
-              <p className="mt-2 text-sm font-medium text-slate-500">
-                2022 – 2026 (expected)
-              </p>
+              <p className="mt-2 text-sm text-zinc-500">2022 – 2026 (expected)</p>
             </div>
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm">
-              <GraduationCap className="h-10 w-10 text-blue-500" />
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-zinc-800">
+              <GraduationCap className="h-10 w-10 text-violet-400" />
             </div>
           </div>
         </div>
 
         {/* Prior */}
-        <div className="mt-5 grid gap-5 sm:grid-cols-2">
+        <div className="mt-5 grid gap-4 sm:grid-cols-2">
           {priorEducation.map((edu) => (
             <div
               key={edu.school}
-              className="rounded-2xl border border-slate-200 p-6"
+              className="rounded-2xl border border-zinc-100 bg-zinc-50 p-6"
             >
               <div className="flex items-center justify-between">
-                <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+                <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-semibold text-zinc-600">
                   {edu.level}
                 </span>
-                <span className="text-sm text-slate-400">{edu.year}</span>
+                <span className="text-sm text-zinc-400">{edu.year}</span>
               </div>
-              <h3 className="mt-3 text-lg font-bold text-slate-900">
+              <h3 className="mt-3 text-base font-bold text-zinc-900">
                 {edu.school}
               </h3>
-              <p
-                className={`mt-2 inline-flex items-center gap-2 text-sm font-semibold ${edu.accent}`}
-              >
-                <Award size={15} />
+              <p className={`mt-2 inline-flex items-center gap-1.5 text-sm font-semibold ${edu.accent}`}>
+                <Award size={14} />
                 {edu.result}
               </p>
             </div>

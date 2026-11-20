@@ -30,7 +30,7 @@ const experiences: Role[] = [
     logo: "/images/im.png",
     projects: [
       {
-        name: "URewards — Unilever Bangladesh",
+        name: "URewards – Unilever Bangladesh",
         blurb:
           "Enterprise shopper-digitization and field-force performance platform powering large-scale brand activations. Built web modules for workforce, activation, outlet, product and shopper management; role-based access and hierarchical visibility across agencies, NCs and brand promoters; bulk-upload data pipelines; and real-time KPI dashboards with SKU-level reporting. Backend services in TypeScript / TypeORM with Redis + BullMQ queues for async processing.",
         tech: [
@@ -87,119 +87,127 @@ const experiences: Role[] = [
   },
 ];
 
+const typeBadgeColor: Record<string, string> = {
+  "Part-time": "bg-violet-50 text-violet-700 ring-1 ring-violet-200",
+  Leadership: "bg-amber-50 text-amber-700 ring-1 ring-amber-200",
+  Internship: "bg-zinc-100 text-zinc-600 ring-1 ring-zinc-200",
+};
+
 const Experience = () => {
   return (
-    <section id="experience" className="scroll-mt-24 bg-white py-20 sm:py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-14 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
-            Work Experience
+    <section id="experience" className="scroll-mt-20 bg-white py-20 sm:py-28">
+      <div className="mx-auto max-w-5xl px-5 sm:px-8">
+        {/* Header */}
+        <div className="mb-14">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-violet-600">
+            Work
+          </p>
+          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+            Experience
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+          <p className="mt-3 max-w-xl text-zinc-500">
             Professional roles and internships that shaped how I build software.
           </p>
         </div>
 
+        {/* Timeline */}
         <div className="relative">
-          {/* Timeline rail */}
-          <div className="absolute left-[11px] top-3 bottom-3 w-0.5 bg-slate-200" />
+          <div className="absolute left-[7px] top-2 bottom-2 w-px bg-zinc-200 sm:left-[11px]" />
 
-          <div className="space-y-8">
+          <div className="space-y-10">
             {experiences.map((exp, index) => (
-              <div key={index} className="relative pl-9 sm:pl-12">
-                {/* Node */}
-                <span className="absolute left-[11px] top-7 h-3.5 w-3.5 -translate-x-1/2 rounded-full border-[3px] border-white bg-blue-600 shadow" />
+              <div key={index} className="relative pl-8 sm:pl-12">
+                <span className="absolute left-0 top-6 h-3.5 w-3.5 rounded-full border-2 border-white bg-violet-500 shadow-sm sm:left-1" />
 
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-shadow hover:shadow-md sm:p-6">
+                <div className="rounded-2xl border border-zinc-100 bg-zinc-50 p-5 transition-shadow hover:shadow-md sm:p-6">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1.5 shadow-sm sm:h-16 sm:w-16 sm:p-2">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                    {/* Logo */}
+                    <div className="hidden h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-zinc-100 bg-white shadow-sm sm:flex sm:h-14 sm:w-14">
                       <img
                         src={exp.logo}
-                        alt={`${exp.company} logo`}
-                        className="h-full w-full object-contain"
-                        loading="lazy"
+                        alt={exp.company}
+                        className="h-full w-full object-contain p-1.5"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).style.display = "none";
+                        }}
                       />
                     </div>
 
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                        <h3 className="text-lg font-bold text-slate-900">
-                          {exp.title}
-                        </h3>
-                        <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                          {exp.type}
-                        </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-start justify-between gap-2">
+                        <div>
+                          <h3 className="text-base font-bold text-zinc-900 sm:text-lg">
+                            {exp.title}
+                          </h3>
+                          <a
+                            href={exp.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-sm font-medium text-violet-600 hover:underline"
+                          >
+                            {exp.company}
+                            <ExternalLink size={12} />
+                          </a>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 text-xs">
+                          <span className={`rounded-full px-2.5 py-0.5 font-medium ${typeBadgeColor[exp.type] ?? "bg-zinc-100 text-zinc-600"}`}>
+                            {exp.type}
+                          </span>
+                        </div>
                       </div>
 
-                      <a
-                        href={exp.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-0.5 inline-flex items-center gap-1 text-sm font-semibold text-blue-600 transition-colors hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      >
-                        {exp.company}
-                        <ExternalLink size={13} className="shrink-0" />
-                      </a>
-
-                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
-                        <span className="inline-flex items-center gap-1.5">
-                          <Calendar size={13} />
+                      <div className="mt-1 flex flex-wrap gap-3 text-xs text-zinc-400">
+                        <span className="flex items-center gap-1">
+                          <Calendar size={12} />
                           {exp.period}
                         </span>
-                        <span className="inline-flex items-center gap-1.5">
-                          <MapPin size={13} />
+                        <span className="flex items-center gap-1">
+                          <MapPin size={12} />
                           {exp.location}
                         </span>
                       </div>
 
-                      <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                      <p className="mt-3 text-sm leading-relaxed text-zinc-600">
                         {exp.description}
                       </p>
 
                       {exp.projects && exp.projects.length > 0 && (
-                        <div className="mt-4 border-t border-slate-200 pt-4">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Selected projects
-                          </p>
-                          <div className="mt-3 space-y-3">
-                            {exp.projects.map((project) => (
-                              <div
-                                key={project.name}
-                                className="rounded-xl border border-slate-200 bg-white p-4"
-                              >
-                                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                                  <h4 className="text-sm font-bold text-slate-900">
-                                    {project.name}
-                                  </h4>
-                                  {project.link && (
-                                    <a
-                                      href={project.link}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 transition-colors hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                    >
-                                      Live site
-                                      <ExternalLink size={11} className="shrink-0" />
-                                    </a>
-                                  )}
-                                </div>
-                                <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
-                                  {project.blurb}
-                                </p>
-                                <div className="mt-2.5 flex flex-wrap gap-1.5">
-                                  {project.tech.map((tech) => (
-                                    <span
-                                      key={tech}
-                                      className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600"
-                                    >
-                                      {tech}
-                                    </span>
-                                  ))}
-                                </div>
+                        <div className="mt-4 space-y-3">
+                          {exp.projects.map((p) => (
+                            <div
+                              key={p.name}
+                              className="rounded-xl border border-zinc-200 bg-white p-4"
+                            >
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="text-sm font-semibold text-zinc-800">
+                                  {p.name}
+                                </span>
+                                {p.link && (
+                                  <a
+                                    href={p.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="shrink-0 text-xs font-medium text-violet-600 hover:underline"
+                                  >
+                                    View →
+                                  </a>
+                                )}
                               </div>
-                            ))}
-                          </div>
+                              <p className="mt-1.5 text-xs leading-relaxed text-zinc-500">
+                                {p.blurb}
+                              </p>
+                              <div className="mt-2.5 flex flex-wrap gap-1.5">
+                                {p.tech.map((t) => (
+                                  <span
+                                    key={t}
+                                    className="rounded-md bg-violet-50 px-2 py-0.5 text-xs font-medium text-violet-700"
+                                  >
+                                    {t}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       )}
                     </div>
