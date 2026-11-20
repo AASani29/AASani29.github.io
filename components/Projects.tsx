@@ -13,9 +13,7 @@ import {
   ChevronRight,
   ArrowLeft,
   X,
-  Code2,
   Calendar,
-  Tag,
   CheckCircle2,
   Maximize2,
 } from "lucide-react";
@@ -260,6 +258,10 @@ const Projects = () => {
   const total = filtered.length;
   const currentProject = filtered[currentIndex] || filtered[0];
 
+  // Wrap around index calculations for gallery
+  const prevIndex = (currentIndex - 1 + total) % total;
+  const nextIndex = (currentIndex + 1) % total;
+
   // Reset index when changing category
   const handleCategoryChange = (cat: Category) => {
     setActiveCategory(cat);
@@ -324,13 +326,13 @@ const Projects = () => {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-violet-300 mb-3">
               <Sparkles size={13} />
-              Interactive Card Showcase
+              Interactive Gallery Showcase
             </div>
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
               Featured Work
             </h2>
             <p className="mt-2 text-sm text-zinc-400 max-w-lg">
-              Swipe or use controls to browse the 3-card stack. Tap any card to reveal in-depth architectural details.
+              Hover over or click the previous / next preview cards to bring them to the center. Click the active card for full architecture details.
             </p>
           </div>
 
@@ -370,11 +372,10 @@ const Projects = () => {
                 key={tab.id}
                 type="button"
                 onClick={() => handleCategoryChange(tab.id)}
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium transition-all ${
-                  active
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium transition-all ${active
                     ? "bg-violet-600 text-white shadow-md shadow-violet-600/30 scale-[1.02]"
                     : "bg-zinc-900/80 text-zinc-400 hover:text-zinc-200 border border-white/5 hover:border-white/10"
-                }`}
+                  }`}
               >
                 <Icon size={13} />
                 <span>{tab.label}</span>
@@ -383,7 +384,7 @@ const Projects = () => {
           })}
         </div>
 
-        {/* Main Showcase Layout: Active Details on Left, 3-Card Stack on Right */}
+        {/* Main Showcase Layout: Synchronized Info on Left, 3D Gallery Carousel on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Synchronized Project Information (Left Column) */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
@@ -488,66 +489,59 @@ const Projects = () => {
             </div>
           </div>
 
-          {/* 3-Card Stack Deck (Right Column) */}
+          {/* 3D Gallery: Center Active Image with Previous (Left) and Next (Right) peeking below/behind */}
           <div
-            className="lg:col-span-7 flex justify-center py-6 select-none"
+            className="lg:col-span-7 flex justify-center py-6 select-none overflow-visible px-4 sm:px-8"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Outer deck frame: strictly identical square aspect ratio */}
-            <div className="relative w-full max-w-[420px] sm:max-w-[460px] aspect-square">
+            {/* Gallery stage container: square aspect ratio */}
+            <div className="relative w-full max-w-[340px] sm:max-w-[390px] md:max-w-[420px] aspect-square overflow-visible">
               {filtered.map((project, idx) => {
-                // Compute offset relative to active card
-                const diff = idx - currentIndex;
-                const isVisible = diff >= 0 && diff <= 2;
-                const isPassed = diff < 0;
+                const isCurrent = idx === currentIndex;
+                const isPrev = total > 1 && idx === prevIndex;
+                const isNext = total > 2 ? idx === nextIndex : false;
 
-                // Stack transformation math inspired by iOS card deck
-                let transform = "";
+                // Position calculation for 3D Gallery
+                let transform = "scale(0.7) translateY(0px)";
                 let opacity = 0;
                 let zIndex = 0;
                 let pointerEvents: "auto" | "none" = "none";
 
-                if (diff === 0) {
-                  // Front active card
-                  transform = "translateX(0px) scale(1) translateY(0px)";
+                if (isCurrent) {
+                  // In the middle and on top
+                  transform = "translateX(0%) scale(1) translateY(0px)";
                   opacity = 1;
                   zIndex = 30;
                   pointerEvents = "auto";
-                } else if (diff === 1) {
-                  // Second card (peek right)
-                  transform = "translateX(36px) scale(0.92) translateY(6px)";
-                  opacity = 0.75;
-                  zIndex = 20;
-                  pointerEvents = "auto";
-                } else if (diff === 2) {
-                  // Third card (peek further right)
-                  transform = "translateX(72px) scale(0.84) translateY(12px)";
-                  opacity = 0.45;
+                } else if (isPrev) {
+                  // Peeking below/behind on the left
+                  transform = "translateX(-38%) scale(0.85) translateY(0px)";
+                  opacity = 0.65;
                   zIndex = 10;
                   pointerEvents = "auto";
-                } else if (isPassed) {
-                  // Discarded left card
-                  transform = "translateX(-120%) scale(0.9) rotate(-6deg)";
-                  opacity = 0;
-                  zIndex = 5;
-                  pointerEvents = "none";
-                } else {
-                  // Beyond 3rd card
-                  transform = "translateX(96px) scale(0.78) translateY(18px)";
-                  opacity = 0;
-                  zIndex = 0;
-                  pointerEvents = "none";
+                } else if (isNext) {
+                  // Peeking below/behind on the right
+                  transform = "translateX(38%) scale(0.85) translateY(0px)";
+                  opacity = 0.65;
+                  zIndex = 10;
+                  pointerEvents = "auto";
                 }
 
                 return (
                   <div
                     key={project.title}
+                    onMouseEnter={() => {
+                      // On hover over the previous or next card, bring it to the middle and on top
+                      if (!isCurrent && (isPrev || isNext)) {
+                        setCurrentIndex(idx);
+                      }
+                    }}
                     onClick={() => {
-                      if (diff === 0) {
+                      if (isCurrent) {
                         setIsModalOpen(true);
-                      } else if (diff > 0) {
+                      } else {
                         setCurrentIndex(idx);
                       }
                     }}
@@ -557,11 +551,11 @@ const Projects = () => {
                       zIndex,
                       pointerEvents,
                     }}
-                    className={`absolute inset-0 w-full h-full rounded-[28px] overflow-hidden transition-all duration-500 ease-out ${
-                      diff === 0
-                        ? "cursor-pointer shadow-[0_25px_60px_rgba(0,0,0,0.7)] ring-1 ring-white/20 hover:ring-violet-400/50"
-                        : "cursor-pointer shadow-[0_15px_30px_rgba(0,0,0,0.5)] ring-1 ring-white/10"
-                    }`}
+                    className={`absolute inset-0 w-full h-full rounded-[28px] overflow-hidden transition-all duration-500 ease-out cursor-pointer ${
+                      isCurrent
+                        ? "shadow-[0_25px_60px_rgba(0,0,0,0.85)] ring-1 ring-white/25 hover:ring-violet-400/60"
+                        : "shadow-[0_12px_30px_rgba(0,0,0,0.6)] ring-1 ring-white/10 brightness-75 hover:brightness-100"
+                      }`}
                   >
                     {/* Card Inner with Square Image */}
                     <div className="relative w-full h-full bg-zinc-900 group">
@@ -573,37 +567,61 @@ const Projects = () => {
                       />
 
                       {/* Vignette gradients */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/40" />
+                      <div
+                        className={`absolute inset-0 transition-opacity ${
+                          isCurrent
+                            ? "bg-gradient-to-t from-black/85 via-black/20 to-black/40"
+                            : "bg-black/40 group-hover:bg-black/20"
+                        }`}
+                      />
 
                       {/* Top floating bar on card */}
                       <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
                         <span className="rounded-full bg-black/60 backdrop-blur-md border border-white/15 px-3 py-1 text-xs font-mono font-semibold text-white shadow-sm">
                           {project.year}
                         </span>
-                        {project.badge && (
+                        {project.badge && isCurrent && (
                           <span className="rounded-full bg-violet-600/90 backdrop-blur-md border border-violet-400/30 px-3 py-1 text-[11px] font-semibold text-white shadow-sm">
                             {project.badge}
                           </span>
                         )}
                       </div>
 
-                      {/* Bottom title & prompt */}
-                      <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
-                        <div>
-                          <p className="text-[11px] font-mono uppercase tracking-wider text-violet-300 font-semibold mb-0.5">
-                            {project.tagline}
-                          </p>
-                          <h4 className="text-xl sm:text-2xl font-bold text-white drop-shadow-md">
-                            {project.title}
-                          </h4>
+                      {/* Left indicator pill when hovering on previous card */}
+                      {isPrev && (
+                        <div className="absolute inset-y-0 left-3 flex items-center">
+                          <span className="size-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg">
+                            <ChevronLeft size={18} />
+                          </span>
                         </div>
+                      )}
 
-                        {diff === 0 && (
+                      {/* Right indicator pill when hovering on next card */}
+                      {isNext && (
+                        <div className="absolute inset-y-0 right-3 flex items-center">
+                          <span className="size-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg">
+                            <ChevronRight size={18} />
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Bottom title & prompt on center card */}
+                      {isCurrent && (
+                        <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
+                          <div>
+                            <p className="text-[11px] font-mono uppercase tracking-wider text-violet-300 font-semibold mb-0.5">
+                              {project.tagline}
+                            </p>
+                            <h4 className="text-xl sm:text-2xl font-bold text-white drop-shadow-md">
+                              {project.title}
+                            </h4>
+                          </div>
+
                           <div className="shrink-0 size-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg group-hover:bg-violet-600 transition-colors">
                             <Maximize2 size={16} />
                           </div>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
@@ -611,79 +629,13 @@ const Projects = () => {
             </div>
           </div>
         </div>
-
-        {/* Thumbnail Selector Rail (Quick Switcher at bottom) */}
-        <div className="mt-14 pt-8 border-t border-white/10">
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-xs font-mono text-zinc-400">
-              Select project to view in deck:
-            </p>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handlePrev}
-                className="size-7 rounded-lg border border-white/10 bg-zinc-900 flex items-center justify-center text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors"
-                aria-label="Previous card"
-              >
-                <ChevronLeft size={16} />
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                className="size-7 rounded-lg border border-white/10 bg-zinc-900 flex items-center justify-center text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors"
-                aria-label="Next card"
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          </div>
-
-          <div className="flex gap-3 overflow-x-auto pb-4 no-scrollbar">
-            {filtered.map((proj, i) => (
-              <button
-                key={proj.title}
-                type="button"
-                onClick={() => setCurrentIndex(i)}
-                className={`group flex items-center gap-3 shrink-0 rounded-xl p-2 border transition-all text-left ${
-                  currentIndex === i
-                    ? "bg-violet-600/15 border-violet-500 shadow-md ring-1 ring-violet-500/50"
-                    : "bg-zinc-900/60 border-white/5 hover:border-white/20 hover:bg-zinc-900"
-                }`}
-              >
-                {/* Square thumbnail */}
-                <div className="size-12 rounded-lg overflow-hidden bg-zinc-950 shrink-0 border border-white/10">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={proj.image}
-                    alt={proj.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-                <div className="pr-3">
-                  <p
-                    className={`text-xs font-bold transition-colors ${
-                      currentIndex === i
-                        ? "text-violet-300"
-                        : "text-zinc-200 group-hover:text-white"
-                    }`}
-                  >
-                    {proj.title}
-                  </p>
-                  <p className="text-[10px] font-mono text-zinc-500">
-                    {proj.year} · {proj.category[0]}
-                  </p>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
 
-      {/* ScreenModal: Detailed Expandable Card View (Inspired by the Codepen) */}
+      {/* ScreenModal: Detailed Expandable Card View with Custom Thin Scrollbar */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
           <div
-            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/15 bg-zinc-900 p-6 sm:p-8 shadow-2xl animate-in zoom-in-95 duration-200"
+            className="relative w-full max-w-2xl max-h-[88vh] overflow-y-auto custom-scrollbar rounded-3xl border border-white/15 bg-zinc-900 p-6 sm:p-8 shadow-2xl animate-in zoom-in-95 duration-200"
             role="dialog"
             aria-modal="true"
           >
@@ -710,7 +662,7 @@ const Projects = () => {
 
             {/* Modal Content */}
             <div className="space-y-6">
-              {/* Modal Square Image Banner */}
+              {/* Modal Banner */}
               <div className="relative aspect-video sm:aspect-[16/9] w-full rounded-2xl overflow-hidden bg-zinc-950 border border-white/10">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
