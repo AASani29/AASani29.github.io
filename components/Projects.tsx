@@ -1,19 +1,18 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState } from "react";
 import {
   ExternalLink,
   Github,
-  ChevronLeft,
-  ChevronRight,
   Layers,
   Sparkles,
   Server,
   Brain,
   Smartphone,
   Eye,
+  ArrowUpRight,
 } from "lucide-react";
-import ProjectImage from "./ProjectImage";
+import TiltedCover from "@/components/ui/tilted-cover";
 
 type Category = "all" | "featured" | "microservices" | "ai" | "mobile";
 
@@ -49,15 +48,15 @@ const allProjects: Project[] = [
       "React 19",
       "Prometheus",
       "Grafana",
-      "GHCR CI/CD",
+      "GitHub Actions",
     ],
     github: "https://github.com/AASani29/TicketDaata",
     live: null,
     image: "/images/ticketdaata.jpg",
     architectureHighlights: [
-      "Service-to-service DNS resolution in K8s (no Eureka bottleneck)",
-      "RabbitMQ event-driven status sync with in-memory fallback",
-      "Grafana pre-provisioned dashboard: p95 latency, JVM heap, CPU",
+      "Service DNS resolution in K8s",
+      "RabbitMQ event-driven sync",
+      "Prometheus & Grafana dashboards",
     ],
   },
   {
@@ -83,9 +82,9 @@ const allProjects: Project[] = [
     live: null,
     image: "/images/nutriai.jpg",
     architectureHighlights: [
-      "Top 20 Finalist & 4th Place (Health) at MillionX AI Build-A-Thon 2026",
-      "Dynamic humidity/temperature spoilage calculation with OpenWeather API",
-      "Async OCR receipt processing with BullMQ + Redis queues",
+      "Top 20 Finalist & 4th Place at MillionX AI Build-A-Thon '26",
+      "Weather-adaptive spoilage calculation with OpenWeather",
+      "Async OCR receipt processing with BullMQ + Redis",
     ],
   },
   {
@@ -107,8 +106,8 @@ const allProjects: Project[] = [
     live: "https://kalkorbo.netlify.app",
     image: "/images/IMG-20260106-WA0011(1).jpg",
     architectureHighlights: [
-      "Sub-100ms real-time multi-user presence via Supabase Realtime",
-      "Custom voice recognition pipeline mapping speech to task actions",
+      "Sub-100ms real-time multi-user presence via Supabase",
+      "Custom speech recognition mapping voice to task actions",
     ],
   },
   {
@@ -122,6 +121,10 @@ const allProjects: Project[] = [
     github: "https://github.com/AASani29/Soulace",
     live: "https://soulace.onrender.com/",
     image: "/images/Soulace.png",
+    architectureHighlights: [
+      "Real-time psychological assessment engine",
+      "AI coping recommendations with third-party APIs",
+    ],
   },
   {
     title: "Financial RAG Pipeline",
@@ -141,6 +144,10 @@ const allProjects: Project[] = [
     github: "https://github.com/AASani29/RAG-PipeLine-for-Financial-Data-",
     live: "https://ragpipelineforfinancialdatabysani.streamlit.app/",
     image: "/images/rag.png",
+    architectureHighlights: [
+      "Hybrid BM25 keyword + dense vector search",
+      "FAISS index re-ranking with ablation benchmarking",
+    ],
   },
   {
     title: "Blingo",
@@ -226,120 +233,42 @@ const categoryTabs: { id: Category; label: string; icon: any }[] = [
 
 const Projects = () => {
   const [activeTab, setActiveTab] = useState<Category>("all");
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
 
-  // Filter projects
   const filtered = allProjects.filter((p) =>
     activeTab === "all" ? true : p.category.includes(activeTab as any)
   );
-
-  // Reset index on tab change
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [activeTab]);
-
-  const total = filtered.length;
-  const current = filtered[currentIndex] || filtered[0];
-  const nextIndex = (currentIndex + 1) % total;
-  const nextProject = filtered[nextIndex];
-
-  const goToNext = useCallback(() => {
-    if (isAnimating || total <= 1) return;
-    setIsAnimating(true);
-    setCurrentIndex((prev) => (prev + 1) % total);
-    setTimeout(() => setIsAnimating(false), 300);
-  }, [isAnimating, total]);
-
-  const goToPrev = useCallback(() => {
-    if (isAnimating || total <= 1) return;
-    setIsAnimating(true);
-    setCurrentIndex((prev) => (prev - 1 + total) % total);
-    setTimeout(() => setIsAnimating(false), 300);
-  }, [isAnimating, total]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") goToNext();
-      if (e.key === "ArrowLeft") goToPrev();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [goToNext, goToPrev]);
-
-  // Touch Swipe Handling
-  const touchStartX = useRef<number | null>(null);
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) {
-      if (diff > 0) goToNext();
-      else goToPrev();
-    }
-    touchStartX.current = null;
-  };
 
   return (
     <section
       id="projects"
       className="scroll-mt-20 bg-zinc-950 py-20 sm:py-28 relative overflow-hidden"
     >
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-violet-600/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* Background ambient glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gradient-to-r from-violet-600/10 via-indigo-600/10 to-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="mx-auto max-w-6xl px-5 sm:px-8 relative z-10">
-        {/* Section Header with Category Tabs */}
+        {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-violet-300 mb-3">
               <Sparkles size={13} />
-              Interactive Showcase
+              Interactive 3D Portfolio
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-              Featured Work &amp; Projects
+              Featured Work &amp; Systems
             </h2>
             <p className="mt-2 text-sm text-zinc-400 max-w-lg">
-              Explore production architectures, distributed systems, and applied NLP.
-              Swipe or use controls to browse through projects.
+              Hover over any project cover to tilt, reveal inner architectural highlights, and access direct code &amp; demo links.
             </p>
           </div>
 
-          {/* Navigation Controls */}
-          <div className="flex items-center gap-3 shrink-0">
-            <span className="text-xs font-mono font-semibold text-zinc-400 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-              <span className="text-violet-400 font-bold">
-                {String(currentIndex + 1).padStart(2, "0")}
-              </span>{" "}
-              / {String(total).padStart(2, "0")}
-            </span>
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                onClick={goToPrev}
-                aria-label="Previous project"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-300 hover:text-white hover:bg-violet-600 hover:border-violet-500 transition-all active:scale-95 shadow-sm"
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <button
-                type="button"
-                onClick={goToNext}
-                aria-label="Next project"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-300 hover:text-white hover:bg-violet-600 hover:border-violet-500 transition-all active:scale-95 shadow-sm"
-              >
-                <ChevronRight size={18} />
-              </button>
-            </div>
+          <div className="shrink-0 text-xs font-mono text-zinc-400 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full self-start md:self-auto">
+            Showing <span className="text-violet-400 font-bold">{filtered.length}</span> projects
           </div>
         </div>
 
-        {/* Category Filter Pills */}
-        <div className="flex flex-wrap gap-2 mb-8 border-b border-white/10 pb-4">
+        {/* Category Filter Tabs */}
+        <div className="flex flex-wrap gap-2 mb-10 border-b border-white/10 pb-4">
           {categoryTabs.map((tab) => {
             const Icon = tab.icon;
             const active = activeTab === tab.id;
@@ -361,182 +290,160 @@ const Projects = () => {
           })}
         </div>
 
-        {/* Carousel Viewport: Main Card + Next Project Preview Peek */}
-        <div
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-          className="grid gap-6 lg:grid-cols-[1fr_300px] items-stretch select-none"
-        >
-          {/* Main Active Project Card */}
-          <div
-            className={`group relative overflow-hidden rounded-3xl border border-white/15 bg-zinc-900/90 shadow-2xl backdrop-blur-xl transition-all duration-300 ${
-              isAnimating ? "opacity-85 scale-[0.995]" : "opacity-100 scale-100"
-            }`}
-          >
-            <div className="grid lg:grid-cols-2 h-full">
-              {/* Media Viewport */}
-              <div className="relative aspect-video lg:aspect-auto lg:h-full min-h-[260px] sm:min-h-[320px] overflow-hidden border-b lg:border-b-0 lg:border-r border-white/10 bg-zinc-950">
-                <ProjectImage
-                  src={current.image}
-                  alt={`${current.title} screenshot`}
-                  title={current.title}
-                />
-                {/* Year tag */}
-                <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                  <span className="rounded-full bg-zinc-950/80 border border-white/15 px-3 py-1 text-xs font-bold text-white backdrop-blur-md">
-                    {current.year}
-                  </span>
-                  {current.category.includes("featured") && (
-                    <span className="rounded-full bg-violet-600/90 text-white px-2.5 py-1 text-[11px] font-semibold flex items-center gap-1 shadow-sm">
-                      <Sparkles size={11} /> Featured
-                    </span>
-                  )}
-                </div>
-              </div>
+        {/* Projects Grid with TiltedCover */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-stretch">
+          {filtered.map((project, idx) => {
+            const tiltDir = idx % 2 === 0 ? "left" : "right";
 
-              {/* Information Viewport */}
-              <div className="flex flex-col justify-between p-6 sm:p-8">
-                <div>
-                  <div className="flex items-center justify-between text-xs font-mono text-violet-400 mb-1">
-                    <span>PROJECT {String(currentIndex + 1).padStart(2, "0")}</span>
-                    <span className="text-zinc-500 font-sans">Swipe to navigate</span>
+            return (
+              <div
+                key={project.title}
+                className="group relative flex flex-col justify-between rounded-3xl border border-white/10 bg-zinc-900/60 p-5 shadow-xl backdrop-blur-xl transition-all duration-300 hover:border-violet-500/40 hover:bg-zinc-900/90"
+              >
+                {/* 3D Tilted Cover Area */}
+                <div className="relative mb-4">
+                  <TiltedCover
+                    direction={tiltDir}
+                    image={{
+                      src: project.image,
+                      alt: project.title,
+                    }}
+                  >
+                    {/* Inner Content (Revealed on Hover) */}
+                    <div className="flex h-full flex-col justify-between text-left">
+                      <div>
+                        <div className="flex items-center justify-between text-[11px] font-mono text-violet-400 mb-2">
+                          <span>SYSTEM OVERVIEW</span>
+                          <span className="text-zinc-500">{project.year}</span>
+                        </div>
+                        <h4 className="text-sm font-bold text-white mb-2 line-clamp-1">
+                          {project.title}
+                        </h4>
+                        <div className="space-y-1.5 text-[11px] text-zinc-300">
+                          {project.architectureHighlights ? (
+                            project.architectureHighlights.map((pt, i) => (
+                              <p key={i} className="line-clamp-2">
+                                <span className="text-violet-400 mr-1.5">•</span>
+                                {pt}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="line-clamp-4 leading-relaxed text-zinc-400">
+                              {project.description}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Inside Links */}
+                      <div className="pt-3 border-t border-white/10 flex items-center gap-2">
+                        {project.github && (
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 rounded-lg bg-white/10 hover:bg-white/20 px-2.5 py-1 text-[11px] font-semibold text-white transition-colors"
+                          >
+                            <Github size={12} />
+                            Code
+                          </a>
+                        )}
+                        {project.live && (
+                          <a
+                            href={project.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 rounded-lg bg-violet-600 hover:bg-violet-500 px-2.5 py-1 text-[11px] font-semibold text-white transition-colors shadow-sm"
+                          >
+                            <ExternalLink size={12} />
+                            Live
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </TiltedCover>
+                </div>
+
+                {/* Project Card Bottom Metadata */}
+                <div className="flex flex-1 flex-col justify-between pt-2">
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <span className="text-[11px] font-mono font-semibold text-zinc-400">
+                        {project.year}
+                      </span>
+                      {project.category.includes("featured") && (
+                        <span className="rounded-full bg-violet-500/10 border border-violet-500/30 px-2 py-0.5 text-[10px] font-semibold text-violet-300">
+                          Featured
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="text-lg font-bold text-white group-hover:text-violet-300 transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-xs font-medium text-emerald-400 mt-0.5 line-clamp-1">
+                      {project.tagline}
+                    </p>
+                    <p className="text-xs text-zinc-400 mt-2 line-clamp-2 leading-relaxed">
+                      {project.description}
+                    </p>
                   </div>
 
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                    {current.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm font-semibold text-emerald-400 mt-1">
-                    {current.tagline}
-                  </p>
-
-                  <p className="mt-4 text-xs sm:text-sm text-zinc-300 leading-relaxed">
-                    {current.description}
-                  </p>
-
-                  {/* Architecture Highlights bullet points if available */}
-                  {current.architectureHighlights && (
-                    <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] p-3 text-xs space-y-1.5 text-zinc-300">
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-violet-300 font-bold block mb-1">
-                        System Highlights
-                      </span>
-                      {current.architectureHighlights.map((point, idx) => (
-                        <div key={idx} className="flex items-start gap-1.5">
-                          <span className="text-violet-400 mt-0.5">•</span>
-                          <span>{point}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Tech stack badges */}
-                  <div className="mt-5">
-                    <span className="text-[10px] uppercase tracking-wider font-semibold text-zinc-500 block mb-2 font-mono">
-                      Technologies
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {current.tech.map((t) => (
+                  {/* Tech stack chips */}
+                  <div className="mt-4 pt-3 border-t border-white/5">
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {project.tech.slice(0, 4).map((t) => (
                         <span
                           key={t}
-                          className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-zinc-300"
+                          className="rounded-md bg-white/5 border border-white/10 px-2 py-0.5 text-[11px] font-medium text-zinc-300"
                         >
                           {t}
                         </span>
                       ))}
+                      {project.tech.length > 4 && (
+                        <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-[10px] text-zinc-500">
+                          +{project.tech.length - 4}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Bottom Action Links */}
+                    <div className="flex items-center justify-between pt-1 text-xs">
+                      <div className="flex items-center gap-3">
+                        {project.github && (
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 font-medium text-zinc-400 hover:text-white transition-colors"
+                          >
+                            <Github size={13} />
+                            Code
+                          </a>
+                        )}
+                        {project.live && (
+                          <a
+                            href={project.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 font-semibold text-violet-400 hover:text-violet-300 transition-colors"
+                          >
+                            <ExternalLink size={13} />
+                            Live Demo
+                          </a>
+                        )}
+                      </div>
+
+                      <span className="text-[11px] text-zinc-500 font-mono flex items-center gap-0.5 group-hover:text-zinc-300 transition-colors">
+                        Hover to open
+                        <ArrowUpRight size={12} />
+                      </span>
                     </div>
                   </div>
                 </div>
-
-                {/* Actions */}
-                <div className="mt-8 pt-5 border-t border-white/10 flex flex-wrap items-center gap-3">
-                  {current.github && (
-                    <a
-                      href={current.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-4 py-2.5 text-xs font-semibold text-white transition-all hover:bg-white/10 hover:border-violet-500/50"
-                    >
-                      <Github size={15} />
-                      View Codebase
-                    </a>
-                  )}
-                  {current.live && (
-                    <a
-                      href={current.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-xs font-semibold text-white shadow-md shadow-violet-600/30 transition-all hover:bg-violet-500"
-                    >
-                      <ExternalLink size={15} />
-                      Live Application
-                    </a>
-                  )}
-                </div>
               </div>
-            </div>
-          </div>
-
-          {/* Next Project Peek / Preview Card (Desktop) */}
-          <div
-            onClick={goToNext}
-            className="hidden lg:flex flex-col justify-between rounded-3xl border border-white/10 bg-zinc-900/60 p-5 cursor-pointer group hover:border-violet-500/50 hover:bg-zinc-900/90 transition-all shadow-xl backdrop-blur-md relative overflow-hidden"
-          >
-            {/* Header of preview card */}
-            <div>
-              <div className="flex items-center justify-between text-xs text-zinc-400 mb-3">
-                <span className="font-mono text-violet-400 font-semibold">UP NEXT</span>
-                <span className="flex items-center gap-1 text-[11px] group-hover:text-violet-300 transition-colors">
-                  View <ChevronRight size={14} />
-                </span>
-              </div>
-
-              {/* Next preview image */}
-              <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-white/10 mb-4 bg-zinc-950">
-                <ProjectImage
-                  src={nextProject.image}
-                  alt={nextProject.title}
-                  title={nextProject.title}
-                />
-                <span className="absolute bottom-2 right-2 rounded-md bg-zinc-950/80 px-2 py-0.5 text-[10px] font-bold text-white">
-                  {nextProject.year}
-                </span>
-              </div>
-
-              <h4 className="text-lg font-bold text-white group-hover:text-violet-300 transition-colors">
-                {nextProject.title}
-              </h4>
-              <p className="text-xs text-emerald-400 font-medium mt-0.5">
-                {nextProject.tagline}
-              </p>
-              <p className="text-xs text-zinc-400 line-clamp-3 mt-2 leading-relaxed">
-                {nextProject.description}
-              </p>
-            </div>
-
-            {/* Bottom prompt */}
-            <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-medium text-zinc-400 group-hover:text-white">
-              <span>Click to advance</span>
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-violet-600/20 text-violet-300 group-hover:bg-violet-600 group-hover:text-white transition-all">
-                <ChevronRight size={15} />
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Carousel Slide Indicators / Progress track */}
-        <div className="flex items-center justify-center gap-2 mt-8">
-          {filtered.map((p, idx) => (
-            <button
-              key={p.title}
-              type="button"
-              onClick={() => setCurrentIndex(idx)}
-              aria-label={`Jump to ${p.title}`}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                idx === currentIndex
-                  ? "w-8 bg-violet-500 shadow-sm shadow-violet-500/50"
-                  : "w-2 bg-white/20 hover:bg-white/40"
-              }`}
-            />
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
