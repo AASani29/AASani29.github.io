@@ -65,11 +65,7 @@ const Navigation = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4 sm:pt-6 pointer-events-none">
       <nav
-        className={`pointer-events-auto transition-all duration-300 w-full max-w-5xl rounded-full px-4 py-2.5 sm:px-6 sm:py-3 flex items-center justify-between shadow-2xl backdrop-blur-2xl ${
-          scrolled
-            ? "bg-zinc-950/85 border border-zinc-800/80 shadow-violet-500/5 ring-1 ring-white/10"
-            : "bg-zinc-900/70 border border-white/10 shadow-black/40"
-        }`}
+        className="pointer-events-auto transition-all duration-300 w-full max-w-5xl rounded-full px-4 py-2.5 sm:px-6 sm:py-3 flex items-center justify-between bg-zinc-950 border border-zinc-800 shadow-[0_14px_45px_rgba(0,0,0,0.4)] ring-1 ring-white/10"
       >
         {/* Brand */}
         <a
@@ -77,24 +73,24 @@ const Navigation = () => {
           onClick={closeMenu}
           className="group flex items-center gap-3 focus-visible:outline-none"
         >
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-tr from-violet-600 via-indigo-600 to-emerald-400 p-[1.5px] transition-transform duration-300 group-hover:scale-105">
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-tr from-violet-600 via-indigo-600 to-emerald-400 p-[1.5px] transition-transform duration-300 group-hover:scale-105 shrink-0">
             <div className="flex h-full w-full items-center justify-center rounded-full bg-zinc-950 text-xs font-bold text-white">
               AS
             </div>
             <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-zinc-950" />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-semibold tracking-tight text-white group-hover:text-violet-300 transition-colors">
+            <span className="text-sm font-bold tracking-tight text-white group-hover:text-violet-300 transition-colors">
               Alfey Sani
             </span>
             <span className="text-[10px] text-zinc-400 font-medium hidden sm:block">
-              Software & AI Eng.
+              Software &amp; AI Eng.
             </span>
           </div>
         </a>
 
         {/* Desktop nav links */}
-        <div className="hidden lg:flex items-center gap-1 bg-zinc-950/60 p-1 rounded-full border border-white/5">
+        <div className="hidden lg:flex items-center gap-1 bg-zinc-900/90 p-1 rounded-full border border-white/10">
           {navItems.map((item) => {
             const active = activeSection === item.href.slice(1);
             return (
@@ -103,8 +99,8 @@ const Navigation = () => {
                 href={item.href}
                 className={`relative px-3.5 py-1.5 text-xs font-medium rounded-full transition-all duration-200 ${
                   active
-                    ? "text-white bg-violet-600/90 shadow-sm shadow-violet-600/30"
-                    : "text-zinc-400 hover:text-white hover:bg-white/5"
+                    ? "text-white bg-violet-600 shadow-sm shadow-violet-600/40"
+                    : "text-zinc-300 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {item.name}
@@ -137,7 +133,7 @@ const Navigation = () => {
 
       {/* Mobile drop-down */}
       {isOpen && (
-        <div className="pointer-events-auto fixed inset-x-4 top-20 z-50 rounded-3xl border border-white/10 bg-zinc-950/95 p-5 shadow-2xl backdrop-blur-2xl lg:hidden">
+        <div className="pointer-events-auto fixed inset-x-4 top-20 z-50 rounded-3xl border border-zinc-800 bg-zinc-950 p-5 shadow-2xl lg:hidden">
           <div className="flex flex-col gap-1.5">
             {navItems.map((item) => {
               const active = activeSection === item.href.slice(1);
