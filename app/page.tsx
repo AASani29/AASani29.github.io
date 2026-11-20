@@ -12,12 +12,15 @@ import Research from "@/components/Research";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
 import LoadingScreen from "@/components/LoadingScreen";
+import CustomCursor from "@/components/CustomCursor";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
     <>
+      <CustomCursor global={true} enableCursor={true} enableCursorFollow={true} />
+
       {isLoading && (
         <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
       )}
