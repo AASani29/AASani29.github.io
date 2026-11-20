@@ -1,4 +1,7 @@
+"use client";
+
 import { Calendar, Users, ExternalLink, Award, BookOpen, Quote } from "lucide-react";
+import StackedSections from "@/components/ui/stacked-sections";
 
 type Paper = {
   title: string;
@@ -116,14 +119,22 @@ const Research = () => {
           </p>
         </div>
 
-        <div className="space-y-4">
-          {papers.map((paper, i) => (
+        {/* Stacked Animated Research Cards */}
+        <StackedSections
+          stackOffset={44}
+          withDramaEffect={true}
+          scrollRunway="40px"
+          paneGap="gap-5"
+        >
+          {papers.map((paper) => (
             <article
               key={paper.title}
-              className="group rounded-2xl border border-zinc-100 bg-zinc-50 p-6 transition-shadow hover:shadow-md"
+              className="group rounded-2xl border border-zinc-200/90 bg-white p-6 sm:p-7 shadow-[0_10px_35px_rgba(0,0,0,0.06)] transition-all hover:border-violet-200 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900"
             >
               <div className="flex flex-wrap items-center gap-2">
-                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ${paper.statusColor}`}>
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ${paper.statusColor}`}
+                >
                   <Award size={11} />
                   {paper.status}
                 </span>
@@ -139,7 +150,7 @@ const Research = () => {
                 )}
               </div>
 
-              <h3 className="mt-3 text-base font-bold leading-snug text-zinc-900">
+              <h3 className="mt-3 text-base font-bold leading-snug text-zinc-900 sm:text-lg">
                 {paper.title}
               </h3>
 
@@ -148,11 +159,11 @@ const Research = () => {
                 {paper.conference}
               </p>
 
-              <p className="mt-2.5 text-sm leading-relaxed text-zinc-500">
+              <p className="mt-2.5 text-sm leading-relaxed text-zinc-600">
                 {paper.description}
               </p>
 
-              <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 pt-4">
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 pt-4">
                 <span className="inline-flex items-center gap-1.5 text-xs text-zinc-400">
                   <Users size={12} />
                   {paper.authors.join(", ")}
@@ -172,7 +183,7 @@ const Research = () => {
               </div>
             </article>
           ))}
-        </div>
+        </StackedSections>
 
         {/* Footer stats */}
         <div className="mt-10 flex flex-wrap justify-center gap-3">
